@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <locale.h> // Biblioteca vista no canal https://youtu.be/hB6KFP6luL4 
+
 void menu_inicial(){
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
@@ -11,8 +13,8 @@ void menu_inicial(){
     printf("\t#          |___/                       #\n");
     printf("\t########################################\n");
     printf("\t#           1 - Menu Cliente           #\n");
-    printf("\t#         2 - Menu de Gerencia         #\n");
-    printf("\t#   3 - Informacoes Sobre o Programa   #\n");
+    printf("\t#         2 - Menu de Gerência         #\n");
+    printf("\t#   3 - Informações Sobre o Programa   #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
     printf("\t########################################\n");
     printf("\n");
@@ -30,13 +32,13 @@ void menu_sobre(){
     printf("\t#   Projeto desenvolvido para fins de  #\n");
     printf("\t#    estudo com objetivo desenvolver   #\n");
     printf("\t#  praticidade em outras linguagens de #\n");
-    printf("\t#    programacao alem de prover uma    #\n");
-    printf("\t# simulacao do mercado de trabalho com #\n");
-    printf("\t#   cobrancas e cumprimento de metas   #\n");
-    printf("\t# como base sendo um sistema de gestao #\n");
+    printf("\t#    programação alem de prover uma    #\n");
+    printf("\t# simulação do mercado de trabalho com #\n");
+    printf("\t#   cobranças e cumprimento de metas   #\n");
+    printf("\t# como base sendo um sistema de gestão #\n");
     printf("\t#   de bar e restaurante que tem como  #\n");
     printf("\t#     objetivo tornar o ambiente de    #\n");
-    printf("\t#        trabalho mais dinamico        #\n");
+    printf("\t#        trabalho mais dinâmico        #\n");
     printf("\t########################################\n");
     printf("\n");
 }
@@ -44,25 +46,28 @@ void menu_sobre(){
 void menu_equipe(){
 
     printf("\t########################################\n");
-    printf("\t#               Creditos               #\n");
+    printf("\t#               Créditos               #\n");
     printf("\t########################################\n");
     printf("\t#             Universidade:            #\n");
-    printf("\t#          UFRN CERES - Caico          #\n");
+    printf("\t#          UFRN CERES - Caicó          #\n");
     printf("\t#                                      #\n");
     printf("\t#                Curso:                #\n");
-    printf("\t# Bacharelado em Sistema de Informacao #\n");
+    printf("\t# Bacharelado em Sistema de Informação #\n");
     printf("\t#                                      #\n");
     printf("\t#               Docente:               #\n");
     printf("\t#       Flavius da Luz e Gorgonio      #\n");
     printf("\t#                                      #\n");
     printf("\t#                Equipe:               #\n");
-    printf("\t#  Claudio Pereira Teixeira de Araujo  #\n");
+    printf("\t#  Cláudio Pereira Teixeira de Araújo  #\n");
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
 }
 
 int main(void){
+
+    setlocale(LC_ALL,"Portuguese_Brazil"); // Função vista no vídeo https://youtu.be/hB6KFP6luL4
+
     menu_inicial();
     menu_sobre();
     menu_equipe();
