@@ -1,5 +1,29 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <locale.h> // Biblioteca vista no canal https://youtu.be/hB6KFP6luL4 
+
+// Assinatura das Funções para funcionar de acordo sem warning:
+void menu_inicial(void);
+void menu_sobre(void);
+void menu_equipe(void);
+void menu_gerencia(void);
+void acesso_gerencia(void);
+
+
+int main(void){
+
+    setlocale(LC_ALL,"Portuguese_Brazil"); // Função vista no vídeo https://youtu.be/hB6KFP6luL4
+
+    menu_inicial();
+    menu_sobre();
+    menu_equipe();
+    acesso_gerencia();
+    menu_gerencia();
+    
+    return 0;
+}
+
+//Funções abaixo - 
 
 void menu_inicial(){
     printf("\t########################################\n");
@@ -12,12 +36,15 @@ void menu_inicial(){
     printf("\t#           __/ |                      #\n");
     printf("\t#          |___/                       #\n");
     printf("\t########################################\n");
+    printf("\t#                                      #\n");
     printf("\t#           1 - Menu Cliente           #\n");
     printf("\t#         2 - Menu de Gerência         #\n");
     printf("\t#   3 - Informações Sobre o Programa   #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
+    printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+
 }
 
 void menu_sobre(){
@@ -41,6 +68,7 @@ void menu_sobre(){
     printf("\t#        trabalho mais dinâmico        #\n");
     printf("\t########################################\n");
     printf("\n");
+
 }
 
 void menu_equipe(){
@@ -62,15 +90,57 @@ void menu_equipe(){
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+
 }
 
-int main(void){
 
-    setlocale(LC_ALL,"Portuguese_Brazil"); // Função vista no vídeo https://youtu.be/hB6KFP6luL4
+void acesso_gerencia(){
+    printf("\t########################################\n");
+    printf("\t#  ______        ______                #\n");
+    printf("\t#  | ___ |       | ___ |               #\n");
+    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+    printf("\t#           __/ |                      #\n");
+    printf("\t#          |___/                       #\n");
+    printf("\t########################################\n");
+    printf("\t#                                      #\n");
+    printf("\t#        - Acesso da Gerência -        #\n");
+    printf("\t#                                      #\n");
+    printf("\t#         1. Login Funcionário         #\n");
+    printf("\t#     2. Cadastramento Funcionário     #\n");
+    printf("\t#                                      #\n");
+    printf("\t########################################\n");
+    printf("\n");
 
-    menu_inicial();
-    menu_sobre();
-    menu_equipe();
+}
+
+
+void menu_gerencia(){
+    printf("\t########################################\n");
+    printf("\t#  ______        ______                #\n");
+    printf("\t#  | ___ |       | ___ |               #\n");
+    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+    printf("\t#           __/ |                      #\n");
+    printf("\t#          |___/                       #\n");
+    printf("\t########################################\n");
+    printf("\t#                                      #\n");
+    printf("\t#        // - Menu Gerência - //       #\n");
+    printf("\t#                                      #\n");
+    printf("\t#    1. Visualizar Itens de Estoque    #\n");
+    printf("\t#          2. Pedidos Pendentes        #\n");
+    printf("\t#         3. Visualizar o Caixa        #\n");
+    printf("\t#      4. Ver Relatório de Pedidos     #\n");
+    printf("\t#      5. Visualizar Funcionários      #\n");
+    printf("\t#            0. Sair da Tela           #\n");
+    printf("\t#                                      #\n");
+    printf("\t#           Insira sua Opção:          #\n");
+    printf("\t#                                      #\n");
+    printf("\t########################################\n");
+    printf("\n");
     
-    return 0;
 }
