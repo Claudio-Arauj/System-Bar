@@ -3,12 +3,16 @@
 #include <locale.h> // Biblioteca vista no canal https://youtu.be/hB6KFP6luL4 
 
 // Assinatura das Funções para funcionar de acordo sem warning:
+
 void menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
 void menu_gerencia(void);
 void acesso_gerencia(void);
+void menu_cadastramento(void);
+void menu_login(void);
 
+//Programa Principal -
 
 int main(void){
 
@@ -18,6 +22,8 @@ int main(void){
     menu_sobre();
     menu_equipe();
     acesso_gerencia();
+    menu_cadastramento();
+    menu_login();
     menu_gerencia();
     
     return 0;
@@ -25,7 +31,9 @@ int main(void){
 
 //Funções abaixo - 
 
-void menu_inicial(){
+void menu_inicial(void){
+    char op;
+    system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
     printf("\t#  | ___ |       | ___ |               #\n");
@@ -42,12 +50,19 @@ void menu_inicial(){
     printf("\t#   3 - Informações Sobre o Programa   #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
     printf("\t#                                      #\n");
+    printf("\t#           Insira sua Opção: ");
+    scanf("%c", &op);
+    printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
 
 }
 
-void menu_sobre(){
+void menu_sobre(void){
+
+    system("clear||cls");
     printf("\t########################################\n");
     printf("\t#   _____         _                    #\n");
     printf("\t#  /  ___|       | |                   #\n");
@@ -68,11 +83,14 @@ void menu_sobre(){
     printf("\t#        trabalho mais dinâmico        #\n");
     printf("\t########################################\n");
     printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
 
 }
 
-void menu_equipe(){
+void menu_equipe(void){
 
+    system("clear||cls");
     printf("\t########################################\n");
     printf("\t#               Créditos               #\n");
     printf("\t########################################\n");
@@ -90,11 +108,16 @@ void menu_equipe(){
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
 
 }
 
 
-void acesso_gerencia(){
+void acesso_gerencia(void){
+
+    char op;
+    system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
     printf("\t#  | ___ |       | ___ |               #\n");
@@ -111,13 +134,75 @@ void acesso_gerencia(){
     printf("\t#         1. Login Funcionário         #\n");
     printf("\t#     2. Cadastramento Funcionário     #\n");
     printf("\t#                                      #\n");
+    printf("\t#           Insira sua Opção: ");
+    scanf("%c", &op);
+    printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
 
 }
 
+void menu_cadastramento(void){
 
-void menu_gerencia(){
+    system("clear||cls");
+    printf("\t########################################\n");
+    printf("\t#  ______        ______                #\n");
+    printf("\t#  | ___ |       | ___ |               #\n");
+    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+    printf("\t#           __/ |                      #\n");
+    printf("\t#          |___/                       #\n");
+    printf("\t########################################\n");
+    printf("\t#                                      #\n");
+    printf("\t#          // - Cadastro - //          #\n");
+    printf("\t#                                      #\n");
+    printf("\t#        CPF:                          #\n");
+    printf("\t#       Senha:                         #\n");
+    printf("\t#   Confirmar Senha:                   #\n");
+    printf("\t#                                      #\n");
+    printf("\t#   Senha de Acesso:                   #\n");
+    printf("\t#                                      #\n");
+    printf("\t########################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void menu_login(void){
+
+    system("clear||cls");
+    printf("\t########################################\n");
+    printf("\t#  ______        ______                #\n");
+    printf("\t#  | ___ |       | ___ |               #\n");
+    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+    printf("\t#           __/ |                      #\n");
+    printf("\t#          |___/                       #\n");
+    printf("\t########################################\n");
+    printf("\t#                                      #\n");
+    printf("\t#            // - Login - //           #\n");
+    printf("\t#                                      #\n");
+    printf("\t#        CPF:                          #\n");
+    printf("\t#       Senha:                         #\n");
+    printf("\t#                                      #\n");
+    printf("\t########################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void menu_gerencia(void){
+
+    char op;
+    system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
     printf("\t#  | ___ |       | ___ |               #\n");
@@ -138,9 +223,12 @@ void menu_gerencia(){
     printf("\t#      5. Visualizar Funcionários      #\n");
     printf("\t#            0. Sair da Tela           #\n");
     printf("\t#                                      #\n");
-    printf("\t#           Insira sua Opção:          #\n");
+    printf("\t#           Insira sua Opção: ");
+    scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
     
 }
