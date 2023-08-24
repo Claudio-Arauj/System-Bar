@@ -14,6 +14,10 @@ void menu_login(void);
 void tela_estoque(void);
 void tela_cadastro_item(void);
 void tela_procura_item(void);
+void tela_lista_itens(void);
+void tela_excluir_item(void);
+void tela_atualizar_item(void);
+void tela_atualizacao(void);
 
 //Programa Principal -
 
@@ -31,6 +35,10 @@ int main(void){
     tela_estoque();
     tela_cadastro_item();
     tela_procura_item();
+    tela_lista_itens();
+    tela_excluir_item();
+    tela_atualizar_item();
+    tela_atualizacao();
     
     return 0;
 }
@@ -307,7 +315,7 @@ void tela_cadastro_item(void){
 
 }
 
-void tela_procura_item(void){
+void tela_procura_item(void){ // Mais adiante no código irei separar essa função em duas telas para ficar com um código mais limpo.
 
     system("clear||cls");
     printf("\t############################################################\n");
@@ -344,4 +352,125 @@ void tela_procura_item(void){
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
+}
+
+void tela_lista_itens(void){
+
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#         // - Tela de Lista de Todos os Itens - //        #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Comidas:                                             #\n");
+    printf("\t#           ID            Nome           Preço     Qnt.    #\n");
+    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
+    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
+    printf("\t#                                                          #\n");
+    printf("\t# -------------------------------------------------------- #\n");
+    printf("\t#   - Bebidas:                                             #\n");
+    printf("\t#           ID            Nome           Preço     Qnt.    #\n");
+    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
+    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adaptabilidade na hora de querer excluir algum item.
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#             // - Tela de Excluir Item - //               #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     - 00000000000x (Produto x)                           #\n");
+    printf("\t#     - 00000000000x (Produto 2x)                          #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do Item:                                   #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     Confirmar Exclusão (s) ou (n):                       #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+}
+
+void tela_atualizar_item(void){
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#            // - Tela de Atualizar Item - //              #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     - 00000000000x (Produto x)                           #\n");
+    printf("\t#     - 00000000000x (Produto 2x)                          #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do Item:                                   #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+}
+
+void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualização para a função não ficar muito grande.
+
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#              // - Tela de Atualização - //               #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#             // - Informações Originais - //              #\n");
+    printf("\t#                                                          #\n"); // Aqui vai vim as informações do item consultado pelo usuário para fazer comparação
+    printf("\t#   - Categoria do Item: Comida/Água                       #\n"); // Depende do que o usuário for digitar na tela de atualizar item para consultar
+    printf("\t#   - Nome do Item: Produto 0x                             #\n");
+    printf("\t#   - Em Estoque: xx                                       #\n");
+    printf("\t#   - Preço Individual: R$ xx,xx                           #\n");
+    printf("\t#   - ID: 00000000000x                                     #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#               // - Informações Novas - //                #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Categoria do Item (apenas 'c' ou 'a'):               #\n"); // Depende do que o usuário for digitar na tela de atualizar item para consultar
+    printf("\t#   - Nome do Item:                                        #\n");
+    printf("\t#   - Em Estoque:                                          #\n");
+    printf("\t#   - Preço Individual:                                    #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+    
 }
