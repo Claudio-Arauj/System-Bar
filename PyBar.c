@@ -11,6 +11,9 @@ void menu_gerencia(void);
 void acesso_gerencia(void);
 void menu_cadastramento(void);
 void menu_login(void);
+void tela_estoque(void);
+void tela_cadastro_item(void);
+void tela_procura_item(void);
 
 //Programa Principal -
 
@@ -25,6 +28,9 @@ int main(void){
     menu_cadastramento();
     menu_login();
     menu_gerencia();
+    tela_estoque();
+    tela_cadastro_item();
+    tela_procura_item();
     
     return 0;
 }
@@ -45,12 +51,13 @@ void menu_inicial(void){
     printf("\t#          |___/                       #\n");
     printf("\t########################################\n");
     printf("\t#                                      #\n");
-    printf("\t#           1 - Menu Cliente           #\n");
-    printf("\t#         2 - Menu de Gerência         #\n");
+    printf("\t#   1 - Menu Cliente                   #\n");
+    printf("\t#   2 - Menu de Gerência               #\n");
     printf("\t#   3 - Informações Sobre o Programa   #\n");
+    printf("\t#                                      #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
     printf("\t#                                      #\n");
-    printf("\t#           Insira sua Opção: ");
+    printf("\t#   Insira sua Opção: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -217,13 +224,14 @@ void menu_gerencia(void){
     printf("\t#        // - Menu Gerência - //       #\n");
     printf("\t#                                      #\n");
     printf("\t#    1. Visualizar Itens de Estoque    #\n");
-    printf("\t#          2. Pedidos Pendentes        #\n");
-    printf("\t#         3. Visualizar o Caixa        #\n");
-    printf("\t#      4. Ver Relatório de Pedidos     #\n");
-    printf("\t#      5. Visualizar Funcionários      #\n");
+    printf("\t#    2. Pedidos Pendentes              #\n");
+    printf("\t#    3. Visualizar o Caixa             #\n");
+    printf("\t#    4. Ver Relatório de Pedidos       #\n");
+    printf("\t#    5. Visualizar Funcionários        #\n");
+    printf("\t#                                      #\n");
     printf("\t#            0. Sair da Tela           #\n");
     printf("\t#                                      #\n");
-    printf("\t#           Insira sua Opção: ");
+    printf("\t#    Insira sua Opção: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -231,4 +239,109 @@ void menu_gerencia(void){
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
     
+}
+
+void tela_estoque(void){
+
+    char op;
+    system("clear||cls");
+    printf("\t########################################\n");
+    printf("\t#  ______        ______                #\n");
+    printf("\t#  | ___ |       | ___ |               #\n");
+    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+    printf("\t#           __/ |                      #\n");
+    printf("\t#          |___/                       #\n");
+    printf("\t########################################\n");
+    printf("\t#                                      #\n");
+    printf("\t#        // - Itens Estoque - //       #\n");
+    printf("\t#                                      #\n");
+    printf("\t#   1. Cadastrar Novo Item no Estoque  #\n");
+    printf("\t#   2. Procurar Itens                  #\n");
+    printf("\t#   3. Listar Todos os Itens           #\n");
+    printf("\t#   4. Excluir Item de Estoque         #\n");
+    printf("\t#   5. Atualizar Item                  #\n");
+    printf("\t#                                      #\n");
+    printf("\t#            0. Sair da Tela           #\n");
+    printf("\t#                                      #\n");
+    printf("\t#   Insira sua Opção: ");
+    scanf("%c", &op);
+    printf("\t#                                      #\n");
+    printf("\t########################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_cadastro_item(void){
+
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#              // - Tela de Cadastramento - //             #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Bebida(b) ou Comida(c):                              #\n");
+    printf("\t#   - Quantidade(apenas numeros inteiros):                 #\n");
+    printf("\t#   - Nome do Item:                                        #\n");
+    printf("\t#   - Preço Individual do Item: R$                         #\n");
+    printf("\t#   - ID Gerado do Item: 00000000000x (Não Alterável)      #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     Confirmar Cadastramento (s) ou (n):                  #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_procura_item(void){
+
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#              // - Tela de Busca de Item - //             #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     - 00000000000x (Produto)                             #\n");
+    printf("\t#     - 00000000000x (Produto 2)                           #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do Item:                                   #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     Confirmar Busca (s) ou (n):                          #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Categoria do Item:                                   #\n");
+    printf("\t#   - Nome do Item:                                        #\n");
+    printf("\t#   - Em Estoque:                                          #\n");
+    printf("\t#   - Preço Individual:                                    #\n");
+    printf("\t#   - ID: 00000000000x                                     #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
 }
