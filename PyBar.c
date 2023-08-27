@@ -18,6 +18,10 @@ void tela_lista_itens(void);
 void tela_excluir_item(void);
 void tela_atualizar_item(void);
 void tela_atualizacao(void);
+void tela_pedidos_gerencia(void);
+void tela_caixa(void);
+void tela_relatorio(void);
+void tela_funcionarios(void);
 
 //Programa Principal -
 
@@ -39,6 +43,10 @@ int main(void){
     tela_excluir_item();
     tela_atualizar_item();
     tela_atualizacao();
+    tela_pedidos_gerencia();
+    tela_caixa();
+    tela_relatorio();
+    tela_funcionarios();
     
     return 0;
 }
@@ -175,6 +183,7 @@ void menu_cadastramento(void){
     printf("\t#                                      #\n");
     printf("\t#          // - Cadastro - //          #\n");
     printf("\t#                                      #\n");
+    printf("\t#       Nome:                          #\n");
     printf("\t#        CPF:                          #\n");
     printf("\t#       Senha:                         #\n");
     printf("\t#   Confirmar Senha:                   #\n");
@@ -468,6 +477,131 @@ void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualização
     printf("\t#   - Em Estoque:                                          #\n");
     printf("\t#   - Preço Individual:                                    #\n");
     printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+    
+}
+
+void tela_pedidos_gerencia(void){
+
+    char entrega;
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#               // - Pedidos Pendentes - //                #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Total de pedidos pendentes (x)                       #\n");
+    printf("\t#     Lista dos Pedidos:                                   #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#     1. Comida: exemplo R$xx,xx                           #\n");
+    printf("\t#        Bebida: exemplo R$xx,xx                           #\n");
+    printf("\t#        Mesa: XX                                          #\n");
+    printf("\t#        Comentario: exemplo exemplo                       #\n");
+    printf("\t#        Total: R$xx,xx                                    #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou não para excluir do futuro dicionário e ficar algo mais dinâmico além de encurtar a tela
+    scanf("%c", &entrega);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_caixa(void){
+
+    char confirm;
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#                 // - Tela do Caixa - //                  #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Total: R$ xxx,xx                                     #\n");
+    printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma métrica de quanto foi lucrado no dia
+    scanf("%c", &confirm);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_relatorio(void){
+
+    char op;
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#               // - Tela do Relatório - //                #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   1. Ver todos os relatórios de pedidos                  #\n");
+    printf("\t#   2. Ver ultimos 4 relatórios de pedidos                 #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#      Insira sua opção: ");
+    scanf("%c", &op);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}
+
+void tela_funcionarios(void){
+
+    char escolha;
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#            ______        ______                          #\n");
+    printf("\t#            | ___ |       | ___ |                         #\n");
+    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+    printf("\t#                     __/ |                                #\n");
+    printf("\t#                    |___/                                 #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#              // - Tela de Funcionários - //              #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Funcionários:                                        #\n");
+    printf("\t#     - Fulano de Tal                                      #\n");
+    printf("\t#     - João de Fulano                                     #\n");
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
+    scanf("%c", &escolha);
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
