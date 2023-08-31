@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h> // Biblioteca vista no canal https://youtu.be/hB6KFP6luL4 
 
-// Assinatura das Funções para funcionar de acordo sem warning:
+// Assinatura das Funcoes para funcionar de acordo sem warning:
 
 void menu_inicial(void);
 void menu_sobre(void);
@@ -27,8 +26,6 @@ void tela_funcionarios(void);
 
 int main(void){
 
-    setlocale(LC_ALL,"Portuguese_Brazil"); // Função vista no vídeo https://youtu.be/hB6KFP6luL4
-
     menu_inicial();
     menu_sobre();
     menu_equipe();
@@ -51,7 +48,7 @@ int main(void){
     return 0;
 }
 
-//Funções abaixo - 
+//Funcoes abaixo - 
 
 void menu_inicial(void){
     char op;
@@ -68,12 +65,12 @@ void menu_inicial(void){
     printf("\t########################################\n");
     printf("\t#                                      #\n");
     printf("\t#   1 - Menu Cliente                   #\n");
-    printf("\t#   2 - Menu de Gerência               #\n");
-    printf("\t#   3 - Informações Sobre o Programa   #\n");
+    printf("\t#   2 - Menu de Gerencia               #\n");
+    printf("\t#   3 - Informacoes Sobre o Programa   #\n");
     printf("\t#                                      #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
     printf("\t#                                      #\n");
-    printf("\t#   Insira sua Opção: ");
+    printf("\t#   Insira sua Escolha: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -97,13 +94,13 @@ void menu_sobre(void){
     printf("\t#   Projeto desenvolvido para fins de  #\n");
     printf("\t#    estudo com objetivo desenvolver   #\n");
     printf("\t#  praticidade em outras linguagens de #\n");
-    printf("\t#    programação alem de prover uma    #\n");
-    printf("\t# simulação do mercado de trabalho com #\n");
-    printf("\t#   cobranças e cumprimento de metas   #\n");
-    printf("\t# como base sendo um sistema de gestão #\n");
+    printf("\t#    programacao alem de prover uma    #\n");
+    printf("\t# simulacao do mercado de trabalho com #\n");
+    printf("\t#   cobrancas e cumprimento de metas   #\n");
+    printf("\t# como base sendo um sistema de gestao #\n");
     printf("\t#   de bar e restaurante que tem como  #\n");
     printf("\t#     objetivo tornar o ambiente de    #\n");
-    printf("\t#        trabalho mais dinâmico        #\n");
+    printf("\t#        trabalho mais dinamico        #\n");
     printf("\t########################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
@@ -115,19 +112,19 @@ void menu_equipe(void){
 
     system("clear||cls");
     printf("\t########################################\n");
-    printf("\t#               Créditos               #\n");
+    printf("\t#               Creditos               #\n");
     printf("\t########################################\n");
     printf("\t#             Universidade:            #\n");
-    printf("\t#          UFRN CERES - Caicó          #\n");
+    printf("\t#          UFRN CERES - Caico          #\n");
     printf("\t#                                      #\n");
     printf("\t#                Curso:                #\n");
-    printf("\t# Bacharelado em Sistema de Informação #\n");
+    printf("\t# Bacharelado em Sistema de Informacao #\n");
     printf("\t#                                      #\n");
     printf("\t#               Docente:               #\n");
     printf("\t#       Flavius da Luz e Gorgonio      #\n");
     printf("\t#                                      #\n");
     printf("\t#                Equipe:               #\n");
-    printf("\t#  Cláudio Pereira Teixeira de Araújo  #\n");
+    printf("\t#  Claudio Pereira Teixeira de Araujo  #\n");
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
@@ -152,12 +149,12 @@ void acesso_gerencia(void){
     printf("\t#          |___/                       #\n");
     printf("\t########################################\n");
     printf("\t#                                      #\n");
-    printf("\t#        - Acesso da Gerência -        #\n");
+    printf("\t#        - Acesso da Gerencia -        #\n");
     printf("\t#                                      #\n");
-    printf("\t#         1. Login Funcionário         #\n");
-    printf("\t#     2. Cadastramento Funcionário     #\n");
+    printf("\t#         1. Login Funcionario         #\n");
+    printf("\t#     2. Cadastramento Funcionario     #\n");
     printf("\t#                                      #\n");
-    printf("\t#           Insira sua Opção: ");
+    printf("\t#           Insira sua Escolha: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -238,17 +235,17 @@ void menu_gerencia(void){
     printf("\t#          |___/                       #\n");
     printf("\t########################################\n");
     printf("\t#                                      #\n");
-    printf("\t#        // - Menu Gerência - //       #\n");
+    printf("\t#        // - Menu Gerencia - //       #\n");
     printf("\t#                                      #\n");
     printf("\t#    1. Visualizar Itens de Estoque    #\n");
     printf("\t#    2. Pedidos Pendentes              #\n");
     printf("\t#    3. Visualizar o Caixa             #\n");
-    printf("\t#    4. Ver Relatório de Pedidos       #\n");
-    printf("\t#    5. Visualizar Funcionários        #\n");
+    printf("\t#    4. Ver Relatorio de Pedidos       #\n");
+    printf("\t#    5. Visualizar Funcionarios        #\n");
     printf("\t#                                      #\n");
     printf("\t#            0. Sair da Tela           #\n");
     printf("\t#                                      #\n");
-    printf("\t#    Insira sua Opção: ");
+    printf("\t#    Insira sua Escolha: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -283,7 +280,7 @@ void tela_estoque(void){
     printf("\t#                                      #\n");
     printf("\t#            0. Sair da Tela           #\n");
     printf("\t#                                      #\n");
-    printf("\t#   Insira sua Opção: ");
+    printf("\t#   Insira sua Escolha: ");
     scanf("%c", &op);
     printf("\t#                                      #\n");
     printf("\t########################################\n");
@@ -312,8 +309,8 @@ void tela_cadastro_item(void){
     printf("\t#   - Bebida(b) ou Comida(c):                              #\n");
     printf("\t#   - Quantidade(apenas numeros inteiros):                 #\n");
     printf("\t#   - Nome do Item:                                        #\n");
-    printf("\t#   - Preço Individual do Item: R$                         #\n");
-    printf("\t#   - ID Gerado do Item: 00000000000x (Não Alterável)      #\n");
+    printf("\t#   - Preco Individual do Item: R$                         #\n");
+    printf("\t#   - ID Gerado do Item: 00000000000x (Nao Alteravel)      #\n");
     printf("\t#                                                          #\n");
     printf("\t#     Confirmar Cadastramento (s) ou (n):                  #\n");
     printf("\t#                                                          #\n");
@@ -324,7 +321,7 @@ void tela_cadastro_item(void){
 
 }
 
-void tela_procura_item(void){ // Mais adiante no código irei separar essa função em duas telas para ficar com um código mais limpo.
+void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao em duas telas para ficar com um codigo mais limpo.
 
     system("clear||cls");
     printf("\t############################################################\n");
@@ -340,7 +337,7 @@ void tela_procura_item(void){ // Mais adiante no código irei separar essa função
     printf("\t#                                                          #\n");
     printf("\t#              // - Tela de Busca de Item - //             #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     ID's Disponiveis:                                    #\n");
     printf("\t#     - 00000000000x (Produto)                             #\n");
     printf("\t#     - 00000000000x (Produto 2)                           #\n");
     printf("\t#                                                          #\n");
@@ -353,7 +350,7 @@ void tela_procura_item(void){ // Mais adiante no código irei separar essa função
     printf("\t#   - Categoria do Item:                                   #\n");
     printf("\t#   - Nome do Item:                                        #\n");
     printf("\t#   - Em Estoque:                                          #\n");
-    printf("\t#   - Preço Individual:                                    #\n");
+    printf("\t#   - Preco Individual:                                    #\n");
     printf("\t#   - ID: 00000000000x                                     #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -380,13 +377,13 @@ void tela_lista_itens(void){
     printf("\t#         // - Tela de Lista de Todos os Itens - //        #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Comidas:                                             #\n");
-    printf("\t#           ID            Nome           Preço     Qnt.    #\n");
+    printf("\t#           ID            Nome           Preco     Qnt.    #\n");
     printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
     printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
     printf("\t#                                                          #\n");
     printf("\t# -------------------------------------------------------- #\n");
     printf("\t#   - Bebidas:                                             #\n");
-    printf("\t#           ID            Nome           Preço     Qnt.    #\n");
+    printf("\t#           ID            Nome           Preco     Qnt.    #\n");
     printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
     printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
     printf("\t#                                                          #\n");
@@ -412,13 +409,13 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
     printf("\t#                                                          #\n");
     printf("\t#             // - Tela de Excluir Item - //               #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     ID's Disponiveis:                                    #\n");
     printf("\t#     - 00000000000x (Produto x)                           #\n");
     printf("\t#     - 00000000000x (Produto 2x)                          #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Insira ID do Item:                                   #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     Confirmar Exclusão (s) ou (n):                       #\n");
+    printf("\t#     Confirmar Exclusio (s) ou (n):                       #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -441,7 +438,7 @@ void tela_atualizar_item(void){
     printf("\t#                                                          #\n");
     printf("\t#            // - Tela de Atualizar Item - //              #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     ID's Disponíveis:                                    #\n");
+    printf("\t#     ID's Disponiveis:                                    #\n");
     printf("\t#     - 00000000000x (Produto x)                           #\n");
     printf("\t#     - 00000000000x (Produto 2x)                          #\n");
     printf("\t#                                                          #\n");
@@ -453,29 +450,29 @@ void tela_atualizar_item(void){
     getchar();
 }
 
-void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualização para a função não ficar muito grande.
+void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao para a funcao nao ficar muito grande.
 
     system("clear||cls");
     printf("\t############################################################\n");
-    printf("\t#              // - Tela de Atualização - //               #\n");
+    printf("\t#              // - Tela de Atualizacao - //               #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#             // - Informações Originais - //              #\n");
-    printf("\t#                                                          #\n"); // Aqui vai vim as informações do item consultado pelo usuário para fazer comparação
-    printf("\t#   - Categoria do Item: Comida/Água                       #\n"); // Depende do que o usuário for digitar na tela de atualizar item para consultar
+    printf("\t#             // - Informacoes Originais - //              #\n");
+    printf("\t#                                                          #\n"); // Aqui vai vim as informacoes do item consultado pelo usuario para fazer comparacao
+    printf("\t#   - Categoria do Item: Comida/agua                       #\n"); // Depende do que o usuario for digitar na tela de atualizar item para consultar
     printf("\t#   - Nome do Item: Produto 0x                             #\n");
     printf("\t#   - Em Estoque: xx                                       #\n");
-    printf("\t#   - Preço Individual: R$ xx,xx                           #\n");
+    printf("\t#   - Preco Individual: R$ xx,xx                           #\n");
     printf("\t#   - ID: 00000000000x                                     #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#               // - Informações Novas - //                #\n");
+    printf("\t#               // - Informacoes Novas - //                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Categoria do Item (apenas 'c' ou 'a'):               #\n"); // Depende do que o usuário for digitar na tela de atualizar item para consultar
+    printf("\t#   - Categoria do Item (apenas 'c' ou 'a'):               #\n"); // Depende do que o usuario for digitar na tela de atualizar item para consultar
     printf("\t#   - Nome do Item:                                        #\n");
     printf("\t#   - Em Estoque:                                          #\n");
-    printf("\t#   - Preço Individual:                                    #\n");
+    printf("\t#   - Preco Individual:                                    #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -510,7 +507,7 @@ void tela_pedidos_gerencia(void){
     printf("\t#        Comentario: exemplo exemplo                       #\n");
     printf("\t#        Total: R$xx,xx                                    #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou não para excluir do futuro dicionário e ficar algo mais dinâmico além de encurtar a tela
+    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
     scanf("%c", &entrega);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -538,7 +535,7 @@ void tela_caixa(void){
     printf("\t#                 // - Tela do Caixa - //                  #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Total: R$ xxx,xx                                     #\n");
-    printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma métrica de quanto foi lucrado no dia
+    printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
     scanf("%c", &confirm);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -563,12 +560,12 @@ void tela_relatorio(void){
     printf("\t#                    |___/                                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#               // - Tela do Relatório - //                #\n");
+    printf("\t#               // - Tela do Relatorio - //                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   1. Ver todos os relatórios de pedidos                  #\n");
-    printf("\t#   2. Ver ultimos 4 relatórios de pedidos                 #\n");
+    printf("\t#   1. Ver todos os relatorios de pedidos                  #\n");
+    printf("\t#   2. Ver ultimos 4 relatorios de pedidos                 #\n");
     printf("\t#                                                          #\n");
-    printf("\t#      Insira sua opção: ");
+    printf("\t#      Insira sua Escolha: ");
     scanf("%c", &op);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -593,11 +590,11 @@ void tela_funcionarios(void){
     printf("\t#                    |___/                                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#              // - Tela de Funcionários - //              #\n");
+    printf("\t#              // - Tela de Funcionarios - //              #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Funcionários:                                        #\n");
+    printf("\t#   - Funcionarios:                                        #\n");
     printf("\t#     - Fulano de Tal                                      #\n");
-    printf("\t#     - João de Fulano                                     #\n");
+    printf("\t#     - Joao de Fulano                                     #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
