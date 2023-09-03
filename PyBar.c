@@ -516,7 +516,6 @@ void tela_pedidos_gerencia(void){
     printf("\t#     1. Comida: exemplo R$xx,xx                           #\n");
     printf("\t#        Bebida: exemplo R$xx,xx                           #\n");
     printf("\t#        Mesa: XX                                          #\n");
-    printf("\t#        Comentario: exemplo exemplo                       #\n");
     printf("\t#        Total: R$xx,xx                                    #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
@@ -685,13 +684,13 @@ void tela_pedidos(void){
 void tela_comidas(void){
 
     char escolha;
-    int quantidade;
+    char quantidade[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Comidas - //                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n"); 
-    printf("\t#   - Comidas Disponíveis:                                 #\n"); // Meramente ilustrativo
+    printf("\t#   - Comidas Disponiveis:                                 #\n"); // Meramente ilustrativo
     printf("\t#     1. Frango Assado            R$ xx,xx                 #\n");
     printf("\t#     2. File                     R$ xx,xx                 #\n");
     printf("\t#     3. Salada                   R$ xx,xx                 #\n");
@@ -702,11 +701,12 @@ void tela_comidas(void){
     printf("\t#   - Qual sua Escolha?(Apenas Numero) ");
     scanf("%c", &escolha);
     printf("\t#   - Informe a Quantidade(Apenas Numero) ");
-    scanf("%d", &quantidade);
+    scanf("%s", quantidade);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
     getchar();
 
 }
@@ -714,13 +714,13 @@ void tela_comidas(void){
 void tela_bebidas(void){
 
     char escolha;
-    int quantidade;
+    char quantidade[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Bebidas - //                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n"); 
-    printf("\t#   - Bebidas Disponíveis: (Valor por Copo)                #\n"); // Meramente ilustrativo
+    printf("\t#   - Bebidas Disponiveis: (Valor por Copo)                #\n"); // Meramente ilustrativo
     printf("\t#     1. Whisky                   R$ xx,xx                 #\n");
     printf("\t#     2. Chope                    R$ xx,xx                 #\n");
     printf("\t#     3. Cerveja                  R$ xx,xx                 #\n");
@@ -731,11 +731,12 @@ void tela_bebidas(void){
     printf("\t#   - Qual sua Escolha?(Apenas Numero) ");
     scanf("%c", &escolha);
     printf("\t#   - Informe a Quantidade(Apenas Numero) ");
-    scanf("%d", &quantidade);
+    scanf("%s", quantidade);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
     getchar();
 
 }
@@ -743,6 +744,7 @@ void tela_bebidas(void){
 void tela_visualizar_pedido(void){
 
     char confirm;
+    char num[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#              // - Finalizacao de Pedido - //             #\n");
@@ -760,15 +762,19 @@ void tela_visualizar_pedido(void){
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
+    printf("\t#   - Informe o Numero da Mesa: ");
+    scanf("%s", num);
     printf("\t#   - Total: R$ xx,xx                                      #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - (Digite 0 para Excluir TODAS suas escolhas)          #\n");
     printf("\t#   - Confirmar Pedido?(s) ou (n): ");
     scanf("%c",&confirm);
+    getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
     getchar();
 
 }
