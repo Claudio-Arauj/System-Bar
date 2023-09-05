@@ -3,7 +3,7 @@
 
 // Assinatura das Funcoes para funcionar de acordo sem warning:
 
-void menu_inicial(void);
+char menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
 void menu_gerencia(void);
@@ -32,37 +32,66 @@ void tela_ajuda(void);
 
 int main(void){
 
-    menu_inicial();
-    menu_sobre();
-    menu_equipe();
-    acesso_gerencia();
-    menu_cadastramento();
-    menu_login();
-    menu_gerencia();
-    tela_estoque();
-    tela_cadastro_item();
-    tela_procura_item();
-    tela_lista_itens();
-    tela_excluir_item();
-    tela_atualizar_item();
-    tela_atualizacao();
-    tela_pedidos_gerencia();
-    tela_caixa();
-    tela_relatorio();
-    tela_funcionarios();
-    menu_cliente();
-    tela_pedidos();
-    tela_comidas();
-    tela_bebidas();
-    tela_visualizar_pedido();
-    tela_ajuda();
+    char op;
+    while (op!='0'){
+        op = menu_inicial();
+        switch (op){
+            case '1':
+                menu_cliente();
+                break;
+
+            case '2':
+                acesso_gerencia();
+                break;
+
+            case '3':
+                menu_sobre();
+                break;
+
+            case '4':
+                menu_equipe();
+                break;
+
+            case '0':
+                break;
+
+            default:
+                printf("\t>>>Insira algo valido<<<\n");
+                getchar();
+        }
+    }
+
+    // menu_sobre();
+    // menu_equipe();
+    // acesso_gerencia();
+    // menu_cadastramento();
+    // menu_login();
+    // menu_gerencia();
+    // tela_estoque();
+    // tela_cadastro_item();
+    // tela_procura_item();
+    // tela_lista_itens();
+    // tela_excluir_item();
+    // tela_atualizar_item();
+    // tela_atualizacao();
+    // tela_pedidos_gerencia();
+    // tela_caixa();
+    // tela_relatorio();
+    // tela_funcionarios();
+    // menu_cliente();
+    // tela_pedidos();
+    // tela_comidas();
+    // tela_bebidas();
+    // tela_visualizar_pedido();
+    // tela_ajuda();
+    printf("\n\tFim do Programa!\n");
     
     return 0;
 }
 
 //Funcoes abaixo - 
 
-void menu_inicial(void){
+char menu_inicial(void){
     char op;
     system("clear||cls");
     printf("\t########################################\n");
@@ -79,6 +108,7 @@ void menu_inicial(void){
     printf("\t#   1 - Menu Cliente                   #\n");
     printf("\t#   2 - Menu de Gerencia               #\n");
     printf("\t#   3 - Informacoes Sobre o Programa   #\n");
+    printf("\t#   4 - Creditos do Programa           #\n");
     printf("\t#                                      #\n");
     printf("\t#         0 - Fechar o Programa        #\n");
     printf("\t#                                      #\n");
@@ -89,6 +119,8 @@ void menu_inicial(void){
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
+    
+    return op;
 
 }
 
@@ -149,31 +181,50 @@ void menu_equipe(void){
 void acesso_gerencia(void){
 
     char op;
-    system("clear||cls");
-    printf("\t########################################\n");
-    printf("\t#  ______        ______                #\n");
-    printf("\t#  | ___ |       | ___ |               #\n");
-    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
-    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
-    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
-    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
-    printf("\t#           __/ |                      #\n");
-    printf("\t#          |___/                       #\n");
-    printf("\t########################################\n");
-    printf("\t#                                      #\n");
-    printf("\t#        - Acesso da Gerencia -        #\n");
-    printf("\t#                                      #\n");
-    printf("\t#         1. Login Funcionario         #\n");
-    printf("\t#     2. Cadastramento Funcionario     #\n");
-    printf("\t#                                      #\n");
-    printf("\t#           Insira sua Escolha: ");
-    scanf("%c", &op);
-    printf("\t#                                      #\n");
-    printf("\t########################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
+    while (op!='0'){
+        system("clear||cls");
+        printf("\t########################################\n");
+        printf("\t#  ______        ______                #\n");
+        printf("\t#  | ___ |       | ___ |               #\n");
+        printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+        printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+        printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+        printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+        printf("\t#           __/ |                      #\n");
+        printf("\t#          |___/                       #\n");
+        printf("\t########################################\n");
+        printf("\t#                                      #\n");
+        printf("\t#        - Acesso da Gerencia -        #\n");
+        printf("\t#                                      #\n");
+        printf("\t#         1. Login Funcionario         #\n");
+        printf("\t#     2. Cadastramento Funcionario     #\n");
+        printf("\t#            0. Sair da Tela           #\n");
+        printf("\t#                                      #\n");
+        printf("\t#           Insira sua Escolha: ");
+        scanf("%c", &op);
+        printf("\t#                                      #\n");
+        printf("\t########################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
 
+        switch (op){
+            case '1':
+                menu_login();
+                break;
+
+            case '2':
+                menu_cadastramento();
+                break;
+
+            case '0':
+                break;
+
+            default:
+                printf("\t>>>Insira algo valido<<<\n");
+                getchar();
+        }
+    }
 }
 
 void menu_cadastramento(void){
