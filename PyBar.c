@@ -61,29 +61,6 @@ int main(void){
         }
     }
 
-    // menu_sobre();
-    // menu_equipe();
-    // acesso_gerencia();
-    // menu_cadastramento();
-    // menu_login();
-    // menu_gerencia();
-    // tela_estoque();
-    // tela_cadastro_item();
-    // tela_procura_item();
-    // tela_lista_itens();
-    // tela_excluir_item();
-    // tela_atualizar_item();
-    // tela_atualizacao();
-    // tela_pedidos_gerencia();
-    // tela_caixa();
-    // tela_relatorio();
-    // tela_funcionarios();
-    // menu_cliente();
-    // tela_pedidos();
-    // tela_comidas();
-    // tela_bebidas();
-    // tela_visualizar_pedido();
-    // tela_ajuda();
     printf("\n\tFim do Programa!\n");
     
     return 0;
@@ -114,6 +91,7 @@ char menu_inicial(void){
     printf("\t#                                      #\n");
     printf("\t#   Insira sua Escolha: ");
     scanf("%c", &op);
+    getchar();
     printf("\t#                                      #\n");
     printf("\t########################################\n");
     printf("\n");
@@ -202,6 +180,7 @@ void acesso_gerencia(void){
         printf("\t#                                      #\n");
         printf("\t#           Insira sua Escolha: ");
         scanf("%c", &op);
+        getchar();
         printf("\t#                                      #\n");
         printf("\t########################################\n");
         printf("\n");
@@ -211,10 +190,12 @@ void acesso_gerencia(void){
         switch (op){
             case '1':
                 menu_login();
+                menu_gerencia();
                 break;
 
             case '2':
                 menu_cadastramento();
+                menu_gerencia();
                 break;
 
             case '0':
@@ -286,71 +267,133 @@ void menu_login(void){
 void menu_gerencia(void){
 
     char op;
-    system("clear||cls");
-    printf("\t########################################\n");
-    printf("\t#  ______        ______                #\n");
-    printf("\t#  | ___ |       | ___ |               #\n");
-    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
-    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
-    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
-    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
-    printf("\t#           __/ |                      #\n");
-    printf("\t#          |___/                       #\n");
-    printf("\t########################################\n");
-    printf("\t#                                      #\n");
-    printf("\t#        // - Menu Gerencia - //       #\n");
-    printf("\t#                                      #\n");
-    printf("\t#    1. Visualizar Itens de Estoque    #\n");
-    printf("\t#    2. Pedidos Pendentes              #\n");
-    printf("\t#    3. Visualizar o Caixa             #\n");
-    printf("\t#    4. Ver Relatorio de Pedidos       #\n");
-    printf("\t#    5. Visualizar Funcionarios        #\n");
-    printf("\t#                                      #\n");
-    printf("\t#            0. Sair da Tela           #\n");
-    printf("\t#                                      #\n");
-    printf("\t#    Insira sua Escolha: ");
-    scanf("%c", &op);
-    printf("\t#                                      #\n");
-    printf("\t########################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-    
+    while (op != '0'){
+        system("clear||cls");
+        printf("\t########################################\n");
+        printf("\t#  ______        ______                #\n");
+        printf("\t#  | ___ |       | ___ |               #\n");
+        printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+        printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+        printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+        printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+        printf("\t#           __/ |                      #\n");
+        printf("\t#          |___/                       #\n");
+        printf("\t########################################\n");
+        printf("\t#                                      #\n");
+        printf("\t#        // - Menu Gerencia - //       #\n");
+        printf("\t#                                      #\n");
+        printf("\t#    1. Visualizar Itens de Estoque    #\n");
+        printf("\t#    2. Pedidos Pendentes              #\n");
+        printf("\t#    3. Visualizar o Caixa             #\n");
+        printf("\t#    4. Ver Relatorio de Pedidos       #\n");
+        printf("\t#    5. Visualizar Funcionarios        #\n");
+        printf("\t#                                      #\n");
+        printf("\t#            0. Sair da Tela           #\n");
+        printf("\t#                                      #\n");
+        printf("\t#    Insira sua Escolha: ");
+        scanf("%c", &op);
+        getchar();
+        printf("\t#                                      #\n");
+        printf("\t########################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
+        
+        switch (op){
+            case '1':
+                tela_estoque();
+                break;
+
+            case '2':
+                tela_pedidos_gerencia();
+                break;
+
+            case '3':
+                tela_caixa();
+                break;
+
+            case '4':
+                tela_relatorio();
+                break;
+
+            case '5':
+                tela_funcionarios();
+                break;
+            
+            case '0':
+                break;
+
+            default:
+                printf("\t>>>Insira algo valido<<<\n");
+                getchar();
+
+        }
+    }
 }
 
 void tela_estoque(void){
 
     char op;
-    system("clear||cls");
-    printf("\t########################################\n");
-    printf("\t#  ______        ______                #\n");
-    printf("\t#  | ___ |       | ___ |               #\n");
-    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
-    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
-    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
-    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
-    printf("\t#           __/ |                      #\n");
-    printf("\t#          |___/                       #\n");
-    printf("\t########################################\n");
-    printf("\t#                                      #\n");
-    printf("\t#        // - Itens Estoque - //       #\n");
-    printf("\t#                                      #\n");
-    printf("\t#   1. Cadastrar Novo Item no Estoque  #\n");
-    printf("\t#   2. Procurar Itens                  #\n");
-    printf("\t#   3. Listar Todos os Itens           #\n");
-    printf("\t#   4. Excluir Item de Estoque         #\n");
-    printf("\t#   5. Atualizar Item                  #\n");
-    printf("\t#                                      #\n");
-    printf("\t#            0. Sair da Tela           #\n");
-    printf("\t#                                      #\n");
-    printf("\t#   Insira sua Escolha: ");
-    scanf("%c", &op);
-    printf("\t#                                      #\n");
-    printf("\t########################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
+    while (op != '0'){
+        system("clear||cls");
+        printf("\t########################################\n");
+        printf("\t#  ______        ______                #\n");
+        printf("\t#  | ___ |       | ___ |               #\n");
+        printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+        printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+        printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+        printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+        printf("\t#           __/ |                      #\n");
+        printf("\t#          |___/                       #\n");
+        printf("\t########################################\n");
+        printf("\t#                                      #\n");
+        printf("\t#        // - Itens Estoque - //       #\n");
+        printf("\t#                                      #\n");
+        printf("\t#   1. Cadastrar Novo Item no Estoque  #\n");
+        printf("\t#   2. Procurar Itens                  #\n");
+        printf("\t#   3. Listar Todos os Itens           #\n");
+        printf("\t#   4. Excluir Item de Estoque         #\n");
+        printf("\t#   5. Atualizar Item                  #\n");
+        printf("\t#                                      #\n");
+        printf("\t#            0. Sair da Tela           #\n");
+        printf("\t#                                      #\n");
+        printf("\t#   Insira sua Escolha: ");
+        scanf("%c", &op);
+        printf("\t#                                      #\n");
+        printf("\t########################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
 
+        switch (op){
+        case '1':
+            tela_cadastro_item();
+            break;
+
+        case '2':
+            tela_procura_item();
+            break;
+        
+        case '3':
+            tela_lista_itens();
+            break;
+
+        case '4':
+            tela_excluir_item();
+            break;
+
+        case '5':
+            tela_atualizar_item();
+            break;
+        
+        case '0':
+            break;
+        
+        default:
+            printf("\t>>>Insira algo valido<<<\n");
+            getchar();
+        }
+    }
 }
 
 void tela_cadastro_item(void){
@@ -478,7 +521,7 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
     printf("\t#                                                          #\n");
     printf("\t#   - Insira ID do Item:                                   #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     Confirmar Exclusio (s) ou (n):                       #\n");
+    printf("\t#     Confirmar Exclusao (s) ou (n):                       #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -511,6 +554,8 @@ void tela_atualizar_item(void){
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
+
+    tela_atualizacao();
 }
 
 void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao para a funcao nao ficar muito grande.
@@ -571,6 +616,7 @@ void tela_pedidos_gerencia(void){
     printf("\t#                                                          #\n");
     printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
     scanf("%c", &entrega);
+    getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -599,6 +645,7 @@ void tela_caixa(void){
     printf("\t#   - Total: R$ xxx,xx                                     #\n");
     printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
     scanf("%c", &confirm);
+    getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -629,6 +676,7 @@ void tela_relatorio(void){
     printf("\t#                                                          #\n");
     printf("\t#      Insira sua Escolha: ");
     scanf("%c", &op);
+    getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -661,6 +709,7 @@ void tela_funcionarios(void){
     printf("\t############################################################\n");
     printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
     scanf("%c", &escolha);
+    getchar();
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
@@ -671,71 +720,118 @@ void tela_funcionarios(void){
 void menu_cliente(void){ 
 
     char op;
-    system("clear||cls");
-    printf("\t########################################\n");
-    printf("\t#  ______        ______                #\n");
-    printf("\t#  | ___ |       | ___ |               #\n");
-    printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
-    printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
-    printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
-    printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
-    printf("\t#           __/ |                      #\n");
-    printf("\t#          |___/                       #\n");
-    printf("\t########################################\n");
-    printf("\t#                                      #\n");
-    printf("\t#         // - Menu Cliente - //       #\n");
-    printf("\t#                                      #\n");
-    printf("\t#    1. Ver Cardapio                   #\n"); // Esse Menu vou reutilizar o "tela_lista_itens()" para ser mais facil e poupar mais linhas de codigo
-    printf("\t#    2. Adicionar Pedido               #\n");
-    printf("\t#    3. Visualizar meu Pedido          #\n");
-    printf("\t#    4. Menu Ajuda                     #\n");
-    printf("\t#                                      #\n");
-    printf("\t#            0. Sair da Tela           #\n");
-    printf("\t#                                      #\n");
-    printf("\t#    Insira sua Escolha: ");
-    scanf("%c", &op);
-    printf("\t#                                      #\n");
-    printf("\t########################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-    
+    while (op != '0'){
+        system("clear||cls");
+        printf("\t########################################\n");
+        printf("\t#  ______        ______                #\n");
+        printf("\t#  | ___ |       | ___ |               #\n");
+        printf("\t#  | |_/ / _   _ | |_/ /  __ _  _ __   #\n");
+        printf("\t#  |  __/ | | | || ___ | / _` || '__|  #\n");
+        printf("\t#  | |    | |_| || |_/ /| (_| || |     #\n");
+        printf("\t#  |_|     |__, ||____/  |__,_||_|     #\n");
+        printf("\t#           __/ |                      #\n");
+        printf("\t#          |___/                       #\n");
+        printf("\t########################################\n");
+        printf("\t#                                      #\n");
+        printf("\t#         // - Menu Cliente - //       #\n");
+        printf("\t#                                      #\n");
+        printf("\t#    1. Ver Cardapio                   #\n"); // Esse Menu vou reutilizar o "tela_lista_itens()" para ser mais facil e poupar mais linhas de codigo
+        printf("\t#    2. Adicionar Pedido               #\n");
+        printf("\t#    3. Finalizar meu Pedido           #\n");
+        printf("\t#    4. Menu Ajuda                     #\n");
+        printf("\t#                                      #\n");
+        printf("\t#            0. Sair da Tela           #\n");
+        printf("\t#                                      #\n");
+        printf("\t#    Insira sua Escolha: ");
+        scanf("%c", &op);
+        getchar();
+        printf("\t#                                      #\n");
+        printf("\t########################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
+
+        switch (op){
+        case '1':
+            tela_lista_itens();
+            break;
+        
+        case '2':
+            tela_pedidos();
+            break;
+
+        case '3':
+            tela_visualizar_pedido();
+            break;
+
+        case '4':
+            tela_ajuda();
+            break;
+
+        default:
+            printf("\t>>>Insira algo valido<<<\n");
+            getchar();
+
+        }
+    }
 }
 
 void tela_pedidos(void){
 
     char op;
-    system("clear||cls");
-    printf("\t############################################################\n");
-    printf("\t#            ______        ______                          #\n");
-    printf("\t#            | ___ |       | ___ |                         #\n");
-    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
-    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
-    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
-    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
-    printf("\t#                     __/ |                                #\n");
-    printf("\t#                    |___/                                 #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#                // - Tela de Pedidos - //                 #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   1. Adicionar Comida                                    #\n");
-    printf("\t#   2. Adicionar Bebida                                    #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#      Insira sua Escolha: ");
-    scanf("%c", &op);
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
+    while (op != '0'){
+        system("clear||cls");
+        printf("\t############################################################\n");
+        printf("\t#            ______        ______                          #\n");
+        printf("\t#            | ___ |       | ___ |                         #\n");
+        printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
+        printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
+        printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
+        printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
+        printf("\t#                     __/ |                                #\n");
+        printf("\t#                    |___/                                 #\n");
+        printf("\t############################################################\n");
+        printf("\t#                                                          #\n");
+        printf("\t#                // - Tela de Pedidos - //                 #\n");
+        printf("\t#                                                          #\n");
+        printf("\t#   1. Adicionar Comida                                    #\n");
+        printf("\t#   2. Adicionar Bebida                                    #\n");
+        printf("\t#                                                          #\n");
+        printf("\t#   0. Sair da Tela                                        #\n");
+        printf("\t#                                                          #\n");
+        printf("\t#      Insira sua Escolha: ");
+        scanf("%c", &op);
+        getchar();
+        printf("\t#                                                          #\n");
+        printf("\t############################################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
 
+        switch (op){
+        case '1':
+            tela_comidas();
+            break;
+        
+        case '2':
+            tela_bebidas();
+            break;
+
+        case '0':
+            break;
+
+        default:
+            printf("\t>>>Insira algo valido<<<\n");
+            getchar();
+
+        }
+    }
 }
 
 void tela_comidas(void){
 
-    char escolha;
-    char quantidade[2];
+    //char escolha;
+    //char quantidade[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Comidas - //                 #\n");
@@ -749,23 +845,24 @@ void tela_comidas(void){
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Qual sua Escolha?(Apenas Numero) ");
-    scanf("%c", &escolha);
-    printf("\t#   - Informe a Quantidade(Apenas Numero) ");
-    scanf("%s", quantidade);
+    printf("\t#   - Qual sua Escolha?(Apenas Numero) \n");
+    //scanf("%c", &escolha);
+    //getchar();
+    printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+    //scanf("%s", quantidade);
+    //getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
     getchar();
 
 }
 
 void tela_bebidas(void){
 
-    char escolha;
-    char quantidade[2];
+    //char escolha;
+    //char quantidade[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Bebidas - //                 #\n");
@@ -779,23 +876,24 @@ void tela_bebidas(void){
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Qual sua Escolha?(Apenas Numero) ");
-    scanf("%c", &escolha);
-    printf("\t#   - Informe a Quantidade(Apenas Numero) ");
-    scanf("%s", quantidade);
+    printf("\t#   - Qual sua Escolha?(Apenas Numero) \n");
+    //scanf("%c", &escolha);
+    //getchar();
+    printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+    //scanf("%s", quantidade);
+    //getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
     getchar();
 
 }
 
 void tela_visualizar_pedido(void){
 
-    char confirm;
-    char num[2];
+    //char confirm;
+    //char num[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#              // - Finalizacao de Pedido - //             #\n");
@@ -813,19 +911,19 @@ void tela_visualizar_pedido(void){
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Informe o Numero da Mesa: ");
-    scanf("%s", num);
+    printf("\t#   - Informe o Numero da Mesa: \n");
+    //scanf("%s", num);
+    //getchar();
     printf("\t#   - Total: R$ xx,xx                                      #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - (Digite 0 para Excluir TODAS suas escolhas)          #\n");
-    printf("\t#   - Confirmar Pedido?(s) ou (n): ");
-    scanf("%c",&confirm);
-    getchar();
+    printf("\t#   - Confirmar Pedido?(s) ou (n): \n");
+    //scanf("%c",&confirm);
+    //getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
     getchar();
 
 }
