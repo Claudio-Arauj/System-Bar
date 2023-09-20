@@ -4,6 +4,11 @@
 //                                                   //
 ///////////////////////////////////////////////////////
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "Clientes.h"
+#include "Estoque.h"
+
 void menu_cliente(void){ 
 
     char op;
@@ -53,6 +58,9 @@ void menu_cliente(void){
 
         case '4':
             tela_ajuda();
+            break;
+
+        case '0':
             break;
 
         default:

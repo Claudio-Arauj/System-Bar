@@ -3,6 +3,10 @@
 //        Arquivo para controle na gerencia          //
 //                                                   //
 ///////////////////////////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include "Gerencia.h"
+#include "Estoque.h"
 
 void acesso_gerencia(void){
 
