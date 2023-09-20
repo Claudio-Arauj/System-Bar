@@ -4,6 +4,10 @@
 //                                                   //
 ///////////////////////////////////////////////////////
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "Estoque.h"
+
 void tela_estoque(void){
 
     char op;
