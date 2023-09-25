@@ -158,6 +158,7 @@ void menu_gerencia(void){
 
             case '2':
                 tela_pedidos_gerencia();
+                tela_comanda();
                 break;
 
             case '3':
@@ -185,7 +186,7 @@ void menu_gerencia(void){
 
 void tela_pedidos_gerencia(void){
 
-    char entrega;
+    //char entrega[9];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -201,15 +202,14 @@ void tela_pedidos_gerencia(void){
     printf("\t#               // - Pedidos Pendentes - //                #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Total de pedidos pendentes (x)                       #\n");
-    printf("\t#     Lista dos Pedidos:                                   #\n");
+    printf("\t#     Lista dos ID's de Pedidos:                           #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     1. Comida: exemplo R$xx,xx                           #\n");
-    printf("\t#        Bebida: exemplo R$xx,xx                           #\n");
-    printf("\t#        Mesa: XX                                          #\n");
-    printf("\t#        Total: R$xx,xx                                    #\n");
+    printf("\t#     - 00000000x - Mesa XX                                #\n");
+    printf("\t#     - 00000000x - Mesa XX                                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
-    scanf("%c", &entrega);
+    printf("\t#     (Digite Apenas um 0 para sair)                       #\n");
+    printf("\t#   - Informe ID da Comanda: "); 
+    //scanf("%s", entrega);
     getchar();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -217,6 +217,39 @@ void tela_pedidos_gerencia(void){
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
+}
+
+void tela_comanda(void){
+
+    //char entrega;
+    system("clear||cls");
+    printf("\t############################################################\n");
+    printf("\t#                 // - Tela de Comanda - //                #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#        ID: 00000000x                                     #\n");
+    printf("\t#        Comidas:                                          #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#        Bebidas:                                          #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#        - exemplo R$xx,xx                                 #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#        Mesa: XX                                          #\n");
+    printf("\t#        Total: R$xx,xx                                    #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
+    //scanf("%c", &entrega);
+    getchar();
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+    
 }
 
 void tela_caixa(void){
