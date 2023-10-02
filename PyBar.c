@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 #include "Estoque.h"
 #include "Clientes.h"
 #include "Gerencia.h"
+#include "util.h"
 
 // Assinatura das Funcoes para funcionar de acordo sem warning:
 

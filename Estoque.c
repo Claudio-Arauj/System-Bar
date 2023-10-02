@@ -6,7 +6,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 #include "Estoque.h"
+#include "util.h"
 
 void tela_estoque(void){
 
