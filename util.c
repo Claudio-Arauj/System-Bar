@@ -43,3 +43,16 @@ int eh_letra_acentuada(char c) { // Adaptada do Chat GPT e com ajuda de Matheus 
     
   return 0;
 }
+
+void le_nome(char *nome){
+  int confirm;
+  do{
+    fgets(nome,100,stdin);
+    printf("\n");
+    confirm = valida_nome(nome);
+
+    if (confirm == 0){
+      printf("\tInvalido, Digite novamente: ");
+    }
+  }while(confirm != 1);
+}
