@@ -65,8 +65,7 @@ void acesso_gerencia(void){
 
 void menu_cadastramento(void){
 
-    char nome[50];
-    int confirm;
+    char nome[100];
     system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
@@ -81,18 +80,8 @@ void menu_cadastramento(void){
     printf("\t#                                      #\n");
     printf("\t#          // - Cadastro - //          #\n");
     printf("\t#                                      #\n");
-    do{
-        printf("\t#       Nome: ");
-        fgets(nome,50,stdin);
-        confirm = valida_nome(nome);
-
-        if (confirm == 0) {
-            printf("\t\tNome Invalido\n\n");
-        }
-        else if (confirm == 1){
-            break;
-        }
-    }while (confirm == 0);  
+    printf("\t#       Nome: "); 
+    le_nome(nome);
     printf("\n");
     printf("\t#        CPF:                          #\n");
     printf("\t#       Senha:                         #\n");
