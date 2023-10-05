@@ -65,6 +65,7 @@ void acesso_gerencia(void){
 
 void menu_cadastramento(void){
 
+    char cpf[11];
     char nome[100];
     system("clear||cls");
     printf("\t########################################\n");
@@ -83,7 +84,9 @@ void menu_cadastramento(void){
     printf("\t#       Nome: "); 
     le_nome(nome);
     printf("\n");
-    printf("\t#        CPF:                          #\n");
+    printf("\t#        CPF: ");
+    le_cpf(cpf);
+    printf("\n");
     printf("\t#       Senha:                         #\n");
     printf("\t#   Confirmar Senha:                   #\n");
     printf("\t#                                      #\n");
