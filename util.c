@@ -126,3 +126,22 @@ void limpar_buffer() { // Funcao criada por Matheus Diniz Fernandes / @Matheusdn
         // Lê e descarta cada caractere até encontrar uma nova linha ('\n') ou o fim do arquivo (EOF)
     }
 }
+
+void s_ou_n(char* op){
+
+  int confirm;
+  do{
+    scanf("%c", &*op);
+    limpar_buffer();
+
+    if((*op != 's') && (*op != 'n')){
+      printf("\n\t\tDigite 's' ou 'n': ");
+    }
+
+    else{
+      confirm = 1;
+    }
+
+  }while(confirm != 1);
+
+}

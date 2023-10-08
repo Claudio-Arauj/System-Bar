@@ -280,8 +280,7 @@ void tela_caixa(void){
     printf("\t#                                                          #\n");
     printf("\t#   - Total: R$ xxx,xx                                     #\n");
     printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
-    scanf("%c", &confirm);
-    getchar();
+    s_ou_n(&confirm);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -344,8 +343,7 @@ void tela_funcionarios(void){
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
-    scanf("%c", &escolha);
-    getchar();
+    s_ou_n(&escolha);
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
