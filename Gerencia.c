@@ -230,7 +230,7 @@ void tela_pedidos_gerencia(void){
 
 void tela_comanda(void){
 
-    //char entrega;
+    char entrega;
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                 // - Tela de Comanda - //                #\n");
@@ -251,8 +251,7 @@ void tela_comanda(void){
     printf("\t#        Total: R$xx,xx                                    #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
-    //scanf("%c", &entrega);
-    getchar();
+    s_ou_n(&entrega);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
