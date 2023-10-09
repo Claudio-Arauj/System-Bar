@@ -230,7 +230,7 @@ void tela_pedidos_gerencia(void){
 
 void tela_comanda(void){
 
-    char entrega;
+    char entrega[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                 // - Tela de Comanda - //                #\n");
@@ -250,8 +250,12 @@ void tela_comanda(void){
     printf("\t#        Mesa: XX                                          #\n");
     printf("\t#        Total: R$xx,xx                                    #\n");
     printf("\t#                                                          #\n");
+    do{
     printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
-    s_ou_n(&entrega);
+        scanf("%1s", entrega);
+        limpar_buffer();
+        s_ou_n(entrega);
+    }while(s_ou_n(entrega) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -262,7 +266,7 @@ void tela_comanda(void){
 
 void tela_caixa(void){
 
-    char confirm;
+    char confirm[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -278,8 +282,12 @@ void tela_caixa(void){
     printf("\t#                 // - Tela do Caixa - //                  #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Total: R$ xxx,xx                                     #\n");
-    printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
-    s_ou_n(&confirm);
+    do{
+        printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
+        scanf("%1s", confirm);
+        limpar_buffer();
+        s_ou_n(confirm);
+    }while(s_ou_n(confirm) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -321,7 +329,7 @@ void tela_relatorio(void){
 
 void tela_funcionarios(void){
 
-    char escolha;
+    char escolha[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -341,8 +349,12 @@ void tela_funcionarios(void){
     printf("\t#     - Joao de Fulano                                     #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
-    printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
-    s_ou_n(&escolha);
+    do{
+        printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        s_ou_n(escolha);
+    }while(s_ou_n(escolha) != 1);
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");

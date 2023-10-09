@@ -12,4 +12,4 @@ void le_cpf(char *cpf);
 
 // funcoes uteis
 void limpar_buffer();
-void s_ou_n(char* op);
+int s_ou_n(char* op);

@@ -183,7 +183,7 @@ void tela_lista_itens(void){
 
 void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adaptabilidade na hora de querer excluir algum item.
     
-    char escolha;
+    char escolha[2];
     
     system("clear||cls");
     printf("\t############################################################\n");
@@ -205,8 +205,12 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
     printf("\t#                                                          #\n");
     printf("\t#   - Insira ID do Item:                                   #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     Confirmar Exclusao (s) ou (n): ");
-    s_ou_n(&escolha);
+    do{
+        printf("\t#     Confirmar Exclusao (s) ou (n): ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        s_ou_n(escolha);
+    }while(s_ou_n(escolha) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");

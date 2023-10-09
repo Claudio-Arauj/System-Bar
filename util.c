@@ -127,21 +127,12 @@ void limpar_buffer() { // Funcao criada por Matheus Diniz Fernandes / @Matheusdn
     }
 }
 
-void s_ou_n(char* op){
+int s_ou_n(char* op){
 
-  int confirm;
-  do{
-    scanf("%c", &*op);
-    limpar_buffer();
-
-    if((*op != 's') && (*op != 'n')){
-      printf("\n\t\tDigite 's' ou 'n': ");
-    }
-
-    else{
-      confirm = 1;
-    }
-
-  }while(confirm != 1);
-
+  if ((strlen(op) == 1) && (*op == 's' || *op == 'n')) {
+    return 1; // O caractere é válido ('s' ou 'n')
+  }
+  else{
+    return 0;
+  }
 }
