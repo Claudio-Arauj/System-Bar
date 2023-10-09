@@ -190,7 +190,7 @@ void tela_bebidas(void){
 
 void tela_visualizar_pedido(void){
 
-    char confirm;
+    char confirm[2];
     //char num[2];
     system("clear||cls");
     printf("\t############################################################\n");
@@ -215,8 +215,12 @@ void tela_visualizar_pedido(void){
     printf("\t#   - Total: R$ xx,xx                                      #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - (Digite 0 para Excluir TODAS suas escolhas)          #\n");
-    printf("\t#   - Confirmar Pedido?(s) ou (n): ");
-    s_ou_n(&confirm);
+    do{
+        printf("\t#   - Confirmar Pedido?(s) ou (n): ");
+        scanf("%1s", confirm);
+        limpar_buffer();
+        s_ou_n(confirm);
+    }while(s_ou_n(confirm) != 1);
     printf("\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
