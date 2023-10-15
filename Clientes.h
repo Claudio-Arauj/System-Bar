@@ -1,4 +1,8 @@
-
+// definicao do struct do programa
+typedef struct pedido{
+    char mesa[2];
+    
+}Pedido;
 // Assinatura das Funcoes do menu cliente
 
 void menu_cliente(void);

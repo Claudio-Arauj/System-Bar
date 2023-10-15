@@ -80,6 +80,7 @@ void tela_estoque(void){
 void tela_cadastro_item(void){
 
     system("clear||cls");
+    printf("00000000000x");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
     printf("\t#            | ___ |       | ___ |                         #\n");
@@ -209,7 +210,7 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
         printf("\t#     Confirmar Exclusao (s) ou (n): ");
         scanf("%1s", escolha);
         limpar_buffer();
-        s_ou_n(escolha);
+        s_ou_n(escolha); 
     }while(s_ou_n(escolha) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
