@@ -1,3 +1,12 @@
+// definicao do struct do programa
+typedef struct estoque{
+    char comida_bebida[2];
+    int quantidade[0];
+    char nome[50];
+    float preco[0];
+    char id[13];
+    
+}Estoque;
 
 // Assinatura das Funcoes do menu estoque
 

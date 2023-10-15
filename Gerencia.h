@@ -1,3 +1,12 @@
+// definicao do struct do programa
+typedef struct login{
+    char cpf[11];
+    char nome[100];
+    char senha[25];
+    char senha_acesso[8];
+    float caixa[0];
+    
+}Login;
 
 // Assinatura das Funcoes do menu gerencia
 

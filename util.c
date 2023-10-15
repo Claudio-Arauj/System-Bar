@@ -129,10 +129,13 @@ void limpar_buffer() { // Funcao criada por Matheus Diniz Fernandes / @Matheusdn
 
 int s_ou_n(char* op){
 
+  if(isspace(op[0])){
+    return 0;
+  }
+
   if ((strlen(op) == 1) && (*op == 's' || *op == 'n')) {
     return 1; // O caractere é válido ('s' ou 'n')
   }
-  else{
-    return 0;
-  }
+
+  return 0;
 }
