@@ -11,6 +11,7 @@
 #include "Clientes.h"
 #include "Estoque.h"
 #include "util.h"
+#include "Globals.h"
 
 void menu_cliente(void){ 
 

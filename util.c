@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "util.h"
+#include "Globals.h"
 
 int valida_nome(char *nome) { // Adaptada do Chat GPT
   int tam = strlen(nome);

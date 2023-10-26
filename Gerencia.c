@@ -10,6 +10,7 @@
 #include "Gerencia.h"
 #include "Estoque.h"
 #include "util.h"
+#include "Globals.h"
 
 void acesso_gerencia(void){
 

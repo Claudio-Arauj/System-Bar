@@ -10,6 +10,7 @@
 #include <string.h>
 #include "Estoque.h"
 #include "util.h"
+#include "Globals.h"
 
 void tela_estoque(void){
 
@@ -77,10 +78,13 @@ void tela_estoque(void){
     }
 }
 
-void tela_cadastro_item(void){
+Estoque* tela_cadastro_item(void){
+    
+    Estoque *est;
+    char escolha[2];
+    est = (Estoque*) malloc(sizeof(Estoque));
 
     system("clear||cls");
-    printf("00000000000x");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
     printf("\t#            | ___ |       | ___ |                         #\n");
@@ -94,19 +98,37 @@ void tela_cadastro_item(void){
     printf("\t#                                                          #\n");
     printf("\t#              // - Tela de Cadastramento - //             #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Bebida(b) ou Comida(c):                              #\n");
-    printf("\t#   - Quantidade(apenas numeros inteiros):                 #\n");
-    printf("\t#   - Nome do Item:                                        #\n");
-    printf("\t#   - Preco Individual do Item: R$                         #\n");
-    printf("\t#   - ID Gerado do Item: 00000000000x (Nao Alteravel)      #\n");
+    printf("\t#   - Bebida(b) ou Comida(c): ");
+    scanf("%c", &est->comida_bebida);getchar();
+    printf("\n");
+    printf("\t#   - Quantidade(apenas numeros inteiros): ");
+    scanf("%d", &est->quantidade);getchar();
+    printf("\n");
+    printf("\t#   - Nome do Item: ");
+    fgets(est->nome,50,stdin);
+    printf("\n");
+    printf("\t#   - Preco Individual do Item: R$ ");
+    scanf("%f", &est->preco);getchar();
+    printf("\n");
+    id_estoque_global++;
+    est->id = id_estoque_global;
+    printf("\t#   - ID Gerado do Item: %d\n",est->id);
     printf("\t#                                                          #\n");
-    printf("\t#     Confirmar Cadastramento (s) ou (n):                  #\n");
+    do{
+        printf("\t#     Confirmar Cadastramento (s) ou (n): ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        s_ou_n(escolha); 
+    }while(s_ou_n(escolha) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
+    est->status = '1';
+    free(est);
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
+    return est;
 }
 
 void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao em duas telas para ficar com um codigo mais limpo.
