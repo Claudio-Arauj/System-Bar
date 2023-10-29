@@ -78,11 +78,11 @@ void tela_estoque(void){
     }
 }
 
-Estoque* tela_cadastro_item(void){
+void tela_cadastro_item(void){
     
     Estoque *est;
+    FILE *fp;
     char escolha[2];
-    est = (Estoque*) malloc(sizeof(Estoque));
 
     system("clear||cls");
     printf("\t############################################################\n");
@@ -98,37 +98,28 @@ Estoque* tela_cadastro_item(void){
     printf("\t#                                                          #\n");
     printf("\t#              // - Tela de Cadastramento - //             #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Bebida(b) ou Comida(c): ");
-    scanf("%c", &est->comida_bebida);getchar();
-    printf("\n");
-    printf("\t#   - Quantidade(apenas numeros inteiros): ");
-    scanf("%d", &est->quantidade);getchar();
-    printf("\n");
-    printf("\t#   - Nome do Item: ");
-    fgets(est->nome,50,stdin);
-    printf("\n");
-    printf("\t#   - Preco Individual do Item: R$ ");
-    scanf("%f", &est->preco);getchar();
-    printf("\n");
-    id_estoque_global++;
-    est->id = id_estoque_global;
-    printf("\t#   - ID Gerado do Item: %d\n",est->id);
-    printf("\t#                                                          #\n");
+    fp = fopen("Estoque.dat","ab");
+    if (fp == NULL) {
+        printf("Erro na criacao do arquivo\n!");
+        exit(1);
+    }
+    est = preenche_estoque();
     do{
         printf("\t#     Confirmar Cadastramento (s) ou (n): ");
         scanf("%1s", escolha);
         limpar_buffer();
         s_ou_n(escolha); 
     }while(s_ou_n(escolha) != 1);
+    if(escolha[0] == 's'){
+        fwrite(est, sizeof(Estoque), 1, fp);
+    }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
-    est->status = '1';
+    fclose(fp);
     free(est);
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
-
-    return est;
 }
 
 void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao em duas telas para ficar com um codigo mais limpo.
@@ -300,3 +291,38 @@ void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao
     getchar();
     
 }
+
+Estoque* preenche_estoque(void){
+    Estoque *est;
+    int eh_nome, bouc;
+    int id_estoque_global = 0;
+    est = (Estoque*) malloc(sizeof(Estoque));
+
+    do{
+        printf("\t#   - Bebida(b) ou Comida(c): ");
+        scanf("%c", &est->comida_bebida);/*getchar();*/
+        limpar_buffer();
+        bouc = eh_b_ou_c(est->comida_bebida);
+    }while(bouc == 0);
+    printf("\t#   - Quantidade(apenas numeros inteiros): ");
+    scanf("%d", &est->quantidade);getchar();
+    do{
+        printf("\t#   - Nome do Item: ");
+        fgets(est->nome,50,stdin);
+        eh_nome = valida_nome(est->nome);
+    }while(eh_nome != 1);
+    printf("\t#   - Preco Individual do Item: R$ ");
+    scanf("%f", &est->preco);getchar();
+    id_estoque_global++;
+    est->id = id_estoque_global;
+    printf("\t#   - ID Gerado do Item: %d\n",est->id);
+    printf("\t#                                                          #\n");
+    est->status = '1';
+
+    return est;
+}
+
+int eh_b_ou_c(char bc) { // Feito com ajuda do chat gpt
+    return (bc == 'b' || bc == 'c') ? 1 : 0;
+}
+
