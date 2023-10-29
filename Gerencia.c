@@ -65,9 +65,10 @@ void acesso_gerencia(void){
 }
 
 void menu_cadastramento(void){
+    
+    Login *log;
+    FILE *fp;
 
-    char cpf[11];
-    char nome[100];
     system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
@@ -82,18 +83,19 @@ void menu_cadastramento(void){
     printf("\t#                                      #\n");
     printf("\t#          // - Cadastro - //          #\n");
     printf("\t#                                      #\n");
-    printf("\t#       Nome: "); 
-    le_nome(nome);
-    printf("\n");
-    printf("\t#        CPF: ");
-    le_cpf(cpf);
-    printf("\n");
-    printf("\t#       Senha:                         #\n");
-    printf("\t#   Confirmar Senha:                   #\n");
+    fp = fopen("Cadastro.dat","ab");
+    if (fp == NULL) {
+        printf("Erro na criacao do arquivo\n!");
+        exit(1);
+    }
+    log = preenche_login();
+    fwrite(log, sizeof(Login), 1, fp);
     printf("\t#                                      #\n");
     printf("\t#   Senha de Acesso:                   #\n");
     printf("\t#                                      #\n");
     printf("\t########################################\n");
+    fclose(fp);
+    free(log);
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
@@ -362,3 +364,59 @@ void tela_funcionarios(void){
     getchar();
     
 }
+
+Login* preenche_login(void){
+    Login* log;
+    int eh_nome,eh_cpf,eh_igual;
+    char conf_senha[25];
+
+    log = (Login*) malloc(sizeof(Login));
+
+    do{
+        printf("\t#       Nome: "); 
+        fgets(log->nome,100,stdin);
+        eh_nome = valida_nome(log->nome);
+    }while(eh_nome != 1);
+
+    do{
+        printf("\t#        CPF: ");
+        fgets(log->cpf,12,stdin);
+        limpar_buffer();
+        eh_cpf = validarCPF(log->cpf);
+        if (eh_cpf == 0){
+        printf("\t\tInvalido!\n");
+        }
+    }while(eh_cpf != 1);
+    do{
+        printf("\t#       Senha: ");
+        fgets(log->senha,25,stdin);
+        printf("\t#   Confirmar Senha: ");
+        fgets(conf_senha,25,stdin);
+        eh_igual = compara_senha(log->senha, conf_senha);
+        if(eh_igual != 1){
+            printf("\t(Senha Desigual ou maior que 25 caracteres)\n");
+        }
+    }while(eh_igual != 1);
+
+    log->status = '1';
+
+    return log;
+}
+
+int compara_senha(char* senha, char* conf_senha){
+    int tam,tam2;
+
+    tam = strlen(senha);
+    tam2 = strlen(conf_senha);
+
+    if((tam > 25)||(tam2 > 25)){
+        return 0;
+    }
+
+    if(strcmp(senha, conf_senha)!= 0){
+        return 0;
+    }
+    return 1;
+
+}
+
