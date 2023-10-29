@@ -12,9 +12,11 @@ typedef struct estoque{
 // Assinatura das Funcoes do menu estoque
 
 void tela_estoque(void);
-Estoque* tela_cadastro_item(void);
+void tela_cadastro_item(void);
 void tela_procura_item(void);
 void tela_lista_itens(void);
 void tela_excluir_item(void);
 void tela_atualizar_item(void);
 void tela_atualizacao(void);
+Estoque* preenche_estoque(void);
+int eh_b_ou_c(char bc);
