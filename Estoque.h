@@ -20,3 +20,6 @@ void tela_atualizar_item(void);
 void tela_atualizacao(void);
 Estoque* preenche_estoque(void);
 int eh_b_ou_c(char bc);
+void exibe_estoque_comida(Estoque* est);
+void exibe_estoque_bebida(Estoque* est);
+void mostra_lista(FILE* fp);
