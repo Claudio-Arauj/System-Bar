@@ -163,6 +163,8 @@ void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao
 
 void tela_lista_itens(void){
 
+    FILE* fp;
+
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -177,16 +179,13 @@ void tela_lista_itens(void){
     printf("\t#                                                          #\n");
     printf("\t#         // - Tela de Lista de Todos os Itens - //        #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Comidas:                                             #\n");
-    printf("\t#           ID            Nome           Preco     Qnt.    #\n");
-    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
-    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
-    printf("\t#                                                          #\n");
-    printf("\t# -------------------------------------------------------- #\n");
-    printf("\t#   - Bebidas:                                             #\n");
-    printf("\t#           ID            Nome           Preco     Qnt.    #\n");
-    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n"); // Apenas Exemplo mostrando como ficaria
-    printf("\t#   -  00000000000x  -  Produto 0x  -  R$ xx,xx  -  xx  -  #\n");
+    fp = fopen("Estoque.dat", "rb");
+    if (fp == NULL){
+        printf("Erro na abertura do arquivo\n!");
+        exit(1);
+    }
+    mostra_lista(fp);
+    fclose(fp); 
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -326,3 +325,62 @@ int eh_b_ou_c(char bc) { // Feito com ajuda do chat gpt
     return (bc == 'b' || bc == 'c') ? 1 : 0;
 }
 
+void exibe_estoque_comida(Estoque* est){
+
+    if ((est == NULL) || (est->status != '1')) {
+        printf("\n\t#                 - Estoque Inexistente -                  #\n");
+    }
+    else{
+        if(est->comida_bebida == 'c'){
+            printf("\t#          ID: %d  \n", est->id);
+            printf("\t#          Nome: %s  ", est->nome);
+            printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
+            printf("\t#          Quantidade: %d  \n", est->quantidade);
+            printf("\t# -------------------------------------------------------- #\n");
+        }
+    }
+}
+
+void exibe_estoque_bebida(Estoque* est){
+    if ((est == NULL) || (est->status != '1')) {
+        printf("\n\t#                 - Estoque Inexistente -                  #\n");
+    }
+    else{
+        if(est->comida_bebida == 'b'){
+            printf("\t#          ID: %d  \n", est->id);
+            printf("\t#          Nome: %s  ", est->nome);
+            printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
+            printf("\t#          Quantidade: %d  \n", est->quantidade);
+            printf("\t# -------------------------------------------------------- #\n");
+        }
+    }
+}
+
+void mostra_lista(FILE* fp){ // criando outra função para o codigo nao ficar grande.
+
+    Estoque* est;
+    int bebidas_exibidas = 0;
+    int comidas_exibidas = 0;
+
+    est = (Estoque*) malloc(sizeof(Estoque));
+    while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
+        if (est->comida_bebida == 'c') {
+            if (!comidas_exibidas) {
+                printf("\t#   - Comidas:                                             #\n");
+                comidas_exibidas = 1;
+            }
+            exibe_estoque_comida(est);
+        }
+    }
+    rewind(fp); //função para ler o arquivo de novo e poder mostrar as bebidas e comidas separadas.
+    while(fread(est, sizeof(Estoque), 1, fp)==1){
+        if (est->comida_bebida == 'b') {
+            if (!bebidas_exibidas) {
+                printf("\t#   - Bebidas:                                             #\n");
+                bebidas_exibidas = 1;
+            }
+            exibe_estoque_bebida(est);
+        }
+    }
+    free(est);
+}
