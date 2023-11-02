@@ -294,7 +294,7 @@ void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao
 Estoque* preenche_estoque(void){
     Estoque *est;
     int eh_nome, bouc;
-    int id_estoque_global = 0;
+    long int id_estoque = lerUltimoID();
     est = (Estoque*) malloc(sizeof(Estoque));
 
     do{
@@ -312,8 +312,8 @@ Estoque* preenche_estoque(void){
     }while(eh_nome != 1);
     printf("\t#   - Preco Individual do Item: R$ ");
     scanf("%f", &est->preco);getchar();
-    id_estoque_global++;
-    est->id = id_estoque_global;
+    est->id = id_estoque + 1;
+    escreverUltimoID(est->id);
     printf("\t#   - ID Gerado do Item: %d\n",est->id);
     printf("\t#                                                          #\n");
     est->status = '1';
@@ -383,4 +383,46 @@ void mostra_lista(FILE* fp){ // criando outra função para o codigo nao ficar g
         }
     }
     free(est);
+}
+
+// void procura_estoque(Estoque* est, char* existe){
+//     char* com_ou_beb;
+
+//     if(est->comida_bebida == 'c'){
+//         com_ou_beb = "Comida";
+//     }
+//     else{
+//         com_ou_beb = "Bebida";
+//     }
+
+//     if ((est == NULL) || (est->status != '1')) {
+//         printf("\n\t#                 - Estoque Inexistente -                  #\n");
+//     }
+//     else{
+//         printf("\t#   - Categoria do Item: %s", com_ou_beb);
+//         printf("\t#   - Nome do Item: %s", est->nome);
+//         printf("\t#   - Em Estoque: %d \n", est->quantidade);
+//         printf("\t#   - Preco Individual: %.2f\n", est->preco);
+//         printf("\t#   - ID: %d \n", est->id);
+//     }
+//     // fseek(fp, -1, SEEK_END);
+// }
+
+// Funções para ler o último ID do arquivo, Tirado com ajuda do Chat GPT para execução
+long int lerUltimoID(void) {
+    long int id = 0;
+    FILE *idFile = fopen("ultimo_id.dat", "rb");
+    if (idFile) {
+        fscanf(idFile, "%ld", &id);
+        fclose(idFile);
+    }
+    return id;
+}
+// Função para escrever o último ID no arquivo Tambem tirada do Chat GPT
+void escreverUltimoID(long int id) {
+    FILE *idFile = fopen("ultimo_id.dat", "wb");
+    if (idFile) {
+        fprintf(idFile, "%ld", id);
+        fclose(idFile);
+    }
 }
