@@ -123,7 +123,11 @@ void tela_cadastro_item(void){
 }
 
 void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao em duas telas para ficar com um codigo mais limpo.
+    Estoque *est;
+    FILE *fp;
 
+    est = (Estoque*)malloc(sizeof(Estoque));
+    fp = fopen("Estoque.dat","rb");
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -139,26 +143,20 @@ void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao
     printf("\t#              // - Tela de Busca de Item - //             #\n");
     printf("\t#                                                          #\n");
     printf("\t#     ID's Disponiveis:                                    #\n");
-    printf("\t#     - 00000000000x (Produto)                             #\n");
-    printf("\t#     - 00000000000x (Produto 2)                           #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Insira ID do Item:                                   #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#     Confirmar Busca (s) ou (n):                          #\n");
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Categoria do Item:                                   #\n");
-    printf("\t#   - Nome do Item:                                        #\n");
-    printf("\t#   - Em Estoque:                                          #\n");
-    printf("\t#   - Preco Individual:                                    #\n");
-    printf("\t#   - ID: 00000000000x                                     #\n");
+    if(fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        exibe_pesquisa(est, fp);
+    }
+    fclose(fp);
+    free(est);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
-
+    
 }
 
 void tela_lista_itens(void){
@@ -385,28 +383,28 @@ void mostra_lista(FILE* fp){ // criando outra função para o codigo nao ficar g
     free(est);
 }
 
-// void procura_estoque(Estoque* est, char* existe){
-//     char* com_ou_beb;
+void procura_estoque(Estoque* est){
+     char* com_ou_beb;
 
-//     if(est->comida_bebida == 'c'){
-//         com_ou_beb = "Comida";
-//     }
-//     else{
-//         com_ou_beb = "Bebida";
-//     }
+     if(est->comida_bebida == 'c'){
+         com_ou_beb = "Comida";
+     }
+     else{
+         com_ou_beb = "Bebida";
+     }
 
-//     if ((est == NULL) || (est->status != '1')) {
-//         printf("\n\t#                 - Estoque Inexistente -                  #\n");
-//     }
-//     else{
-//         printf("\t#   - Categoria do Item: %s", com_ou_beb);
-//         printf("\t#   - Nome do Item: %s", est->nome);
-//         printf("\t#   - Em Estoque: %d \n", est->quantidade);
-//         printf("\t#   - Preco Individual: %.2f\n", est->preco);
-//         printf("\t#   - ID: %d \n", est->id);
-//     }
-//     // fseek(fp, -1, SEEK_END);
-// }
+     if ((est == NULL) || (est->status != '1')) {
+         printf("\n\t#                 - Estoque Inexistente -                  #\n");
+     }
+     else{
+        printf("\t#   - Categoria do Item: %s\n", com_ou_beb);
+        printf("\t#   - Nome do Item: %s", est->nome);
+        printf("\t#   - Em Estoque: %d \n", est->quantidade);
+        printf("\t#   - Preco Individual: %.2f\n", est->preco);
+        printf("\t#   - ID: %d \n", est->id);
+     }
+     
+ }
 
 // Funções para ler o último ID do arquivo, Tirado com ajuda do Chat GPT para execução
 long int lerUltimoID(void) {
@@ -424,5 +422,39 @@ void escreverUltimoID(long int id) {
     if (idFile) {
         fprintf(idFile, "%ld", id);
         fclose(idFile);
+    }
+}
+
+void exibe_pesquisa(Estoque* est, FILE* fp){
+    int pesquisa;
+    char escolha[2];
+
+    while(fread(est, sizeof(Estoque), 1, fp)){
+        printf("\t#     - %d - %s",est->id,est->nome);
+    }
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do Item: ");
+    scanf("%d", &pesquisa);
+    printf("\t#                                                          #\n");
+    do{
+        printf("\t#     Confirmar Busca (s) ou (n): ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        s_ou_n(escolha); 
+    }while(s_ou_n(escolha) != 1);
+    printf("\t# \n");
+    if(escolha[0] != 'n'){
+        int encontrado = 0;
+        rewind(fp);
+        while(fread(est, sizeof(Estoque), 1, fp)){
+            if(est->id == pesquisa){
+                procura_estoque(est);
+                encontrado = 1;
+                break;
+            }
+        }
+        if(!encontrado){
+            printf("\t#                 -- ID nao encontrado! --                 #\n");
+        }
     }
 }

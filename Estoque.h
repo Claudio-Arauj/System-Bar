@@ -25,3 +25,5 @@ void exibe_estoque_bebida(Estoque* est);
 void mostra_lista(FILE* fp);
 void escreverUltimoID(long int id);
 long int lerUltimoID(void);
+void procura_estoque(Estoque* est);
+void exibe_pesquisa(Estoque* est, FILE* fp);
