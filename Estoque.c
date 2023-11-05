@@ -179,10 +179,11 @@ void tela_lista_itens(void){
     printf("\t#                                                          #\n");
     fp = fopen("Estoque.dat", "rb");
     if (fp == NULL){
-        printf("Erro na abertura do arquivo\n!");
-        exit(1);
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
     }
-    mostra_lista(fp);
+    else{
+        mostra_lista(fp);
+    }
     fclose(fp); 
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -194,8 +195,10 @@ void tela_lista_itens(void){
 
 void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adaptabilidade na hora de querer excluir algum item.
     
-    char escolha[2];
+    FILE* fp;
+    Estoque* est;
     
+    est = (Estoque*)malloc(sizeof(Estoque));
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -210,18 +213,15 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
     printf("\t#                                                          #\n");
     printf("\t#             // - Tela de Excluir Item - //               #\n");
     printf("\t#                                                          #\n");
-    printf("\t#     ID's Disponiveis:                                    #\n");
-    printf("\t#     - 00000000000x (Produto x)                           #\n");
-    printf("\t#     - 00000000000x (Produto 2x)                          #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Insira ID do Item:                                   #\n");
-    printf("\t#                                                          #\n");
-    do{
-        printf("\t#     Confirmar Exclusao (s) ou (n): ");
-        scanf("%1s", escolha);
-        limpar_buffer();
-        s_ou_n(escolha); 
-    }while(s_ou_n(escolha) != 1);
+    fp = fopen("Estoque.dat", "rb+"); // Abra o arquivo no modo "rb+" para permitir leitura e escrita
+    if(fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        func_exclusao(est,fp);
+    }
+    fclose(fp);
+    free(est);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -325,11 +325,11 @@ int eh_b_ou_c(char bc) { // Feito com ajuda do chat gpt
 
 void exibe_estoque_comida(Estoque* est){
 
-    if ((est == NULL) || (est->status != '1')) {
+    if (est == NULL) {
         printf("\n\t#                 - Estoque Inexistente -                  #\n");
     }
     else{
-        if(est->comida_bebida == 'c'){
+        if((est->comida_bebida == 'c')&&(est->status != '0')){
             printf("\t#          ID: %d  \n", est->id);
             printf("\t#          Nome: %s  ", est->nome);
             printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
@@ -340,11 +340,11 @@ void exibe_estoque_comida(Estoque* est){
 }
 
 void exibe_estoque_bebida(Estoque* est){
-    if ((est == NULL) || (est->status != '1')) {
+    if (est == NULL) {
         printf("\n\t#                 - Estoque Inexistente -                  #\n");
     }
     else{
-        if(est->comida_bebida == 'b'){
+        if((est->comida_bebida == 'b')&&(est->status != '0')){
             printf("\t#          ID: %d  \n", est->id);
             printf("\t#          Nome: %s  ", est->nome);
             printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
@@ -393,7 +393,7 @@ void procura_estoque(Estoque* est){
          com_ou_beb = "Bebida";
      }
 
-     if ((est == NULL) || (est->status != '1')) {
+     if (est == NULL) {
          printf("\n\t#                 - Estoque Inexistente -                  #\n");
      }
      else{
@@ -430,7 +430,9 @@ void exibe_pesquisa(Estoque* est, FILE* fp){
     char escolha[2];
 
     while(fread(est, sizeof(Estoque), 1, fp)){
-        printf("\t#     - %d - %s",est->id,est->nome);
+        if(est->status != '0'){
+            printf("\t#     - %d - %s",est->id,est->nome);
+        }
     }
     printf("\t#                                                          #\n");
     printf("\t#   - Insira ID do Item: ");
@@ -447,10 +449,54 @@ void exibe_pesquisa(Estoque* est, FILE* fp){
         int encontrado = 0;
         rewind(fp);
         while(fread(est, sizeof(Estoque), 1, fp)){
-            if(est->id == pesquisa){
-                procura_estoque(est);
-                encontrado = 1;
-                break;
+            if (est->status != '0'){
+                if(est->id == pesquisa){
+                    procura_estoque(est);
+                    encontrado = 1;
+                    break;
+                }
+            }
+        }
+        if(!encontrado){
+            printf("\t#                 -- ID nao encontrado! --                 #\n");
+        }
+    }
+}
+
+void func_exclusao(Estoque* est, FILE* fp){
+
+    int pesquisa;
+    char escolha[2];
+
+    while(fread(est, sizeof(Estoque), 1, fp)){
+        if(est->status != '0'){
+            printf("\t#     - %d - %s",est->id,est->nome);
+        }
+    }
+
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do Item: ");
+    scanf("%d", &pesquisa);
+    printf("\t#                                                          #\n");
+    do{
+        printf("\t#     Confirmar Exclusao (s) ou (n): ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        s_ou_n(escolha); 
+    }while(s_ou_n(escolha) != 1);
+
+    if(escolha[0] != 'n'){
+        int encontrado = 0;
+        rewind(fp);
+        while(fread(est, sizeof(Estoque), 1, fp)){
+            if (est->status != '0'){
+                if (est->id == pesquisa) { // Feito com a ajuda do chat gpt para a exclusão Lógica
+                    est->status = '0';
+                    encontrado = 1;
+                    fseek(fp, -sizeof(Estoque), SEEK_CUR);
+                    fwrite(est, sizeof(Estoque), 1, fp);
+                    break;
+                }
             }
         }
         if(!encontrado){

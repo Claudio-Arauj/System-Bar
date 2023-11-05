@@ -27,3 +27,4 @@ void escreverUltimoID(long int id);
 long int lerUltimoID(void);
 void procura_estoque(Estoque* est);
 void exibe_pesquisa(Estoque* est, FILE* fp);
+void func_exclusao(Estoque* est, FILE* fp);
