@@ -34,9 +34,8 @@ int valida_nome(char *nome) { // Adaptada do Chat GPT
 
 int eh_letra_acentuada(char c) { // Adaptada do Chat GPT e com ajuda de Matheus Diniz Fernandes
   char letras_acentuadas[] = "ÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇáàâãéèêíìîóòôõúùûç";
-  int tam = strlen(letras_acentuadas);
     
-  for (int j = 0; j < tam; j++) {
+  for (int j = 0; letras_acentuadas[j] != '\0'; j++) {
     if (c == letras_acentuadas[j]) {
       return 1; // caso ache validação retorna true
     }

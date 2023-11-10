@@ -148,8 +148,8 @@ void tela_procura_item(void){ // Mais adiante no codigo irei separar essa funcao
     }
     else{
         exibe_pesquisa(est, fp);
+        fclose(fp);
     }
-    fclose(fp);
     free(est);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -183,8 +183,8 @@ void tela_lista_itens(void){
     }
     else{
         mostra_lista(fp);
+        fclose(fp);
     }
-    fclose(fp); 
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -219,8 +219,8 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
     }
     else{
         func_exclusao(est,fp);
+        fclose(fp);
     }
-    fclose(fp);
     free(est);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
@@ -230,6 +230,11 @@ void tela_excluir_item(void){ //pretendo aumentar a tela para oferecer mais adap
 }
 
 void tela_atualizar_item(void){
+
+    FILE* fp;
+    Estoque* est;
+
+    est = (Estoque*)malloc(sizeof(Estoque));
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -243,19 +248,22 @@ void tela_atualizar_item(void){
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
     printf("\t#            // - Tela de Atualizar Item - //              #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#     ID's Disponiveis:                                    #\n");
-    printf("\t#     - 00000000000x (Produto x)                           #\n");
-    printf("\t#     - 00000000000x (Produto 2x)                          #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Insira ID do Item:                                   #\n");
+    fp = fopen("Estoque.dat", "rb+"); // Abra o arquivo no modo "rb+" para permitir leitura e escrita
+    if(fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        func_edit(fp, est);
+        fclose(fp);
+    }
+    free(est);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
-    tela_atualizacao();
+    //tela_atualizacao();
 }
 
 void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao para a funcao nao ficar muito grande.
@@ -277,7 +285,7 @@ void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao
     printf("\t#                                                          #\n");
     printf("\t#               // - Informacoes Novas - //                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Categoria do Item (apenas 'c' ou 'a'):               #\n"); // Depende do que o usuario for digitar na tela de atualizar item para consultar
+    printf("\t#   - Categoria do Item (apenas 'c' ou 'b'):               #\n"); // Depende do que o usuario for digitar na tela de atualizar item para consultar
     printf("\t#   - Nome do Item:                                        #\n");
     printf("\t#   - Em Estoque:                                          #\n");
     printf("\t#   - Preco Individual:                                    #\n");
@@ -397,11 +405,11 @@ void procura_estoque(Estoque* est){
          printf("\n\t#                 - Estoque Inexistente -                  #\n");
      }
      else{
-        printf("\t#   - Categoria do Item: %s\n", com_ou_beb);
-        printf("\t#   - Nome do Item: %s", est->nome);
-        printf("\t#   - Em Estoque: %d \n", est->quantidade);
-        printf("\t#   - Preco Individual: %.2f\n", est->preco);
-        printf("\t#   - ID: %d \n", est->id);
+        printf("\t#  1 - Categoria do Item: %s\n", com_ou_beb);
+        printf("\t#  2 - Nome do Item: %s", est->nome);
+        printf("\t#  3 - Em Estoque: %d \n", est->quantidade);
+        printf("\t#  4 - Preco Individual: %.2f\n", est->preco);
+        printf("\t#  5 - ID: %d \n", est->id);
      }
      
  }
@@ -446,20 +454,7 @@ void exibe_pesquisa(Estoque* est, FILE* fp){
     }while(s_ou_n(escolha) != 1);
     printf("\t# \n");
     if(escolha[0] != 'n'){
-        int encontrado = 0;
-        rewind(fp);
-        while(fread(est, sizeof(Estoque), 1, fp)){
-            if (est->status != '0'){
-                if(est->id == pesquisa){
-                    procura_estoque(est);
-                    encontrado = 1;
-                    break;
-                }
-            }
-        }
-        if(!encontrado){
-            printf("\t#                 -- ID nao encontrado! --                 #\n");
-        }
+        exibe_busca(fp, est, pesquisa);
     }
 }
 
@@ -503,4 +498,106 @@ void func_exclusao(Estoque* est, FILE* fp){
             printf("\t#                 -- ID nao encontrado! --                 #\n");
         }
     }
+}
+
+void func_edit(FILE* fp, Estoque* est){
+
+    int pesquisa;
+
+    while(fread(est, sizeof(Estoque), 1, fp)){
+        if(est->status != '0'){
+            printf("\t#     - %d - %s",est->id,est->nome);
+        }
+    }
+
+    printf("\t#                                                          #\n");
+    printf("\t#   - Insira ID do item desejado: ");
+    scanf("%d", &pesquisa);
+    getchar();
+    printf("\t#                                                          #\n");
+    printf("\t#             // - Informacoes Originais - //              #\n");
+    printf("\t#                                                          #\n");
+    exibe_busca(fp, est, pesquisa);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+
+    int encontrado = 0;
+    rewind(fp);
+    while(fread(est, sizeof(Estoque), 1, fp)){
+        if (est->status != '0'){
+            if (est->id == pesquisa) { 
+                muda_estoque(fp, est);
+                encontrado = 1;
+                break;
+            }
+        }
+    }
+    if(!encontrado){
+        printf("\t#                 -- ID nao encontrado! --                 #\n");
+    }
+}
+
+void exibe_busca(FILE* fp, Estoque* est, int pesquisa){
+    int encontrado = 0;
+    rewind(fp);
+    while(fread(est, sizeof(Estoque), 1, fp)){
+        if (est->status != '0'){
+            if(est->id == pesquisa){
+                procura_estoque(est);
+                encontrado = 1;
+                break;
+            }
+        }
+    }
+    if(!encontrado){
+        printf("\t#                 -- ID nao encontrado! --                 #\n");
+    }
+}
+
+void muda_estoque(FILE* fp, Estoque* est){
+
+    int bouc, eh_nome;
+    char num;
+
+    printf("\t#               // - Informacoes Novas - //                #\n");
+    printf("\t#                                                          #\n"); // Depende do que o usuario for digitar na tela de atualizar item para consultar
+    printf("\t#   - Insira o numero deseja editar: ");
+    scanf("%c", &num); 
+    limpar_buffer();
+    switch (num){
+        case '1':
+            do{
+                printf("\t#   - Categoria do Item (apenas 'c' ou 'b'): ");
+                scanf(" %c", &est->comida_bebida);getchar();
+                bouc = eh_b_ou_c(est->comida_bebida);
+            }while(bouc == 0);
+            break;
+                    
+        case '2':
+            do {
+                printf("\t#   - Nome do Item: ");
+                fgets(est->nome, 50, stdin);
+                eh_nome = valida_nome(est->nome);
+            } while (eh_nome != 1);
+            break;
+                    
+        case '3':
+            printf("\t#   - Em Estoque: ");
+            scanf("%d", &est->quantidade);getchar();
+            break;
+
+        case '4':
+            printf("\t#   - Preco Individual: ");
+            scanf("%f", &est->preco);getchar();
+            break;
+
+        default:
+            printf("\t#               - Digite uma opcao valida -                #\n");
+            getchar();
+            break;
+    }
+                
+    fseek(fp, -sizeof(Estoque), SEEK_CUR);
+    fwrite(est, sizeof(Estoque), 1, fp);
 }
