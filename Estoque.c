@@ -316,6 +316,7 @@ Estoque* preenche_estoque(void){
         fgets(est->nome,50,stdin);
         eh_nome = valida_nome(est->nome);
     }while(eh_nome != 1);
+    est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
     printf("\t#   - Preco Individual do Item: R$ ");
     scanf("%f", &est->preco);getchar();
     est->id = id_estoque + 1;
@@ -338,11 +339,7 @@ void exibe_estoque_comida(Estoque* est){
     }
     else{
         if((est->comida_bebida == 'c')&&(est->status != '0')){
-            printf("\t#          ID: %d  \n", est->id);
-            printf("\t#          Nome: %s  ", est->nome);
-            printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
-            printf("\t#          Quantidade: %d  \n", est->quantidade);
-            printf("\t# -------------------------------------------------------- #\n");
+            printf("\t# - %-38s - %-5.2f - %-4d  #\n", est->nome, est->preco, est->quantidade);
         }
     }
 }
@@ -353,11 +350,7 @@ void exibe_estoque_bebida(Estoque* est){
     }
     else{
         if((est->comida_bebida == 'b')&&(est->status != '0')){
-            printf("\t#          ID: %d  \n", est->id);
-            printf("\t#          Nome: %s  ", est->nome);
-            printf("\t#          Preco: R$ %.2f  \n", est->preco); // Print dos correspondente
-            printf("\t#          Quantidade: %d  \n", est->quantidade);
-            printf("\t# -------------------------------------------------------- #\n");
+            printf("\t# - %-38s - %-5.2f - %-4d  #\n", est->nome, est->preco, est->quantidade);
         }
     }
 }
@@ -367,26 +360,45 @@ void mostra_lista(FILE* fp){ // criando outra função para o codigo nao ficar g
     Estoque* est;
     int bebidas_exibidas = 0;
     int comidas_exibidas = 0;
+    char opcao;
 
+    printf("\t#     1 - Comidas                                          #\n");
+    printf("\t#     2 - Bebidas                                          #\n");
+    printf("\t#   Escolha a categoria que deseja ver: ");
+    scanf("%c", &opcao); getchar();
+    printf("\t#                                                          #\n");
     est = (Estoque*) malloc(sizeof(Estoque));
-    while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
-        if (est->comida_bebida == 'c') {
-            if (!comidas_exibidas) {
-                printf("\t#   - Comidas:                                             #\n");
-                comidas_exibidas = 1;
+    switch (opcao){
+    case '1':
+        while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
+            if (est->comida_bebida == 'c') {
+                if (!comidas_exibidas) {
+                    printf("\t#   - Comidas:                                             #\n");
+                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                    comidas_exibidas = 1;
+                }
+                exibe_estoque_comida(est);
             }
-            exibe_estoque_comida(est);
         }
-    }
-    rewind(fp); //função para ler o arquivo de novo e poder mostrar as bebidas e comidas separadas.
-    while(fread(est, sizeof(Estoque), 1, fp)==1){
-        if (est->comida_bebida == 'b') {
-            if (!bebidas_exibidas) {
-                printf("\t#   - Bebidas:                                             #\n");
-                bebidas_exibidas = 1;
+        break;
+
+    case '2':
+        rewind(fp); //função para ler o arquivo de novo e poder mostrar as bebidas e comidas separadas.
+        while(fread(est, sizeof(Estoque), 1, fp)==1){
+            if (est->comida_bebida == 'b') {
+                if (!bebidas_exibidas) {
+                    printf("\t#   - Bebidas:                                             #\n");
+                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                    bebidas_exibidas = 1;
+                }
+                exibe_estoque_bebida(est);
             }
-            exibe_estoque_bebida(est);
         }
+        break;
+    
+    default:
+        printf("\t#               - Digite uma opcao valida -                #\n");
+        break;
     }
     free(est);
 }
@@ -406,7 +418,7 @@ void procura_estoque(Estoque* est){
      }
      else{
         printf("\t#  1 - Categoria do Item: %s\n", com_ou_beb);
-        printf("\t#  2 - Nome do Item: %s", est->nome);
+        printf("\t#  2 - Nome do Item: %s\n", est->nome);
         printf("\t#  3 - Em Estoque: %d \n", est->quantidade);
         printf("\t#  4 - Preco Individual: %.2f\n", est->preco);
         printf("\t#  5 - ID: %d \n", est->id);
@@ -439,7 +451,7 @@ void exibe_pesquisa(Estoque* est, FILE* fp){
 
     while(fread(est, sizeof(Estoque), 1, fp)){
         if(est->status != '0'){
-            printf("\t#     - %d - %s",est->id,est->nome);
+            printf("\t#     - %d - %s\n",est->id,est->nome);
         }
     }
     printf("\t#                                                          #\n");
@@ -465,7 +477,7 @@ void func_exclusao(Estoque* est, FILE* fp){
 
     while(fread(est, sizeof(Estoque), 1, fp)){
         if(est->status != '0'){
-            printf("\t#     - %d - %s",est->id,est->nome);
+            printf("\t#     - %d - %s\n",est->id,est->nome);
         }
     }
 
@@ -506,7 +518,7 @@ void func_edit(FILE* fp, Estoque* est){
 
     while(fread(est, sizeof(Estoque), 1, fp)){
         if(est->status != '0'){
-            printf("\t#     - %d - %s",est->id,est->nome);
+            printf("\t#     - %d - %s\n",est->id,est->nome);
         }
     }
 
@@ -580,6 +592,7 @@ void muda_estoque(FILE* fp, Estoque* est){
                 fgets(est->nome, 50, stdin);
                 eh_nome = valida_nome(est->nome);
             } while (eh_nome != 1);
+            est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
             break;
                     
         case '3':
