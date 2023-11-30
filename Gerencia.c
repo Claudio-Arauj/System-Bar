@@ -332,6 +332,8 @@ void tela_relatorio(void){
 
 void tela_funcionarios(void){
 
+    FILE* fp;
+
     char escolha[2];
     system("clear||cls");
     printf("\t############################################################\n");
@@ -348,8 +350,14 @@ void tela_funcionarios(void){
     printf("\t#              // - Tela de Funcionarios - //              #\n");
     printf("\t#                                                          #\n");
     printf("\t#   - Funcionarios:                                        #\n");
-    printf("\t#     - Fulano de Tal                                      #\n");
-    printf("\t#     - Joao de Fulano                                     #\n");
+    fp = fopen("Cadastro.dat", "rb");
+    if (fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        lista_funcionarios(fp);
+        fclose(fp);
+    }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     do{
@@ -367,39 +375,55 @@ void tela_funcionarios(void){
 
 Login* preenche_login(void){
     Login* log;
-    int eh_nome,eh_cpf,eh_igual;
+    int eh_nome,eh_cpf,eh_igual,eh_numero;
     char conf_senha[25];
 
     log = (Login*) malloc(sizeof(Login));
+    
+    le_cpf(log->cpf);
 
-    do{
-        printf("\t#       Nome: "); 
-        fgets(log->nome,100,stdin);
+    do {
+        printf("\t#       Nome: ");
+        fgets(log->nome, 50, stdin);
+        log->nome[strcspn(log->nome, "\n")] = '\0';  // Remover o \n do final da string
         eh_nome = valida_nome(log->nome);
-    }while(eh_nome != 1);
+        if (eh_nome == 0) {
+            printf("\t\tNome inválido! Tente novamente.\n");
+        }
+    } while (eh_nome != 1);
+
+    printf("\n\t# Nome: %s\n", log->nome);
 
     do{
-        printf("\t#        CPF: ");
-        fgets(log->cpf,12,stdin);
-        limpar_buffer();
-        eh_cpf = validarCPF(log->cpf);
-        if (eh_cpf == 0){
-        printf("\t\tInvalido!\n");
+        printf("\t#       Celular[Ex:(84)99923-2131]: "); 
+        scanf("%[^\n]%*c", log->telefone);
+        fflush(stdin);
+        eh_numero = validaTelefone(log->telefone);
+        if (eh_numero == 0){
+            printf("\t\tInvalido!\n");
         }
-    }while(eh_cpf != 1);
+    }while(eh_numero != 1);
+
+    printf("\n\t# Nome: %s\n", log->nome);
+
     do{
         printf("\t#       Senha: ");
         fgets(log->senha,25,stdin);
-        printf("\t#   Confirmar Senha: ");
+        log->senha[strcspn(log->senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
+        printf("\t#     Confirmar Senha: ");
         fgets(conf_senha,25,stdin);
+        conf_senha[strcspn(conf_senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
         eh_igual = compara_senha(log->senha, conf_senha);
         if(eh_igual != 1){
-            printf("\t(Senha Desigual ou maior que 25 caracteres)\n");
+            printf("\n\t(Senha Desigual ou maior que 25 caracteres)\n");
         }
     }while(eh_igual != 1);
 
     log->status = '1';
 
+    // Adicionando mensagens de debug
+    printf("\n\t# Nome: %s, Telefone: %s, Senha: %s\n", log->nome, log->telefone, log->senha);
+    
     return log;
 }
 
@@ -420,3 +444,18 @@ int compara_senha(char* senha, char* conf_senha){
 
 }
 
+void lista_funcionarios(FILE* fp){
+
+    Login* log;
+    log = (Login*) malloc(sizeof(Login));
+    rewind(fp);
+
+    while (fread(log, sizeof(Login), 1, fp) == 1) {
+        //if (log->status == '1') {
+            // Verifica se a string do nome não está vazia
+            printf("\t#     %s %s\n", log->nome, log->telefone);
+        //}
+    }
+
+    free(log);
+}

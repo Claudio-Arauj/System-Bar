@@ -8,8 +8,9 @@ void le_nome(char *nome);
 
 // validar cpf
 int validarCPF(char *cpf);
-void le_cpf(char *cpf);
+char* le_cpf(char *cpf);
 
 // funcoes uteis
 void limpar_buffer();
 int s_ou_n(char* op);
+int validaTelefone(char *telefone);
