@@ -3,8 +3,8 @@ typedef struct login{
     char cpf[11];
     char nome[100];
     char senha[25];
+    char telefone[16];
     char status;
-    
 }Login;
 
 // Assinatura das Funcoes do menu gerencia
@@ -20,3 +20,4 @@ void tela_funcionarios(void);
 void tela_comanda(void);
 Login* preenche_login(void);
 int compara_senha(char* senha, char* conf_senha);
+void lista_funcionarios(FILE* fp);

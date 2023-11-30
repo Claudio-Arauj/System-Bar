@@ -105,19 +105,16 @@ int validarCPF(char *cpf){ //Total credito da funcao para Eduardo Edson Batista 
     return 1;
 }
 
-void le_cpf(char *cpf){
-
-  int confirm;
-  
-  do{
-    fgets(cpf,12,stdin);
-    limpar_buffer();
-    confirm = validarCPF(cpf);
-
-    if (confirm == 0){
-      printf("\tInvalido, Digite novamente(Apenas Numeros!): ");
-    }
-  }while(confirm != 1);
+char* le_cpf(char *cpf){ // funcao de Maria Eloisa @EL0ISA
+int valido;
+    do{
+        printf("\t#       CPF(numero apenas): ");
+        scanf("%[^\n]",cpf);
+        getchar();
+        fflush(stdin);
+        valido=validarCPF(cpf);
+    } while (valido!=1);
+    return cpf;
 }
 
 void limpar_buffer() { // Funcao criada por Matheus Diniz Fernandes / @Matheusdnf - detem todos os creditos.
@@ -139,3 +136,54 @@ int s_ou_n(char* op){
 
   return 0;
 }
+
+int validaTelefone(char *telefone) // Apenas Brasil. Feito por Felipe Augusto github:@fel-ps
+{
+    // Remove o '\n' do final da string (se existir)
+    if (telefone[strlen(telefone) - 1] == '\n')
+    {
+        telefone[strlen(telefone) - 1] = '\0';
+    }
+
+    int tamanho = strlen(telefone);
+    int digitos = 0;
+    
+
+    // Verifica se o tamanho está dentro do intervalo [min, max]
+    int min = 10;
+    int max = 14;
+    if (tamanho < min || tamanho > max) 
+    {
+        return 0; // Tamanho inválido
+    }
+
+    if (telefone[0] != '(' || telefone[3] != ')')
+    {
+        return 0; // Parênteses do DDD na posição incorreta
+    }
+
+    // Verifica se todos os caracteres são dígitos ou separadores
+    for (int i = 0; i < tamanho; i++) 
+    {
+        if (i != 0 && i != 3)
+        {
+            if (!isdigit(telefone[i]) && (telefone[i] != ' ') && (telefone[i] != '-'))
+            {
+                return 0;
+            }
+        }
+        if ((telefone[i] >= '0' && telefone[i] <= '9') || (telefone[i] != ' ' && telefone[i] != '-')) 
+        {
+            digitos++;
+        }
+    }
+
+    // Verifica se há pelo menos o número mínimo de dígitos
+    if (digitos < min) 
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
