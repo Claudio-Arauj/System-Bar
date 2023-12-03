@@ -1,6 +1,6 @@
 // definicao do struct do programa
 typedef struct login{
-    char cpf[11];
+    char cpf[15];
     char nome[100];
     char senha[25];
     char telefone[16];
@@ -21,3 +21,6 @@ void tela_comanda(void);
 Login* preenche_login(void);
 int compara_senha(char* senha, char* conf_senha);
 void lista_funcionarios(FILE* fp);
+void procura_funcionario(void);
+void excluir_funcionario(void);
+void atualiza_estoque(void);

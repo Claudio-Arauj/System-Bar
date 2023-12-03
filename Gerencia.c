@@ -83,12 +83,12 @@ void menu_cadastramento(void){
     printf("\t#                                      #\n");
     printf("\t#          // - Cadastro - //          #\n");
     printf("\t#                                      #\n");
+    log = preenche_login();
     fp = fopen("Cadastro.dat","ab");
     if (fp == NULL) {
         printf("Erro na criacao do arquivo\n!");
         exit(1);
     }
-    log = preenche_login();
     fwrite(log, sizeof(Login), 1, fp);
     printf("\t#                                      #\n");
     printf("\t#   Senha de Acesso:                   #\n");
@@ -333,8 +333,10 @@ void tela_relatorio(void){
 void tela_funcionarios(void){
 
     FILE* fp;
+    Login* log;
+    char op;
 
-    char escolha[2];
+    log = (Login*)malloc(sizeof(Login));
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -358,54 +360,66 @@ void tela_funcionarios(void){
         lista_funcionarios(fp);
         fclose(fp);
     }
+    free(log);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
-    do{
-        printf("\t#   - Deseja Excluir algum? (s) ou (n) ");
-        scanf("%1s", escolha);
-        limpar_buffer();
-        s_ou_n(escolha);
-    }while(s_ou_n(escolha) != 1);
+    printf("\t#    1 - Cadastrar Funcionario                             #\n");
+    printf("\t#    2 - Procurar Funcionario                              #\n");
+    printf("\t#    3 - Excluir Funcionario                               #\n");
+    printf("\t#    4 - Atualizar Funcionario                             #\n");
+    printf("\t#    0 - Sair                                              #\n");
+    printf("\t#                                                          #\n");
+    printf("\t#    Insira sua Escolha: ");
+    scanf("%c", &op); getchar();
     printf("\t############################################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
+
+    switch (op){
+    case '1':
+        menu_cadastramento();
+        break;
+    
+    case '2':
+        procura_funcionario();
+        break;
+
+    case '3':
+        excluir_funcionario();
+        break;
+
+    case '4':
+        break;
+
+    case '0':
+        break;
+
+    default:
+        printf("\t#               - Digite uma opcao valida -                #\n");
+        getchar();
+    }
     
 }
 
 Login* preenche_login(void){
     Login* log;
-    int eh_nome,eh_cpf,eh_igual,eh_numero;
+    int eh_igual,eh_numero;
     char conf_senha[25];
+    char cpf[15];
 
     log = (Login*) malloc(sizeof(Login));
     
-    le_cpf(log->cpf);
-
+    ler_cpf(cpf);
+    le_nome(log->nome);
     do {
-        printf("\t#       Nome: ");
-        fgets(log->nome, 50, stdin);
-        log->nome[strcspn(log->nome, "\n")] = '\0';  // Remover o \n do final da string
-        eh_nome = valida_nome(log->nome);
-        if (eh_nome == 0) {
-            printf("\t\tNome inválido! Tente novamente.\n");
-        }
-    } while (eh_nome != 1);
-
-    printf("\n\t# Nome: %s\n", log->nome);
-
-    do{
         printf("\t#       Celular[Ex:(84)99923-2131]: "); 
-        scanf("%[^\n]%*c", log->telefone);
-        fflush(stdin);
+        fgets(log->telefone, sizeof(log->telefone), stdin);
+        log->telefone[strcspn(log->telefone, "\n")] = '\0';  // Remover o \n do final da string
         eh_numero = validaTelefone(log->telefone);
-        if (eh_numero == 0){
-            printf("\t\tInvalido!\n");
-        }
-    }while(eh_numero != 1);
+    } while(eh_numero != 1);
 
-    printf("\n\t# Nome: %s\n", log->nome);
+    //remove_nao_numericos(cpf);
 
+    strcpy(log->cpf,cpf);
+    log->cpf[strcspn(log->cpf, "\n")] = '\0'; // Remover o \n do final da strings
     do{
         printf("\t#       Senha: ");
         fgets(log->senha,25,stdin);
@@ -421,9 +435,6 @@ Login* preenche_login(void){
 
     log->status = '1';
 
-    // Adicionando mensagens de debug
-    printf("\n\t# Nome: %s, Telefone: %s, Senha: %s\n", log->nome, log->telefone, log->senha);
-    
     return log;
 }
 
@@ -451,11 +462,171 @@ void lista_funcionarios(FILE* fp){
     rewind(fp);
 
     while (fread(log, sizeof(Login), 1, fp) == 1) {
-        //if (log->status == '1') {
+        if (log->status == '1') {
             // Verifica se a string do nome não está vazia
-            printf("\t#     %s %s\n", log->nome, log->telefone);
-        //}
+            printf("\t#    Nome: %-25s - CPF: %s \n", log->nome, log->cpf);
+        }
     }
 
     free(log);
 }
+
+void procura_funcionario(void) { //Adaptada do ChatGPT
+    FILE* fp;
+    Login* log;
+    char codigo[15];
+    int encontrado = 0; // Variável para verificar se encontrou o registro
+
+    log = (Login*)malloc(sizeof(Login));
+    fp = fopen("Cadastro.dat", "rb");
+
+    printf("\t#                                                          #\n");
+    printf("\t#               // - Tela do Busca - //                    #\n");
+    printf("\t#                                                          #\n");
+
+    if (fp == NULL) {
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    } else {
+        printf("\t#    Insira o CPF do Funcionario: ");
+        fgets(codigo, sizeof(codigo), stdin);
+        codigo[strcspn(codigo, "\n")] = '\0'; // Remover o \n do final da string
+
+        rewind(fp);
+
+        while (fread(log, sizeof(Login), 1, fp)) {
+            if (log->status != '0') {
+                if (strcmp(codigo, log->cpf) == 0) {
+                    printf("\t#    - Nome: %s\n", log->nome);
+                    printf("\t#    - CPF: %s\n", log->cpf);
+                    printf("\t#    - Celular: %s\n", log->telefone);
+                    encontrado = 1;
+                    break; // Se encontrar, não precisa continuar procurando
+                }
+            }
+        }
+        if (!encontrado) {
+            printf("\t#              - Nenhum registro encontrado -              #\n");
+        }
+        fclose(fp);
+    }
+    free(log);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+}
+
+void excluir_funcionario(void){
+
+    FILE* fp;
+    Login* log;
+    char codigo[15];
+    char escolha[2];
+    int encontrado = 0; // Variável para verificar se encontrou o registro
+
+    log = (Login*)malloc(sizeof(Login));
+    fp = fopen("Cadastro.dat", "rb+");
+
+    printf("\t#                                                          #\n");
+    printf("\t#              // - Tela de Exclusao - //                  #\n");
+    printf("\t#                                                          #\n");
+
+    if (fp == NULL) {
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    } else {
+        printf("\t#    Insira o CPF do Funcionario: ");
+        fgets(codigo, sizeof(codigo), stdin);
+        codigo[strcspn(codigo, "\n")] = '\0'; // Remover o \n do final da string
+
+        rewind(fp);
+        do{
+            printf("\t#     Confirmar Exclusao (s) ou (n): ");
+            scanf("%1s", escolha);
+            limpar_buffer();
+            s_ou_n(escolha); 
+        }while(s_ou_n(escolha) != 1);
+        if (escolha[0] != 'n'){
+            while (fread(log, sizeof(Login), 1, fp)) {
+                if (log->status != '0') {
+                    if (strcmp(codigo, log->cpf) == 0) {
+                        log->status = '0';
+                        encontrado = 1;
+                        fseek(fp, -sizeof(Login), SEEK_CUR);
+                        fwrite(log, sizeof(Login), 1, fp);
+                        printf("\t#              - Exclusao feita com sucesso -              #\n");
+                        break; // Se encontrar, não precisa continuar procurando
+                    }
+                }
+            }
+        }
+        if ((!encontrado) && (escolha[0] != 'n')) {
+            printf("\t#              - Nenhum registro encontrado -              #\n");
+        }
+    }
+    fclose(fp);
+    free(log);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+}
+
+/*void atualiza_estoque(void){
+
+    FILE* fp;
+    Login* log;
+    char codigo[15];
+    char escolha[2];
+    int encontrado = 0; // Variável para verificar se encontrou o registro
+
+    log = (Login*)malloc(sizeof(Login));
+    fp = fopen("Cadastro.dat", "rb+");
+
+    printf("\t#                                                          #\n");
+    printf("\t#             // - Tela de Atualizacao - //                #\n");
+    printf("\t#                                                          #\n");
+
+    if (fp == NULL) {
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    } else {
+        printf("\t#    Insira o CPF do Funcionario: ");
+        fgets(codigo, sizeof(codigo), stdin);
+        codigo[strcspn(codigo, "\n")] = '\0'; // Remover o \n do final da string
+
+        printf("\t#    1 - CPF                                               #\n");
+        printf("\t#    2 - Nome                                              #\n");
+        printf("\t#    3 - Numero                                            #\n");
+        printf("\t#    4 - Senha                                             #\n");
+        printf("\t#    0 - Sair                                              #\n");
+        printf("\t#    Insira a opcao que deseja alterar: ");
+        scanf("%1s", escolha);
+        limpar_buffer();
+        if (escolha[0] != 'n'){
+            while (fread(log, sizeof(Login), 1, fp)) {
+                if (log->status != '0') {
+                    if (strcmp(codigo, log->cpf) == 0) {
+                        log->status = '0';
+                        encontrado = 1;
+                        fseek(fp, -sizeof(Login), SEEK_CUR);
+                        fwrite(log, sizeof(Login), 1, fp);
+                        printf("\t#              - Exclusao feita com sucesso -              #\n");
+                        break; // Se encontrar, não precisa continuar procurando
+                    }
+                }
+            }
+        }
+        if (!encontrado) {
+            printf("\t#              - Nenhum registro encontrado -              #\n");
+        }
+    }
+    fclose(fp);
+    free(log);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\n");
+    printf("\t>Pressione ENTER para continuar<\n");
+    getchar();
+
+}*/
