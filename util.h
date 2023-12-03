@@ -4,13 +4,15 @@
 // validar nomes
 int valida_nome(char *nome);
 int eh_letra_acentuada(char c);
-void le_nome(char *nome);
+char* le_nome(char *nome);
 
 // validar cpf
 int validarCPF(char *cpf);
-char* le_cpf(char *cpf);
+void ler_cpf(char cpf[]);
+void removerCaracteresNaoNumericos(char cpf[]);
 
 // funcoes uteis
 void limpar_buffer();
 int s_ou_n(char* op);
 int validaTelefone(char *telefone);
+void remove_nao_numericos(char *str);

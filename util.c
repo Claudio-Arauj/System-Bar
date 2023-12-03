@@ -44,77 +44,73 @@ int eh_letra_acentuada(char c) { // Adaptada do Chat GPT e com ajuda de Matheus 
   return 0;
 }
 
-void le_nome(char *nome){
+char* le_nome(char *nome){
   int confirm;
   do{
-    fgets(nome,100,stdin);
+    printf("\t#       Nome: ");
+    fgets(nome, 100, stdin);
+    nome[strcspn(nome, "\n")] = '\0';  // Remover o \n do final da string
     confirm = valida_nome(nome);
+  } while(confirm != 1);
 
-    if (confirm == 0){
-      printf("\tInvalido, Digite novamente: ");
-    }
-  }while(confirm != 1);
+  return nome;
 }
-
 
 int validarCPF(char *cpf){ //Total credito da funcao para Eduardo Edson Batista Cordeiro Alves / @eduardoedson no github no link https://gist.github.com/eduardoedson/8f991b6d234a9ebdcbe3
 
-  int i, j, digito1 = 0, digito2 = 0;
+  //validação de cpf retirado do site http://wurthmann.blogspot.com/ e sofreu algumas adpatações por Matheus Diniz
+    // Remova os caracteres de pontuação (.) e hífen (-) do CPF
+    removerCaracteresNaoNumericos(cpf);
 
-  if(strlen(cpf) != 11){
-    return 0;
-  }
-  else if((strcmp(cpf,"00000000000") == 0) || (strcmp(cpf,"11111111111") == 0) || (strcmp(cpf,"22222222222") == 0) || (strcmp(cpf,"33333333333") == 0) || (strcmp(cpf,"44444444444") == 0) || (strcmp(cpf,"55555555555") == 0) ||
-    (strcmp(cpf,"66666666666") == 0) || (strcmp(cpf,"77777777777") == 0) || (strcmp(cpf,"88888888888") == 0) || (strcmp(cpf,"99999999999") == 0)){
-      ///se o CPF tiver todos os números iguais ele é inválido.
+    int i, j, digito1 = 0, digito2 = 0;
+
+    if (strlen(cpf) != 11)
+        return 0;
+    else if ( 
+          (strcmp(cpf, "22222222222") == 0) || (strcmp(cpf, "33333333333") == 0) ||
+          (strcmp(cpf, "44444444444") == 0) || (strcmp(cpf, "55555555555") == 0) ||
+          (strcmp(cpf, "66666666666") == 0) || (strcmp(cpf, "77777777777") == 0) ||
+          (strcmp(cpf, "88888888888") == 0) || (strcmp(cpf, "99999999999") == 0))
       return 0;
-    }
-  else{
-    ///digito 1---------------------------------------------------
-    for(i = 0, j = 10; i < strlen(cpf)-2; i++, j--){ ///multiplica os números de 10 a 2 e soma os resultados dentro de digito1
-      digito1 += (cpf[i]-48) * j;
-    } 
-    digito1 %= 11;
-    if(digito1 < 2){
-      digito1 = 0;
-    }
-    else{
-      digito1 = 11 - digito1;
-    }
-    if((cpf[9]-48) != digito1){ ///se o digito 1 não for o mesmo que o da validação CPF é inválido
-      return 0;
-    }
-    else{
-      ///digito 2--------------------------------------------------
-      ///multiplica os números de 11 a 2 e soma os resultados dentro de digito2
-      for(i = 0, j = 11; i < strlen(cpf)-1; i++, j--){ 
-        digito2 += (cpf[i]-48) * j;
+    else {
+      // Digito 1
+      for (i = 0, j = 10; i < 9; i++, j--) {
+          digito1 += (cpf[i] - '0') * j;
+      }
+      digito1 %= 11;
+      if (digito1 < 2)
+          digito1 = 0;
+      else
+          digito1 = 11 - digito1;
+      if ((cpf[9] - '0') != digito1)
+          return 0;
+
+      // Digito 2
+      for (i = 0, j = 11; i < 10; i++, j--) {
+          digito2 += (cpf[i] - '0') * j;
       }
       digito2 %= 11;
-      if(digito2 < 2){
-        digito2 = 0;
-      }
-      else{
-        digito2 = 11 - digito2;
-      }
-      if((cpf[10]-48) != digito2){ ///se o digito 2 não for o mesmo que o da validação CPF é inválido
-        return 0;
-      } 
+      if (digito2 < 2)
+          digito2 = 0;
+      else
+          digito2 = 11 - digito2;
+      if ((cpf[10] - '0') != digito2)
+          return 0;
     }
-  }
+
     return 1;
 }
 
-char* le_cpf(char *cpf){ // funcao de Maria Eloisa @EL0ISA
-int valido;
+void ler_cpf(char cpf[]) {
+    //função reutilizável para realizar a leitura do cpf
+    int c;
     do{
-        printf("\t#       CPF(numero apenas): ");
-        scanf("%[^\n]",cpf);
-        getchar();
-        fflush(stdin);
-        valido=validarCPF(cpf);
-    } while (valido!=1);
-    return cpf;
+      printf("\t#       CPF: ");
+      scanf("%s", cpf);
+      //função utilizada para limpar o buffer
+      limpar_buffer();
+      c=validarCPF(cpf);
+    }while(c!=1);
 }
 
 void limpar_buffer() { // Funcao criada por Matheus Diniz Fernandes / @Matheusdnf - detem todos os creditos.
@@ -187,3 +183,27 @@ int validaTelefone(char *telefone) // Apenas Brasil. Feito por Felipe Augusto gi
     return 1;
 }
 
+void remove_nao_numericos(char *str) {
+    int j = 0;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (isdigit(str[i])) {
+            str[j++] = str[i];
+        }
+    }
+
+    str[j] = '\0'; // Adiciona o caractere nulo ao final da nova string
+}
+
+void removerCaracteresNaoNumericos(char cpf[]) {
+    //feita pelo chat gpt
+    int len = strlen(cpf);
+    int k = 0;
+    for (int i = 0; i < len; i++) {
+        if (cpf[i] >= '0' && cpf[i] <= '9') {
+            cpf[k] = cpf[i];
+            k++;
+        }
+    }
+    cpf[k] = '\0'; // Adicione o terminador nulo ao final
+}
