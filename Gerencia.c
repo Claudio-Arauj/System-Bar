@@ -46,7 +46,6 @@ void acesso_gerencia(void){
         switch (op){
             case '1':
                 menu_login();
-                menu_gerencia();
                 break;
 
             case '2':
@@ -104,6 +103,9 @@ void menu_cadastramento(void){
 
 void menu_login(void){
 
+    Login *log;
+    FILE *fp;
+    int confi;
     system("clear||cls");
     printf("\t########################################\n");
     printf("\t#  ______        ______                #\n");
@@ -118,14 +120,31 @@ void menu_login(void){
     printf("\t#                                      #\n");
     printf("\t#            // - Login - //           #\n");
     printf("\t#                                      #\n");
-    printf("\t#        CPF:                          #\n");
-    printf("\t#       Senha:                         #\n");
-    printf("\t#                                      #\n");
-    printf("\t########################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-
+    log = (Login*)malloc(sizeof(Login));
+    fp = fopen("Cadastro.dat","rb");
+    if (fp == NULL) {
+        printf("Erro na leitura do arquivo\n!");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
+    }
+    else{
+        confi = confere_login(fp, log);
+        fclose(fp);
+        printf("\t#                                      #\n");
+        printf("\t########################################\n");
+        printf("\n");
+        printf("\t>Pressione ENTER para continuar<\n");
+        getchar();
+        if (confi != 0){
+            menu_gerencia();
+        }
+        else{
+            printf("\n\t>CREDENCIAIS INVALIDAS<\n");
+            getchar();
+        }
+    }
+    free(log);
 }
 
 void menu_gerencia(void){
@@ -387,6 +406,7 @@ void tela_funcionarios(void){
         break;
 
     case '4':
+        atualiza_funcionario();
         break;
 
     case '0':
@@ -401,9 +421,8 @@ void tela_funcionarios(void){
 
 Login* preenche_login(void){
     Login* log;
-    int eh_igual,eh_numero;
-    char conf_senha[25];
     char cpf[15];
+    int eh_numero;
 
     log = (Login*) malloc(sizeof(Login));
     
@@ -416,43 +435,14 @@ Login* preenche_login(void){
         eh_numero = validaTelefone(log->telefone);
     } while(eh_numero != 1);
 
-    //remove_nao_numericos(cpf);
-
     strcpy(log->cpf,cpf);
     log->cpf[strcspn(log->cpf, "\n")] = '\0'; // Remover o \n do final da strings
-    do{
-        printf("\t#       Senha: ");
-        fgets(log->senha,25,stdin);
-        log->senha[strcspn(log->senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
-        printf("\t#     Confirmar Senha: ");
-        fgets(conf_senha,25,stdin);
-        conf_senha[strcspn(conf_senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
-        eh_igual = compara_senha(log->senha, conf_senha);
-        if(eh_igual != 1){
-            printf("\n\t(Senha Desigual ou maior que 25 caracteres)\n");
-        }
-    }while(eh_igual != 1);
+    
+    le_senha(log->senha);
 
     log->status = '1';
 
     return log;
-}
-
-int compara_senha(char* senha, char* conf_senha){
-    int tam,tam2;
-
-    tam = strlen(senha);
-    tam2 = strlen(conf_senha);
-
-    if((tam > 25)||(tam2 > 25)){
-        return 0;
-    }
-
-    if(strcmp(senha, conf_senha)!= 0){
-        return 0;
-    }
-    return 1;
-
 }
 
 void lista_funcionarios(FILE* fp){
@@ -573,12 +563,11 @@ void excluir_funcionario(void){
     getchar();
 }
 
-/*void atualiza_estoque(void){
+void atualiza_funcionario(void){
 
     FILE* fp;
     Login* log;
     char codigo[15];
-    char escolha[2];
     int encontrado = 0; // Variável para verificar se encontrou o registro
 
     log = (Login*)malloc(sizeof(Login));
@@ -594,27 +583,13 @@ void excluir_funcionario(void){
         printf("\t#    Insira o CPF do Funcionario: ");
         fgets(codigo, sizeof(codigo), stdin);
         codigo[strcspn(codigo, "\n")] = '\0'; // Remover o \n do final da string
-
-        printf("\t#    1 - CPF                                               #\n");
-        printf("\t#    2 - Nome                                              #\n");
-        printf("\t#    3 - Numero                                            #\n");
-        printf("\t#    4 - Senha                                             #\n");
-        printf("\t#    0 - Sair                                              #\n");
-        printf("\t#    Insira a opcao que deseja alterar: ");
-        scanf("%1s", escolha);
-        limpar_buffer();
-        if (escolha[0] != 'n'){
-            while (fread(log, sizeof(Login), 1, fp)) {
-                if (log->status != '0') {
-                    if (strcmp(codigo, log->cpf) == 0) {
-                        log->status = '0';
-                        encontrado = 1;
-                        fseek(fp, -sizeof(Login), SEEK_CUR);
-                        fwrite(log, sizeof(Login), 1, fp);
-                        printf("\t#              - Exclusao feita com sucesso -              #\n");
-                        break; // Se encontrar, não precisa continuar procurando
-                    }
-                }
+        while (fread(log, sizeof(Login), 1, fp)) {
+            if (log->status != '0') {
+                if (strcmp(codigo, log->cpf) == 0){
+                    muda_funcionario(fp, log);
+                    encontrado = 1;
+                    break;
+                }    
             }
         }
         if (!encontrado) {
@@ -623,10 +598,79 @@ void excluir_funcionario(void){
     }
     fclose(fp);
     free(log);
+    printf("\t#             - Registro realizado com sucesso -           #\n");
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
-}*/
+}
+
+void muda_funcionario(FILE* fp, Login* log){
+    char escolha[2];
+    int eh_numero;
+    printf("\t#    1 - CPF                                               #\n");
+    printf("\t#    2 - Nome                                              #\n");
+    printf("\t#    3 - Numero                                            #\n");
+    printf("\t#    4 - Senha                                             #\n");
+    printf("\t#    0 - Sair                                              #\n");
+    printf("\t#    Insira a opcao que deseja alterar: ");
+    scanf("%1s", escolha);
+    limpar_buffer();
+    switch (escolha[0]){
+        case '1':
+            ler_cpf(log->cpf);
+            break;
+
+        case '2':
+            le_nome(log->nome);
+            break;
+
+        case '3':
+            do {
+                printf("\t#       Celular[Ex:(84)99923-2131]: "); 
+                fgets(log->telefone, sizeof(log->telefone), stdin);
+                log->telefone[strcspn(log->telefone, "\n")] = '\0';  // Remover o \n do final da string
+                eh_numero = validaTelefone(log->telefone);
+            } while(eh_numero != 1);
+            break;
+
+        case '4':
+            le_senha(log->senha);
+            break;
+
+        case '0':
+            break;
+        
+        default:
+            printf("\t#               - Digite uma opcao valida -                #\n");
+            getchar();
+            break;
+    }
+    fseek(fp, -sizeof(Login), SEEK_CUR);
+    fwrite(log, sizeof(Login), 1, fp);
+}
+
+int confere_login(FILE* fp, Login* log){
+    char senha[25];
+    char cpf[15];
+    printf("\t#       CPF: ");
+    scanf("%s", cpf);
+    limpar_buffer();
+
+    printf("\t#       Senha: ");
+    fgets(senha,25,stdin);
+    senha[strcspn(senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
+
+    while (fread(log, sizeof(Login), 1, fp)) {
+        if (log->status != '0') {
+            if (strcmp(cpf, log->cpf) == 0){
+                if (strcmp(senha, log->senha) == 0){
+                    return 1;
+                }
+            }    
+        }
+    }
+    return 0;
+}
