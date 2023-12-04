@@ -207,3 +207,49 @@ void removerCaracteresNaoNumericos(char cpf[]) {
     }
     cpf[k] = '\0'; // Adicione o terminador nulo ao final
 }
+
+void le_senha(char* senha){
+    char conf_senha[25];
+    int eh_igual;
+    do{
+        printf("\t#       Senha: ");
+        fgets(senha,25,stdin);
+        senha[strcspn(senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
+        printf("\t#     Confirmar Senha: ");
+        fgets(conf_senha,25,stdin);
+        conf_senha[strcspn(conf_senha, "\n")] = '\0'; // Funcao para tirar o \n do fgets
+        eh_igual = compara_senha(senha, conf_senha);
+        if(eh_igual != 1){
+            printf("\n\t(Senha Desigual ou maior que 25 caracteres)\n");
+        }
+    }while(eh_igual != 1);
+}
+
+int compara_senha(char* senha, char* conf_senha){
+  int tam,tam2;
+
+  tam = strlen(senha);
+  tam2 = strlen(conf_senha);
+
+  if((tam > 25)||(tam2 > 25)){
+    return 0;
+  }
+
+  if(strcmp(senha, conf_senha)!= 0){
+    return 0;
+  }
+  return 1;
+
+}
+
+void le_numero(char* telefone){
+
+  int eh_numero;
+  do {
+    printf("\t#       Celular[Ex:(84)99923-2131]: "); 
+    fgets(telefone, sizeof(telefone), stdin);
+    telefone[strcspn(telefone, "\n")] = '\0';  // Remover o \n do final da string
+    eh_numero = validaTelefone(telefone);
+  } while(eh_numero != 1);
+
+}

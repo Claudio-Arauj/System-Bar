@@ -16,3 +16,6 @@ void limpar_buffer();
 int s_ou_n(char* op);
 int validaTelefone(char *telefone);
 void remove_nao_numericos(char *str);
+void le_senha(char* senha);
+int compara_senha(char* senha, char* conf_senha);
+void le_numero(char* telefone);
