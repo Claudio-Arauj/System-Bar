@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "util.h"
-#include "Globals.h"
+#include "Gerencia.h"
+#include "Estoque.h"
+#include "Clientes.h"
 
 int valida_nome(char *nome) { // Adaptada do Chat GPT
   int tam = strlen(nome);
@@ -251,5 +254,63 @@ void le_numero(char* telefone){
     telefone[strcspn(telefone, "\n")] = '\0';  // Remover o \n do final da string
     eh_numero = validaTelefone(telefone);
   } while(eh_numero != 1);
+
+}
+
+// GERADOR DE CHAVE (CHATGPT) Funcao de @fel-ps
+void gerarCodigoAleatorio(char *id) 
+{
+    // Inicializa a semente do gerador de números aleatórios com o tempo atual
+    srand(time(NULL));
+
+    // Gera o primeiro caractere (letra maiúscula)
+    id[0] = 'A' + (rand() % 26);
+
+    // Gera o segundo caractere (número de 0 a 9)
+    id[1] = '0' + (rand() % 10);
+
+    // Gera os três caracteres restantes
+    for (int i = 2; i < 6; ++i) {
+        id[i] = gerarCaractereAleatorio();
+    }
+
+    // Adiciona o caractere nulo no final para formar uma string válida
+    id[5] = '\0';
+}
+
+// GERADOR DE CHAVE (CHATGPT)
+char gerarCaractereAleatorio() { // Funcao de @fel-ps
+    // Gera um número aleatório entre 0 e 35
+    int randNum = rand() % 36;
+
+    // Converte o número para o caractere correspondente
+    if (randNum < 10) {
+        return '0' + randNum; // Números de 0 a 9
+    } else {
+        return 'A' + (randNum - 10); // Letras maiúsculas de A a Z
+    }
+}
+
+int verifica_cpf(char* cpf){ // Feita com ajuda de @fel-ps
+
+  FILE* fp;
+  Login* log;
+
+  log = (Login*)malloc(sizeof(Login));
+  fp = fopen("Cadastro.dat", "rb");
+
+  if (fp == NULL) {
+    printf("\n\tErro na criacao\n");
+    return 0;
+  }
+
+  while(fread(log, sizeof(Login), 1, fp)) {
+    if ((strcmp(log->cpf, cpf) == 0) && (log->status != '0')) {
+        return 0;
+    }
+  }
+  fclose(fp);
+  free(log);
+  return 1;
 
 }

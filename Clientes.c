@@ -11,7 +11,6 @@
 #include "Clientes.h"
 #include "Estoque.h"
 #include "util.h"
-#include "Globals.h"
 
 void menu_cliente(void){ 
 
@@ -128,30 +127,42 @@ void tela_pedidos(void){
 }
 
 void tela_comidas(void){
-
-    //char escolha;
-    //char quantidade[2];
+    FILE* fp;
+    Estoque* est;
+    int comidas_exibidas = 0;
+    
+    est = (Estoque*) malloc(sizeof(Estoque));
+    
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Comidas - //                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n"); 
-    printf("\t#   - Comidas Disponiveis:                                 #\n"); // Meramente ilustrativo
-    printf("\t#     1. Frango Assado            R$ xx,xx                 #\n");
-    printf("\t#     2. File                     R$ xx,xx                 #\n");
-    printf("\t#     3. Salada                   R$ xx,xx                 #\n");
-    printf("\t#     4. Carne de Sol             R$ xx,xx                 #\n"); // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1
+    fp = fopen("Estoque.dat", "rb");
+    if (fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
+            if ((est->comida_bebida == 'c') && (est->quantidade > 0)) {
+                if (!comidas_exibidas) {
+                    printf("\t#   - Comidas Disponiveis:                                 #\n");
+                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                    comidas_exibidas = 1;
+                }
+                exibe_estoque_comida(est);
+            }
+        } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1
+        printf("\t#                                                          #\n");
+        printf("\t############################################################\n");
+        printf("\t#                                                          #\n");
+        printf("\t#   - Qual sua Escolha? \n");
+        printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+        fclose(fp);
+    }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Qual sua Escolha?(Apenas Numero) \n");
-    //scanf("%c", &escolha);
-    //getchar();
-    printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
-    //scanf("%s", quantidade);
-    //getchar();
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
+    free(est);
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
@@ -159,30 +170,41 @@ void tela_comidas(void){
 }
 
 void tela_bebidas(void){
+    FILE* fp;
+    Estoque* est;
+    int comidas_exibidas = 0;
+    
+    est = (Estoque*) malloc(sizeof(Estoque));
 
-    //char escolha;
-    //char quantidade[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#                // - Tela de Bebidas - //                 #\n");
     printf("\t############################################################\n");
-    printf("\t#                                                          #\n"); 
-    printf("\t#   - Bebidas Disponiveis: (Valor por Copo)                #\n"); // Meramente ilustrativo
-    printf("\t#     1. Whisky                   R$ xx,xx                 #\n");
-    printf("\t#     2. Chope                    R$ xx,xx                 #\n");
-    printf("\t#     3. Cerveja                  R$ xx,xx                 #\n");
-    printf("\t#     4. Pinga                    R$ xx,xx                 #\n"); // Vai colocando todos as bebidas que estao disponiveis no momento que o estoque estiver maior que 1
+    printf("\t#                                                          #\n");
+    fp = fopen("Estoque.dat", "rb");
+    if (fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
+            if ((est->comida_bebida == 'b') && (est->quantidade > 0)) {
+                if (!comidas_exibidas) {
+                    printf("\t#   - Bebidas Disponiveis: (Valor por Copo)                #\n");
+                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                    comidas_exibidas = 1;
+                }
+                exibe_estoque_bebida(est);
+            }
+        } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1printf("\t#                                                          #\n");
+        printf("\t############################################################\n");
+        printf("\t#                                                          #\n");
+        printf("\t#   - Qual sua Escolha? \n");
+        printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+        fclose(fp);
+    }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Qual sua Escolha?(Apenas Numero) \n");
-    //scanf("%c", &escolha);
-    //getchar();
-    printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
-    //scanf("%s", quantidade);
-    //getchar();
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
+    free(est);
     printf("\n");
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();

@@ -1,6 +1,7 @@
 // definicao do struct do programa
 typedef struct pedido{
     char mesa[2];
+    char comanda[5];
     char status;
     
 }Pedido;
