@@ -10,7 +10,6 @@
 #include <string.h>
 #include "Estoque.h"
 #include "util.h"
-#include "Globals.h"
 
 void tela_estoque(void){
 

@@ -6,7 +6,6 @@
 #include "Clientes.h"
 #include "Gerencia.h"
 #include "util.h"
-#include "Globals.h"
 
 
 // Assinatura das Funcoes para funcionar de acordo sem warning:

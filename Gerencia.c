@@ -10,7 +10,6 @@
 #include "Gerencia.h"
 #include "Estoque.h"
 #include "util.h"
-#include "Globals.h"
 
 void acesso_gerencia(void){
 
@@ -422,11 +421,18 @@ void tela_funcionarios(void){
 Login* preenche_login(void){
     Login* log;
     char cpf[15];
-    int eh_numero;
+    int eh_numero, eh_cpf;
 
     log = (Login*) malloc(sizeof(Login));
     
-    ler_cpf(cpf);
+    do{
+        ler_cpf(cpf);
+        eh_cpf = verifica_cpf(cpf);
+        if (eh_cpf == 0){
+            printf("\t#        - CPF ja Existente!!! -       #\n");
+            getchar();
+    }
+    }while(eh_cpf != 1);
     le_nome(log->nome);
     do {
         printf("\t#       Celular[Ex:(84)99923-2131]: "); 
@@ -437,12 +443,13 @@ Login* preenche_login(void){
 
     strcpy(log->cpf,cpf);
     log->cpf[strcspn(log->cpf, "\n")] = '\0'; // Remover o \n do final da strings
-    
+        
     le_senha(log->senha);
 
     log->status = '1';
 
     return log;
+
 }
 
 void lista_funcionarios(FILE* fp){
