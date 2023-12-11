@@ -5,6 +5,7 @@ typedef struct pedido{
     char status; // 'p' vai ser para pendente; 'f' para feito/finalizado/recebido
     char pedidos[50][10];
     float valores[10];
+    int quantidade[10];
     
 }Pedido;
 
@@ -21,3 +22,5 @@ char *strcasestr(const char *haystack, const char *needle);
 void salvar_carrinho(Pedido *pedido);
 void confere_numero_mesa(char* mesa);
 int eh_s_ou_n(char sn);
+void finaliza_pedido(void);
+void esvaziarArquivo(FILE *arquivo);

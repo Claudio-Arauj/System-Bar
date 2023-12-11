@@ -186,38 +186,13 @@ void exibe_tudo(FILE* fp, Estoque* est){
 
 void tela_visualizar_pedido(void){
 
-    char confirm[2];
-    //char num[2];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#              // - Finalizacao de Pedido - //             #\n");
     printf("\t############################################################\n");
-    printf("\t#                                                          #\n"); 
-    printf("\t#   - Comidas Escolhidas:                                  #\n"); // Meramente ilustrativo
-    printf("\t#     - Frango Assado            R$ xx,xx                  #\n");
-    printf("\t#     - File                     R$ xx,xx                  #\n");
     printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Bebidas Escolhidas:                                  #\n");
-    printf("\t#     - Chope                    R$ xx,xx                  #\n");
-    printf("\t#     - Chope                    R$ xx,xx                  #\n");
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Informe o Numero da Mesa: \n");
-    //scanf("%s", num);
-    //getchar();
-    printf("\t#   - Total: R$ xx,xx                                      #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - (Digite 0 para Excluir TODAS suas escolhas)          #\n");
-    do{
-        printf("\t#   - Confirmar Pedido?(s) ou (n): ");
-        scanf("%1s", confirm);
-        limpar_buffer();
-        s_ou_n(confirm);
-    }while(s_ou_n(confirm) != 1);
-    printf("\n");
+    printf("\t#   - Pedidos Escolhidos:                                  #\n"); 
+    finaliza_pedido();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -261,7 +236,7 @@ void tela_ajuda(void){
 // Referência: OpenAI GPT-3 ChatGPT
 void add_pedido(FILE* fp, Estoque* est) {
     char escolha, nome[50];
-    float quant;
+    int quant;
     Pedido* ped;
 
     ped = (Pedido*)malloc(sizeof(Pedido));
@@ -284,12 +259,13 @@ void add_pedido(FILE* fp, Estoque* est) {
                 if ((strcmp(nome, est->nome) == 0) && (est->quantidade > 0)) {
                     strcpy(ped->pedidos[i], est->nome);
                     printf("\t#   - Informe a Quantidade (Apenas Numero): ");
-                    scanf("%f", &quant);
+                    scanf("%d", &quant);
                     getchar();  // Limpar o buffer do Enter
 
                     if (est->quantidade >= quant) {
                         est->quantidade -= quant;
                         ped->valores[i] = est->preco * quant;
+                        ped->quantidade[i] = quant;
                         fseek(fp, -sizeof(Estoque), SEEK_CUR);
                         fwrite(est, sizeof(Estoque), 1, fp);
                         itemEncontrado = 1;  // Marca que o item foi encontrado
@@ -369,7 +345,7 @@ void guardar_pedido(Pedido *pedido) { // guardara os pedidos ja realizados
     fclose(fp);
 }
 
-void confere_numero_mesa(char* mesa) {
+void confere_numero_mesa(char* mesa) { // Feito com a ajuda do ChatGPT
     do {
         printf("\t#  - Informe o numero da mesa (So numero de 2 digitos): ");
         scanf("%s", mesa);
@@ -401,4 +377,70 @@ void confere_numero_mesa(char* mesa) {
 
 int eh_s_ou_n(char sn) { // Feito com ajuda do chat gpt
     return (sn == 's' || sn == 'n') ? 1 : 0;
+}
+
+void finaliza_pedido(void){
+
+    FILE* fp;
+    Pedido* ped;
+    float preco_final = 0.0;
+    char confirm[2];
+
+    ped = (Pedido*)malloc(sizeof(Pedido));
+    fp = fopen("Carrinho.dat", "rb+");
+    if (fp == NULL){
+        printf("\t#             - Nao tem registro de cadastro -             #\n");
+    }
+    else{
+        while(fread(ped,sizeof(Pedido), 1, fp)){
+            int i;
+            for (i = 0; i <= 9; i++) { // ajuste feito pelo chatGPT para nao aparecer lixo
+                if (ped->pedidos[i][0] != '\0') {  // Verifica se o pedido não está vazio
+                    printf("\t#    - %-30s R$ %-5.2f  - %-2d -     #\n", ped->pedidos[i], ped->valores[i], ped->quantidade[i]);
+                    preco_final += ped->valores[i];
+                } else {
+                    break;  // Sai do loop se encontrar um pedido vazio
+                }
+            }
+            printf("\t#                                                          #\n");
+            printf("\t#  - Preco total: %.2f                                     \n", preco_final);
+            printf("\t#                                                          #\n");
+            printf("\t############################################################\n");
+            printf("\t#                                                          #\n");
+            printf("\t#    Mesa: %s                    Comanda: %s            #\n",ped->mesa, ped->comanda);
+            printf("\t#                                                          #\n");
+            do{
+                printf("\t#   - Confirmar Pedido?(s) ou (n): ");
+                scanf("%1s", confirm);
+                limpar_buffer();
+                s_ou_n(confirm);
+            }while(s_ou_n(confirm) != 1);
+            if (confirm[0] == 's'){
+                ped->status = 'p';
+                guardar_pedido(ped);
+                printf("\t#             - Registro realizado com sucesso -           #\n");
+                esvaziarArquivo(fp);
+            }
+            else{
+                printf("\t#                 - Registro nao realizado -               #\n");
+                fclose(fp);
+            }
+        }
+    }
+    free(ped);
+}
+
+void esvaziarArquivo(FILE *arquivo) { //funcao para esvaziar o carrinho do cliente feito pelo CHATGPT
+    // Fecha o arquivo
+    fclose(arquivo);
+
+    // Reabre o arquivo em modo de escrita, truncando-o para tamanho 0
+    arquivo = fopen("Carrinho.dat", "wb");  // Substitua "Carrinho.dat" pelo nome do seu arquivo
+    if (arquivo == NULL) {
+        perror("\t\tErro ao abrir o arquivo para esvaziar\n");
+        return;
+    }
+
+    // Fecha novamente o arquivo
+    fclose(arquivo);
 }
