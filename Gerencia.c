@@ -81,12 +81,12 @@ void menu_cadastramento(void){
     printf("\t#                                      #\n");
     printf("\t#          // - Cadastro - //          #\n");
     printf("\t#                                      #\n");
-    log = preenche_login();
     fp = fopen("Cadastro.dat","ab");
     if (fp == NULL) {
         printf("Erro na criacao do arquivo\n!");
         exit(1);
     }
+    log = preenche_login();
     fwrite(log, sizeof(Login), 1, fp);
     printf("\t#                                      #\n");
     printf("\t#   Senha de Acesso:                   #\n");
