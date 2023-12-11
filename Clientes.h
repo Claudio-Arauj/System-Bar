@@ -13,7 +13,7 @@ typedef struct pedido{
 void menu_cliente(void);
 void tela_pedidos(void);
 void tela_comidas(void);
-void tela_bebidas(void);
+void exibe_tudo(FILE* fp, Estoque* est);
 void tela_visualizar_pedido(void);
 void tela_ajuda(void);
 void add_pedido(FILE* fp, Estoque* est);

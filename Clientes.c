@@ -95,8 +95,7 @@ void tela_pedidos(void){
         printf("\t#   (Ao criar o carrinho, caso entre novamente o carrinho  #\n");
         printf("\t#   anterior sera perdido)                                 #\n");
         printf("\t#                                                          #\n");
-        printf("\t#   1. Adicionar Comida                                    #\n");
-        printf("\t#   2. Adicionar Bebida                                    #\n");
+        printf("\t#   1. Criar carrinho                                      #\n");
         printf("\t#                                                          #\n");
         printf("\t#   0. Sair da Tela                                        #\n");
         printf("\t#                                                          #\n");
@@ -113,10 +112,6 @@ void tela_pedidos(void){
         case '1':
             tela_comidas();
             break;
-        
-        case '2':
-            tela_bebidas();
-            break;
 
         case '0':
             break;
@@ -132,7 +127,6 @@ void tela_pedidos(void){
 void tela_comidas(void){
     FILE* fp;
     Estoque* est;
-    int comidas_exibidas = 0;
     
     est = (Estoque*) malloc(sizeof(Estoque));
     
@@ -146,16 +140,7 @@ void tela_comidas(void){
         printf("\t#             - Nao tem registro de cadastro -             #\n");
     }
     else{
-        while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
-            if ((est->comida_bebida == 'c') && (est->quantidade > 0)) {
-                if (!comidas_exibidas) {
-                    printf("\t#   - Comidas Disponiveis:                                 #\n");
-                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
-                    comidas_exibidas = 1;
-                }
-                exibe_estoque_comida(est);
-            }
-        } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1
+        exibe_tudo(fp, est);
         printf("\t#                                                          #\n");
         printf("\t############################################################\n");
         printf("\t#                                                          #\n");
@@ -171,45 +156,32 @@ void tela_comidas(void){
 
 }
 
-void tela_bebidas(void){
-    FILE* fp;
-    Estoque* est;
+void exibe_tudo(FILE* fp, Estoque* est){
     int comidas_exibidas = 0;
-    
-    est = (Estoque*) malloc(sizeof(Estoque));
+    int bebidas_exibidas = 0;
 
-    system("clear||cls");
-    printf("\t############################################################\n");
-    printf("\t#                // - Tela de Bebidas - //                 #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    fp = fopen("Estoque.dat", "rb+");
-    if (fp == NULL){
-        printf("\t#             - Nao tem registro de cadastro -             #\n");
-    }
-    else{
-        while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
-            if ((est->comida_bebida == 'b') && (est->quantidade > 0)) {
-                if (!comidas_exibidas) {
-                    printf("\t#   - Bebidas Disponiveis: (Valor por Copo)                #\n");
-                    printf("\t# -                  Nome                  - Preco - Qnt - #\n");
-                    comidas_exibidas = 1;
-                }
-                exibe_estoque_bebida(est);
+    while(fread(est, sizeof(Estoque), 1, fp)==1){ // Loop interrompido para aparecer uma vez só, feito com ajuda do Chat GPT
+        if ((est->comida_bebida == 'c') && (est->quantidade > 0)) {
+            if (!comidas_exibidas) {
+                printf("\t#   - Comidas Disponiveis:                                 #\n");
+                printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                comidas_exibidas = 1;
             }
-        } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1printf("\t#                                                          #\n");
-        printf("\t############################################################\n");
-        printf("\t#                                                          #\n");
-        add_pedido(fp, est);
-        fclose(fp);
+            exibe_estoque_comida(est);
+        }
+    } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1
+    printf("\t#----------------------------------------------------------#\n");
+    rewind(fp); //função para ler o arquivo de novo e poder mostrar as bebidas e comidas separadas.
+    while(fread(est, sizeof(Estoque), 1, fp)==1){
+        if ((est->comida_bebida == 'b') && (est->quantidade > 0)) {
+            if (!bebidas_exibidas) {
+                printf("\t#   - Bebidas:                                             #\n");
+                printf("\t# -                  Nome                  - Preco - Qnt - #\n");
+                bebidas_exibidas = 1;
+            }
+            exibe_estoque_bebida(est);
+        }
     }
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    free(est);
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-
 }
 
 void tela_visualizar_pedido(void){
@@ -285,17 +257,14 @@ void tela_ajuda(void){
 
 }
 
+// Parte do código baseado em sugestões fornecidas por um assistente virtual.
+// Referência: OpenAI GPT-3 ChatGPT
 void add_pedido(FILE* fp, Estoque* est) {
     char escolha, nome[50];
     float quant;
     Pedido* ped;
 
     ped = (Pedido*)malloc(sizeof(Pedido));
-    if (ped == NULL) {
-        fprintf(stderr, "Erro na alocação de memória para Pedido.\n");
-        exit(EXIT_FAILURE);
-    }
-
     rewind(fp);
 
     for (int i = 0; i <= 9; i++) {
@@ -306,6 +275,8 @@ void add_pedido(FILE* fp, Estoque* est) {
 
         // Voltar para o início do arquivo
         rewind(fp);
+
+        int itemEncontrado = 0;  // Adiciona uma variável para verificar se o item foi encontrado
 
         while (fread(est, sizeof(Estoque), 1, fp) == 1) {
             if (est->status != '0') {
@@ -321,26 +292,31 @@ void add_pedido(FILE* fp, Estoque* est) {
                         ped->valores[i] = est->preco * quant;
                         fseek(fp, -sizeof(Estoque), SEEK_CUR);
                         fwrite(est, sizeof(Estoque), 1, fp);
+                        itemEncontrado = 1;  // Marca que o item foi encontrado
                         break;  // Saia do loop após encontrar o item desejado
                     } else {
-                        printf("\t#  - Estoque indisponivel -  #\n");
+                        printf("\t#                - Estoque indisponivel -                  #\n");
                         i--;
                         break;  // Saia do loop após tratar o item indisponível
                     }
                 }
             }
         }
+        if (!itemEncontrado) {
+            printf("\t#                 - Item nao encontrado -                  #\n");
+            i--;  // Decrementa o contador somente se o item não foi encontrado
+        }
 
         printf("\t#     Adicionar mais pedidos? (s) ou (n): ");
         do {
-            scanf(" %c", &escolha); getchar();
+            scanf(" %c", &escolha);
+            limpar_buffer();
             eh_s_ou_n(escolha);
         } while (eh_s_ou_n(escolha) != 1);
 
         if (escolha != 's' || i == 9) {
             confere_numero_mesa(ped->mesa);
             gerarCodigoAleatorio(ped->comanda);
-            ped->status = 'p';
             salvar_carrinho(ped);
             break;
         }
