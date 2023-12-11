@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "Clientes.h"
 #include "Estoque.h"
+#include "Clientes.h"
 #include "util.h"
 
 void menu_cliente(void){ 
@@ -92,6 +92,9 @@ void tela_pedidos(void){
         printf("\t#                                                          #\n");
         printf("\t#                // - Tela de Pedidos - //                 #\n");
         printf("\t#                                                          #\n");
+        printf("\t#   (Ao criar o carrinho, caso entre novamente o carrinho  #\n");
+        printf("\t#   anterior sera perdido)                                 #\n");
+        printf("\t#                                                          #\n");
         printf("\t#   1. Adicionar Comida                                    #\n");
         printf("\t#   2. Adicionar Bebida                                    #\n");
         printf("\t#                                                          #\n");
@@ -138,7 +141,7 @@ void tela_comidas(void){
     printf("\t#                // - Tela de Comidas - //                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n"); 
-    fp = fopen("Estoque.dat", "rb");
+    fp = fopen("Estoque.dat", "rb+");
     if (fp == NULL){
         printf("\t#             - Nao tem registro de cadastro -             #\n");
     }
@@ -156,8 +159,7 @@ void tela_comidas(void){
         printf("\t#                                                          #\n");
         printf("\t############################################################\n");
         printf("\t#                                                          #\n");
-        printf("\t#   - Qual sua Escolha? \n");
-        printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+        add_pedido(fp, est);
         fclose(fp);
     }
     printf("\t#                                                          #\n");
@@ -181,7 +183,7 @@ void tela_bebidas(void){
     printf("\t#                // - Tela de Bebidas - //                 #\n");
     printf("\t############################################################\n");
     printf("\t#                                                          #\n");
-    fp = fopen("Estoque.dat", "rb");
+    fp = fopen("Estoque.dat", "rb+");
     if (fp == NULL){
         printf("\t#             - Nao tem registro de cadastro -             #\n");
     }
@@ -198,8 +200,7 @@ void tela_bebidas(void){
         } // Vai colocando todos as comidas que estao disponiveis no momento que o estoque estiver maior que 1printf("\t#                                                          #\n");
         printf("\t############################################################\n");
         printf("\t#                                                          #\n");
-        printf("\t#   - Qual sua Escolha? \n");
-        printf("\t#   - Informe a Quantidade(Apenas Numero) \n");
+        add_pedido(fp, est);
         fclose(fp);
     }
     printf("\t#                                                          #\n");
@@ -282,4 +283,146 @@ void tela_ajuda(void){
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
 
+}
+
+void add_pedido(FILE* fp, Estoque* est) {
+    char escolha, nome[50];
+    float quant;
+    Pedido* ped;
+
+    ped = (Pedido*)malloc(sizeof(Pedido));
+    if (ped == NULL) {
+        fprintf(stderr, "Erro na alocação de memória para Pedido.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    rewind(fp);
+
+    for (int i = 0; i <= 9; i++) {
+        printf("\t#   - Qual sua Escolha? ");
+        fgets(nome, sizeof(nome), stdin);
+        // Remover o \n
+        nome[strcspn(nome, "\n")] = '\0';
+
+        // Voltar para o início do arquivo
+        rewind(fp);
+
+        while (fread(est, sizeof(Estoque), 1, fp) == 1) {
+            if (est->status != '0') {
+                // Confere os nomes e se a quantidade do estoque ainda existe
+                if ((strcmp(nome, est->nome) == 0) && (est->quantidade > 0)) {
+                    strcpy(ped->pedidos[i], est->nome);
+                    printf("\t#   - Informe a Quantidade (Apenas Numero): ");
+                    scanf("%f", &quant);
+                    getchar();  // Limpar o buffer do Enter
+
+                    if (est->quantidade >= quant) {
+                        est->quantidade -= quant;
+                        ped->valores[i] = est->preco * quant;
+                        fseek(fp, -sizeof(Estoque), SEEK_CUR);
+                        fwrite(est, sizeof(Estoque), 1, fp);
+                        break;  // Saia do loop após encontrar o item desejado
+                    } else {
+                        printf("\t#  - Estoque indisponivel -  #\n");
+                        i--;
+                        break;  // Saia do loop após tratar o item indisponível
+                    }
+                }
+            }
+        }
+
+        printf("\t#     Adicionar mais pedidos? (s) ou (n): ");
+        do {
+            scanf(" %c", &escolha); getchar();
+            eh_s_ou_n(escolha);
+        } while (eh_s_ou_n(escolha) != 1);
+
+        if (escolha != 's' || i == 9) {
+            confere_numero_mesa(ped->mesa);
+            gerarCodigoAleatorio(ped->comanda);
+            ped->status = 'p';
+            salvar_carrinho(ped);
+            break;
+        }
+    }
+    getchar();
+    free(ped);
+}
+
+// FUNCAO FEITA PELO CHATGPT PARA COMPARAR STRINGS E RETORNAR NULL CASO DUAS STRINGS 
+// FOREM DIFERENTE EM ALGUM PONTO
+char *strcasestr(const char *haystack, const char *needle) {
+    while (*haystack != '\0') {
+        const char *h = haystack;
+        const char *n = needle;
+
+        while (*n != '\0' && tolower((unsigned char)*h) == tolower((unsigned char)*n)) {
+            h++;
+            n++;
+        }
+
+        if (*n == '\0') {
+            return (char *)haystack;  // Encontrou a substring
+        }
+
+        haystack++;
+    }
+
+    return NULL;  // Substring não encontrada
+}
+
+void salvar_carrinho(Pedido *pedido) { // guardara apenas o carrinho atual
+    FILE *fp = fopen("Carrinho.dat", "wb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo do carrinho.\n");
+        return;
+    }
+
+    fwrite(pedido, sizeof(Pedido), 1, fp);
+    fclose(fp);
+}
+
+void guardar_pedido(Pedido *pedido) { // guardara os pedidos ja realizados
+    FILE *fp = fopen("Pedidos.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo do carrinho.\n");
+        return;
+    }
+
+    fwrite(pedido, sizeof(Pedido), 1, fp);
+    fclose(fp);
+}
+
+void confere_numero_mesa(char* mesa) {
+    do {
+        printf("\t#  - Informe o numero da mesa (So numero de 2 digitos): ");
+        scanf("%s", mesa);
+
+        // Verifica se a string tem exatamente dois caracteres
+        if (strlen(mesa) == 2) {
+            // Verifica se ambos os caracteres são números
+            int numeros = 1;
+            for (int i = 0; i < 2; i++) {
+                if (!isdigit(mesa[i])) {
+                    numeros = 0;
+                    break;
+                }
+            }
+
+            // Se ambos os caracteres forem números, sai do loop
+            if (numeros) {
+                break;
+            }
+        }
+
+        // Limpa o buffer do teclado em caso de entrada inválida
+        while (getchar() != '\n');
+
+        printf("\t#   - Entrada invalida. Tente novamente.\n");
+
+    } while (1);
+}
+
+int eh_s_ou_n(char sn) { // Feito com ajuda do chat gpt
+    return (sn == 's' || sn == 'n') ? 1 : 0;
 }
