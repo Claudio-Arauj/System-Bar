@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <time.h>
 #include "Estoque.h"
 #include "Clientes.h"
 #include "util.h"
@@ -292,7 +293,7 @@ void add_pedido(FILE* fp, Estoque* est) {
 
         if (escolha != 's' || i == 9) {
             confere_numero_mesa(ped->mesa);
-            gerarCodigoAleatorio(ped->comanda);
+            gerarCodigoAleatorio(ped->comanda, time(NULL));
             salvar_carrinho(ped);
             break;
         }
@@ -334,14 +335,29 @@ void salvar_carrinho(Pedido *pedido) { // guardara apenas o carrinho atual
     fclose(fp);
 }
 
-void guardar_pedido(Pedido *pedido) { // guardara os pedidos ja realizados
+void guardar_pedido(Pedido *pedido) {
     FILE *fp = fopen("Pedidos.dat", "ab");
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo do carrinho.\n");
+        printf("Erro ao abrir o arquivo de pedidos.\n");
         return;
     }
-
+    // Move o ponteiro para o início do arquivo
+    fseek(fp, 0, SEEK_SET);
+    // Procura pelo registro correspondente ao pedido na comanda
+    Pedido temp;
+    while (fread(&temp, sizeof(Pedido), 1, fp) == 1) {
+        if (strcmp(temp.comanda, pedido->comanda) == 0) {
+            // Encontrou um registro com a mesma comanda, substitui os dados
+            fseek(fp, -sizeof(Pedido), SEEK_CUR);
+            fwrite(pedido, sizeof(Pedido), 1, fp);
+            fclose(fp);
+            return;
+        }
+    }
+    // Não encontrou um registro correspondente, adiciona um novo registro
+    fseek(fp, 0, SEEK_END);
     fwrite(pedido, sizeof(Pedido), 1, fp);
+
     fclose(fp);
 }
 
@@ -383,7 +399,6 @@ void finaliza_pedido(void){
 
     FILE* fp;
     Pedido* ped;
-    float preco_final = 0.0;
     char confirm[2];
 
     ped = (Pedido*)malloc(sizeof(Pedido));
@@ -393,22 +408,7 @@ void finaliza_pedido(void){
     }
     else{
         while(fread(ped,sizeof(Pedido), 1, fp)){
-            int i;
-            for (i = 0; i <= 9; i++) { // ajuste feito pelo chatGPT para nao aparecer lixo
-                if (ped->pedidos[i][0] != '\0') {  // Verifica se o pedido não está vazio
-                    printf("\t#    - %-30s R$ %-5.2f  - %-2d -     #\n", ped->pedidos[i], ped->valores[i], ped->quantidade[i]);
-                    preco_final += ped->valores[i];
-                } else {
-                    break;  // Sai do loop se encontrar um pedido vazio
-                }
-            }
-            printf("\t#                                                          #\n");
-            printf("\t#  - Preco total: %.2f                                     \n", preco_final);
-            printf("\t#                                                          #\n");
-            printf("\t############################################################\n");
-            printf("\t#                                                          #\n");
-            printf("\t#    Mesa: %s                    Comanda: %s            #\n",ped->mesa, ped->comanda);
-            printf("\t#                                                          #\n");
+            mostra_ficha(ped);
             do{
                 printf("\t#   - Confirmar Pedido?(s) ou (n): ");
                 scanf("%1s", confirm);
@@ -417,7 +417,8 @@ void finaliza_pedido(void){
             }while(s_ou_n(confirm) != 1);
             if (confirm[0] == 's'){
                 ped->status = 'p';
-                guardar_pedido(ped);
+                fwrite(ped, sizeof(Pedido), 1, fp);
+                copiarArquivo();
                 printf("\t#             - Registro realizado com sucesso -           #\n");
                 esvaziarArquivo(fp);
             }
@@ -428,6 +429,28 @@ void finaliza_pedido(void){
         }
     }
     free(ped);
+}
+
+void mostra_ficha(Pedido* ped){
+
+    float preco_final = 0.0;
+    int i;
+    for (i = 0; i <= 9; i++) { // ajuste feito pelo chatGPT para nao aparecer lixo
+        if (ped->pedidos[i][0] != '\0') {  // Verifica se o pedido não está vazio
+            printf("\t#    - %-30s R$ %-5.2f  - %-2d -     #\n", ped->pedidos[i], ped->valores[i], ped->quantidade[i]);
+            preco_final += ped->valores[i];
+        } else {
+            break;  // Sai do loop se encontrar um pedido vazio
+        }
+    }
+    printf("\t#                                                          #\n");
+    printf("\t#  - Preco total: %.2f                                     \n", preco_final);
+    printf("\t#                                                          #\n");
+    printf("\t############################################################\n");
+    printf("\t#                                                          #\n");
+    printf("\t#    Mesa: %s                    Comanda: %s            #\n",ped->mesa, ped->comanda);
+    printf("\t#                                                          #\n");
+
 }
 
 void esvaziarArquivo(FILE *arquivo) { //funcao para esvaziar o carrinho do cliente feito pelo CHATGPT
@@ -443,4 +466,24 @@ void esvaziarArquivo(FILE *arquivo) { //funcao para esvaziar o carrinho do clien
 
     // Fecha novamente o arquivo
     fclose(arquivo);
+}
+
+void copiarArquivo(void) { // Funcao feita pelo chatgpt
+    FILE *origem = fopen("Carrinho.dat", "rb");
+    FILE *destino = fopen("Pedidos.dat", "ab");
+
+    if (origem == NULL || destino == NULL) {
+        printf("Erro ao abrir os arquivos.\n");
+        return;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), origem)) > 0) {
+        fwrite(buffer, 1, bytesRead, destino);
+    }
+
+    fclose(origem);
+    fclose(destino);
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <time.h>
 #include "Estoque.h"
 #include "Clientes.h"
 #include "Gerencia.h"
@@ -17,7 +18,7 @@ void menu_equipe(void);
 //Programa Principal -
 
 int main(void){
-
+    srand(time(NULL));
     char op;
     while (op!='0'){
         op = menu_inicial();
