@@ -25,3 +25,4 @@ void excluir_funcionario(void);
 void atualiza_funcionario(void);
 void muda_funcionario(FILE* fp, Login* log);
 int confere_login(FILE* fp, Login* log);
+void pedidos_pendentes(void);

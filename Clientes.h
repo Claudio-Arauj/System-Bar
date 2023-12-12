@@ -24,3 +24,5 @@ void confere_numero_mesa(char* mesa);
 int eh_s_ou_n(char sn);
 void finaliza_pedido(void);
 void esvaziarArquivo(FILE *arquivo);
+void mostra_ficha(Pedido* ped);
+void copiarArquivo(void);

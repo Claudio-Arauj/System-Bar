@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "Gerencia.h"
 #include "Estoque.h"
+#include "Gerencia.h"
+#include "Clientes.h"
 #include "util.h"
 
 void acesso_gerencia(void){
@@ -188,7 +189,6 @@ void menu_gerencia(void){
 
             case '2':
                 tela_pedidos_gerencia();
-                tela_comanda();
                 break;
 
             case '3':
@@ -216,7 +216,6 @@ void menu_gerencia(void){
 
 void tela_pedidos_gerencia(void){
 
-    //char entrega[9];
     system("clear||cls");
     printf("\t############################################################\n");
     printf("\t#            ______        ______                          #\n");
@@ -231,16 +230,8 @@ void tela_pedidos_gerencia(void){
     printf("\t#                                                          #\n");
     printf("\t#               // - Pedidos Pendentes - //                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   - Total de pedidos pendentes (x)                       #\n");
-    printf("\t#     Lista dos ID's de Pedidos:                           #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#     - 00000000x - Mesa XX                                #\n");
-    printf("\t#     - 00000000x - Mesa XX                                #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#     (Digite Apenas um 0 para sair)                       #\n");
-    printf("\t#   - Informe ID da Comanda: "); 
-    //scanf("%s", entrega);
-    getchar();
+    printf("\t#   - Total de pedidos pendentes                           #\n");
+    pedidos_pendentes();
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -680,4 +671,60 @@ int confere_login(FILE* fp, Login* log){
         }
     }
     return 0;
+}
+
+void pedidos_pendentes(void) {
+    FILE* fp;
+    Pedido* ped;
+    char coma[6], escolha[2];
+
+    ped = (Pedido*)malloc(sizeof(Pedido));
+
+    fp = fopen("Pedidos.dat", "rb+");
+    if (fp == NULL) {
+        printf("\t#              - Nenhum registro encontrado -              #\n");
+    } else {
+        int comandaEncontrada = 0;
+        while (fread(ped, sizeof(Pedido), 1, fp) == 1) {
+            if (ped->status != 'f') {
+                printf("\t#   - %s - Mesa %-2s                                      #\n", ped->comanda, ped->mesa);
+                comandaEncontrada = 1;
+            }
+        }
+        if (!comandaEncontrada) {
+            printf("\t#              - Nenhum registro encontrado -              #\n");
+        } else {
+            printf("\t# - Informe ID da Comanda: ");
+            scanf("%5s", coma);
+            getchar(); // Limpar o buffer
+            printf("\t#                                                          #\n");
+            rewind(fp);
+            comandaEncontrada = 0;
+            while (fread(ped, sizeof(Pedido), 1, fp)) {
+                if ((strcmp(coma, ped->comanda) == 0) && (ped->status != 'f')) {
+                    mostra_ficha(ped);
+                    printf("\t# - Confirmar Finalizacao do Pedido? (s) ou (n): ");
+                    do {
+                        scanf("%1s", escolha);
+                        limpar_buffer();
+                        s_ou_n(escolha);
+                    } while (s_ou_n(escolha) != 1);
+
+                    if (escolha[0] != 'n') {
+                        ped->status = 'f';
+                        fseek(fp, -sizeof(Pedido), SEEK_CUR);
+                        fwrite(ped, sizeof(Pedido), 1, fp);
+                        printf("\t#                  - Pedido Realizado!!! -                 #\n");
+                    }
+                    comandaEncontrada = 1;
+                    break;  // Saia do loop após encontrar e processar a comanda
+                }
+            }
+            if (!comandaEncontrada) {
+                printf("\t#              - Nenhum registro encontrado -              #\n");
+            }
+        }
+        fclose(fp);
+    }
+    free(ped);
 }

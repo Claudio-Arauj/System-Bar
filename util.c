@@ -258,37 +258,17 @@ void le_numero(char* telefone){
 }
 
 // GERADOR DE CHAVE (CHATGPT) Funcao de @fel-ps
-void gerarCodigoAleatorio(char *id) 
-{
-    // Inicializa a semente do gerador de números aleatórios com o tempo atual
+void gerarCodigoAleatorio(char *id, unsigned int seed) {
+    srand(seed);
     srand(time(NULL));
 
-    // Gera o primeiro caractere (letra maiúscula)
-    id[0] = 'A' + (rand() % 26);
-
-    // Gera o segundo caractere (número de 0 a 9)
-    id[1] = '0' + (rand() % 10);
-
-    // Gera os três caracteres restantes
-    for (int i = 2; i < 6; ++i) {
-        id[i] = gerarCaractereAleatorio();
+    // Gera uma sequência aleatória de 5 caracteres alfanuméricos
+    for (int i = 0; i < 5; ++i) {
+        id[i] = '0' + (rand() % 10);  // Números de 0 a 9
     }
 
     // Adiciona o caractere nulo no final para formar uma string válida
     id[5] = '\0';
-}
-
-// GERADOR DE CHAVE (CHATGPT)
-char gerarCaractereAleatorio() { // Funcao de @fel-ps
-    // Gera um número aleatório entre 0 e 35
-    int randNum = rand() % 36;
-
-    // Converte o número para o caractere correspondente
-    if (randNum < 10) {
-        return '0' + randNum; // Números de 0 a 9
-    } else {
-        return 'A' + (randNum - 10); // Letras maiúsculas de A a Z
-    }
 }
 
 int verifica_cpf(char* cpf){ // Feita com ajuda de @fel-ps

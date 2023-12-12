@@ -19,6 +19,5 @@ void remove_nao_numericos(char *str);
 void le_senha(char* senha);
 int compara_senha(char* senha, char* conf_senha);
 void le_numero(char* telefone);
-void gerarCodigoAleatorio(char *id);
-char gerarCaractereAleatorio();
+void gerarCodigoAleatorio(char *id, unsigned int seed);
 int verifica_cpf(char* cpf);
