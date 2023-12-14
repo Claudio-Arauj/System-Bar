@@ -325,12 +325,24 @@ void tela_relatorio(void){
     printf("\t#                                                          #\n");
     printf("\t#               // - Tela do Relatorio - //                #\n");
     printf("\t#                                                          #\n");
-    printf("\t#   1. Ver todos os relatorios de pedidos                  #\n");
-    printf("\t#   2. Ver ultimos 4 relatorios de pedidos                 #\n");
+    printf("\t#   1. Ver todos os Relatorios de Pedidos ja feitos        #\n"); // Esta em forma ordenada, o primeiro da lista foi o ultimo pedido.
+    printf("\t#                                                          #\n");
+    printf("\t#   0. Sair                                                #\n");
     printf("\t#                                                          #\n");
     printf("\t#      Insira sua Escolha: ");
     scanf("%c", &op);
     getchar();
+    switch (op){
+    case '1':
+        relatorio_pedidos_lista();
+        break;
+
+    case '0':
+        break;
+    
+    default:
+        printf("\t#               Digite uma opcao valida!!!                 #\n");
+    }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -686,8 +698,8 @@ void pedidos_pendentes(void) {
     } else {
         int comandaEncontrada = 0;
         while (fread(ped, sizeof(Pedido), 1, fp) == 1) {
-            if (ped->status != 'f') {
-                printf("\t#   - %s - Mesa %-2s                                      #\n", ped->comanda, ped->mesa);
+            if (ped->status != 1) {
+                printf("\t#   - %-5s - Mesa %-2s                                      #\n", ped->comanda, ped->mesa);
                 comandaEncontrada = 1;
             }
         }
@@ -695,13 +707,13 @@ void pedidos_pendentes(void) {
             printf("\t#              - Nenhum registro encontrado -              #\n");
         } else {
             printf("\t# - Informe ID da Comanda: ");
-            scanf("%5s", coma);
-            getchar(); // Limpar o buffer
+            fgets(coma, sizeof(coma), stdin);
+            coma[strcspn(coma, "\n")] = '\0';
             printf("\t#                                                          #\n");
             rewind(fp);
             comandaEncontrada = 0;
             while (fread(ped, sizeof(Pedido), 1, fp)) {
-                if ((strcmp(coma, ped->comanda) == 0) && (ped->status != 'f')) {
+                if ((strcmp(coma, ped->comanda) == 0) && (ped->status != 1)) {
                     mostra_ficha(ped);
                     printf("\t# - Confirmar Finalizacao do Pedido? (s) ou (n): ");
                     do {
@@ -711,7 +723,7 @@ void pedidos_pendentes(void) {
                     } while (s_ou_n(escolha) != 1);
 
                     if (escolha[0] != 'n') {
-                        ped->status = 'f';
+                        ped->status = 1;
                         fseek(fp, -sizeof(Pedido), SEEK_CUR);
                         fwrite(ped, sizeof(Pedido), 1, fp);
                         printf("\t#                  - Pedido Realizado!!! -                 #\n");
@@ -720,6 +732,72 @@ void pedidos_pendentes(void) {
                     break;  // Saia do loop após encontrar e processar a comanda
                 }
             }
+            if (!comandaEncontrada) {
+                printf("\t#              - Nenhum registro encontrado -              #\n");
+            }
+        }
+        fseek(fp, -sizeof(Pedido), SEEK_CUR);
+        fwrite(ped, sizeof(Pedido), 1, fp);
+        fclose(fp);
+    }
+    free(ped);
+}
+
+void relatorio_pedidos_lista(void) {
+    FILE* fp;
+    Pedido* ped;
+    char coma[6];
+
+    ped = (Pedido*)malloc(sizeof(Pedido));
+
+    fp = fopen("Pedidos.dat", "rb+");
+    if (fp == NULL) {
+        printf("\t#              - Nenhum registro encontrado -              #\n");
+    } else {
+        int comandaEncontrada = 0;
+
+        // Obtenha o tamanho total do arquivo
+        fseek(fp, 0, SEEK_END);
+        long tamanhoArquivo = ftell(fp);
+
+        // Calcule a quantidade de registros no arquivo
+        size_t tamanhoRegistro = sizeof(Pedido);
+        long totalRegistros = tamanhoArquivo / tamanhoRegistro;
+
+        // Retroceda para cada registro do final para o começo
+        for (long i = totalRegistros - 1; i >= 0; i--) {
+            fseek(fp, i * tamanhoRegistro, SEEK_SET);
+            fread(ped, sizeof(Pedido), 1, fp);
+
+            // Se o status for diferente de 0, exiba a comanda
+            if (ped->status != 0) {
+                printf("\t#   - %-4s - Mesa %-2s                                      #\n", ped->comanda, ped->mesa);
+                comandaEncontrada = 1;
+            }
+        }
+
+        if (!comandaEncontrada) {
+            printf("\t#              - Nenhum registro encontrado -              #\n");
+        } else {
+            printf("\t# - Informe ID da Comanda: ");
+            scanf("%5s", coma);
+            getchar(); // Limpar o buffer
+            printf("\t#                                                          #\n");
+
+            comandaEncontrada = 0;
+
+            // Retroceda novamente para procurar a comanda desejada
+            for (long i = totalRegistros - 1; i >= 0; i--) {
+                fseek(fp, i * tamanhoRegistro, SEEK_SET);
+                fread(ped, sizeof(Pedido), 1, fp);
+
+                if ((strcmp(coma, ped->comanda) == 0) && (ped->status == 1)) {
+                    mostra_ficha(ped);
+                    comandaEncontrada = 1;
+                    break;  // Saia do loop após encontrar a comanda
+                }
+            }
+
             if (!comandaEncontrada) {
                 printf("\t#              - Nenhum registro encontrado -              #\n");
             }

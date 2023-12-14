@@ -236,7 +236,7 @@ void tela_ajuda(void){
 // Parte do código baseado em sugestões fornecidas por um assistente virtual.
 // Referência: OpenAI GPT-3 ChatGPT
 void add_pedido(FILE* fp, Estoque* est) {
-    char escolha, nome[50];
+    char escolha;
     int quant;
     Pedido* ped;
 
@@ -245,9 +245,9 @@ void add_pedido(FILE* fp, Estoque* est) {
 
     for (int i = 0; i <= 9; i++) {
         printf("\t#   - Qual sua Escolha? ");
-        fgets(nome, sizeof(nome), stdin);
+        fgets(ped->pedidos[i], 50, stdin);
         // Remover o \n
-        nome[strcspn(nome, "\n")] = '\0';
+        ped->pedidos[i][strcspn(ped->pedidos[i], "\n")] = '\0';
 
         // Voltar para o início do arquivo
         rewind(fp);
@@ -256,8 +256,15 @@ void add_pedido(FILE* fp, Estoque* est) {
 
         while (fread(est, sizeof(Estoque), 1, fp) == 1) {
             if (est->status != '0') {
+                // Converte ambos os nomes para minúsculas para comparar sem diferenciação de maiúsculas/minúsculas
+                char nomeEstoqueLowerCase[50], nomeUsuarioLowerCase[50];
+                strcpy(nomeEstoqueLowerCase, est->nome);
+                strcpy(nomeUsuarioLowerCase, ped->pedidos[i]);
+                minuscula_letras(nomeEstoqueLowerCase);
+                minuscula_letras(nomeUsuarioLowerCase);
+
                 // Confere os nomes e se a quantidade do estoque ainda existe
-                if ((strcmp(nome, est->nome) == 0) && (est->quantidade > 0)) {
+                if ((strcmp(nomeUsuarioLowerCase, nomeEstoqueLowerCase) == 0) && (est->quantidade > 0)) {
                     strcpy(ped->pedidos[i], est->nome);
                     printf("\t#   - Informe a Quantidade (Apenas Numero): ");
                     scanf("%d", &quant);
@@ -416,11 +423,12 @@ void finaliza_pedido(void){
                 s_ou_n(confirm);
             }while(s_ou_n(confirm) != 1);
             if (confirm[0] == 's'){
-                ped->status = 'p';
+                ped->status = 1;
                 fwrite(ped, sizeof(Pedido), 1, fp);
                 copiarArquivo();
                 printf("\t#             - Registro realizado com sucesso -           #\n");
                 esvaziarArquivo(fp);
+                break;
             }
             else{
                 printf("\t#                 - Registro nao realizado -               #\n");
@@ -486,4 +494,10 @@ void copiarArquivo(void) { // Funcao feita pelo chatgpt
 
     fclose(origem);
     fclose(destino);
+}
+
+void definir_nome_limitado(Pedido *estrutura, const char *novo_nome) {
+    // Limitar o tamanho do novo nome ao máximo permitido
+    strncpy(estrutura->comanda, novo_nome, 5);
+    estrutura->comanda[5] = '\0';  // Certificar-se de que a string está terminada corretamente
 }

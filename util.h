@@ -21,3 +21,5 @@ int compara_senha(char* senha, char* conf_senha);
 void le_numero(char* telefone);
 void gerarCodigoAleatorio(char *id, unsigned int seed);
 int verifica_cpf(char* cpf);
+void minuscula_letras(char *str);
+int valida_nome_estoque(char *nome);

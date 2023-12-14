@@ -313,7 +313,7 @@ Estoque* preenche_estoque(void){
     do{
         printf("\t#   - Nome do Item: ");
         fgets(est->nome,50,stdin);
-        eh_nome = valida_nome(est->nome);
+        eh_nome = valida_nome_estoque(est->nome);
     }while(eh_nome != 1);
     est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
     printf("\t#   - Preco Individual do Item: R$ ");
@@ -589,7 +589,9 @@ void muda_estoque(FILE* fp, Estoque* est){
             do {
                 printf("\t#   - Nome do Item: ");
                 fgets(est->nome, 50, stdin);
-                eh_nome = valida_nome(est->nome);
+                eh_nome = valida_nome_estoque(est->nome);
+                if (eh_nome != 1)
+                    printf("\t#   Nome Invalido!!! Nao pode ter espacamento!!! ");
             } while (eh_nome != 1);
             est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
             break;
