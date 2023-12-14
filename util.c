@@ -294,3 +294,26 @@ int verifica_cpf(char* cpf){ // Feita com ajuda de @fel-ps
   return 1;
 
 }
+
+void minuscula_letras(char *str) {
+    while (*str) {
+        *str = tolower((unsigned char)*str);
+        str++;
+    }
+}
+
+int valida_nome_estoque(char *nome) { // funcao adaptada pelo gpt para o estoque
+    int tam = strlen(nome);
+    
+    if ((tam - 1) < 2) {
+        return 0;
+    }
+
+    for (int i = 0; i < tam - 1; i++) {
+        if (!(isalpha(nome[i]) || isdigit(nome[i]) || eh_letra_acentuada(nome[i]))) {
+            return 0;
+        }
+    }
+
+    return 1;
+}

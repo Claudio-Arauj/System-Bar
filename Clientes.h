@@ -2,8 +2,8 @@
 typedef struct pedido{
     char mesa[3];
     char comanda[5];
-    char status; // 'p' vai ser para pendente; 'f' para feito/finalizado/recebido
-    char pedidos[50][10];
+    float status; // 1 vai ser para pendente; 0 para feito/finalizado/recebido
+    char pedidos[50][50];
     float valores[10];
     int quantidade[10];
     
@@ -26,3 +26,4 @@ void finaliza_pedido(void);
 void esvaziarArquivo(FILE *arquivo);
 void mostra_ficha(Pedido* ped);
 void copiarArquivo(void);
+void definir_nome_limitado(Pedido *estrutura, const char *novo_nome);
