@@ -302,18 +302,37 @@ void minuscula_letras(char *str) {
     }
 }
 
-int valida_nome_estoque(char *nome) { // funcao adaptada pelo gpt para o estoque
-    int tam = strlen(nome);
-    
-    if ((tam - 1) < 2) {
+int verifica_estoque_existente(char* nome){ 
+
+  FILE* fp;
+  Estoque* est;
+
+  est = (Estoque*)malloc(sizeof(Estoque));
+  fp = fopen("Estoque.dat", "rb");
+
+  if (fp == NULL) {
+    printf("\n\tErro na criacao\n");
+    return 0;
+  }
+
+  while(fread(est, sizeof(Estoque), 1, fp)) {
+    if ((strcmp(est->nome, nome) == 0) && (est->status != '0')) {
         return 0;
     }
+  }
+  fclose(fp);
+  free(est);
+  return 1;
 
-    for (int i = 0; i < tam - 1; i++) {
-        if (!(isalpha(nome[i]) || isdigit(nome[i]) || eh_letra_acentuada(nome[i]))) {
-            return 0;
-        }
-    }
+}
 
-    return 1;
+void ler_nome_item(char nome[]) {
+    //função reutilizável para realizar a leitura do cpf
+    int c;
+    do{
+      printf("\t#   - Nome do Item: ");
+      fgets(nome, 50, stdin);
+      nome[strcspn(nome, "\n")] = '\0';  // Remover o \n do final da string
+      c=valida_nome(nome);
+    }while(c!=1);
 }

@@ -22,4 +22,5 @@ void le_numero(char* telefone);
 void gerarCodigoAleatorio(char *id, unsigned int seed);
 int verifica_cpf(char* cpf);
 void minuscula_letras(char *str);
-int valida_nome_estoque(char *nome);
+int verifica_estoque_existente(char* nome);
+void ler_nome_item(char nome[]);
