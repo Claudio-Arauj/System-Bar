@@ -167,9 +167,8 @@ void menu_gerencia(void){
         printf("\t#                                      #\n");
         printf("\t#    1. Visualizar Itens de Estoque    #\n");
         printf("\t#    2. Pedidos Pendentes              #\n");
-        printf("\t#    3. Visualizar o Caixa             #\n");
-        printf("\t#    4. Ver Relatorio de Pedidos       #\n");
-        printf("\t#    5. Visualizar Funcionarios        #\n");
+        printf("\t#    3. Ver Relatorio de Pedidos       #\n");
+        printf("\t#    4. Visualizar Funcionarios        #\n");
         printf("\t#                                      #\n");
         printf("\t#            0. Sair da Tela           #\n");
         printf("\t#                                      #\n");
@@ -192,14 +191,10 @@ void menu_gerencia(void){
                 break;
 
             case '3':
-                tela_caixa();
-                break;
-
-            case '4':
                 tela_relatorio();
                 break;
 
-            case '5':
+            case '4':
                 tela_funcionarios();
                 break;
             
@@ -232,74 +227,6 @@ void tela_pedidos_gerencia(void){
     printf("\t#                                                          #\n");
     printf("\t#   - Total de pedidos pendentes                           #\n");
     pedidos_pendentes();
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-
-}
-
-void tela_comanda(void){
-
-    char entrega[2];
-    system("clear||cls");
-    printf("\t############################################################\n");
-    printf("\t#                 // - Tela de Comanda - //                #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#        ID: 00000000x                                     #\n");
-    printf("\t#        Comidas:                                          #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#        Bebidas:                                          #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#        - exemplo R$xx,xx                                 #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#        Mesa: XX                                          #\n");
-    printf("\t#        Total: R$xx,xx                                    #\n");
-    printf("\t#                                                          #\n");
-    do{
-    printf("\t#   - Pedido Entregue? (s) ou (n) "); // Para confirmar se ele foi entregue ou nao para excluir do futuro dicionario e ficar algo mais dinamico alem de encurtar a tela
-        scanf("%1s", entrega);
-        limpar_buffer();
-        s_ou_n(entrega);
-    }while(s_ou_n(entrega) != 1);
-    printf("\t#                                                          #\n");
-    printf("\t############################################################\n");
-    printf("\n");
-    printf("\t>Pressione ENTER para continuar<\n");
-    getchar();
-    
-}
-
-void tela_caixa(void){
-
-    char confirm[2];
-    system("clear||cls");
-    printf("\t############################################################\n");
-    printf("\t#            ______        ______                          #\n");
-    printf("\t#            | ___ |       | ___ |                         #\n");
-    printf("\t#            | |_/ / _   _ | |_/ /  __ _  _ __             #\n");
-    printf("\t#            |  __/ | | | || ___ | / _` || '__|            #\n");
-    printf("\t#            | |    | |_| || |_/ /| (_| || |               #\n");
-    printf("\t#            |_|     |__, ||____/  |__,_||_|               #\n");
-    printf("\t#                     __/ |                                #\n");
-    printf("\t#                    |___/                                 #\n");
-    printf("\t############################################################\n");
-    printf("\t#                                                          #\n");
-    printf("\t#                 // - Tela do Caixa - //                  #\n");
-    printf("\t#                                                          #\n");
-    printf("\t#   - Total: R$ xxx,xx                                     #\n");
-    do{
-        printf("\t#     Esvaziar Caixa? (s) ou (n) "); // Serve para ter uma metrica de quanto foi lucrado no dia
-        scanf("%1s", confirm);
-        limpar_buffer();
-        s_ou_n(confirm);
-    }while(s_ou_n(confirm) != 1);
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
@@ -434,7 +361,7 @@ Login* preenche_login(void){
         if (eh_cpf == 0){
             printf("\t#        - CPF ja Existente!!! -       #\n");
             getchar();
-    }
+        }
     }while(eh_cpf != 1);
     le_nome(log->nome);
     do {
@@ -689,9 +616,7 @@ void pedidos_pendentes(void) { //Feito com ajuda do ChatGPT
     FILE* fp;
     Pedido* ped;
     char coma[6], escolha[2];
-
     ped = (Pedido*)malloc(sizeof(Pedido));
-
     fp = fopen("Pedidos.dat", "rb+");
     if (fp == NULL) {
         printf("\t#              - Nenhum registro encontrado -              #\n");
@@ -721,7 +646,6 @@ void pedidos_pendentes(void) { //Feito com ajuda do ChatGPT
                         limpar_buffer();
                         s_ou_n(escolha);
                     } while (s_ou_n(escolha) != 1);
-
                     if (escolha[0] != 'n') {
                         ped->status = 1;
                         fseek(fp, -sizeof(Pedido), SEEK_CUR);
@@ -747,35 +671,28 @@ void relatorio_pedidos_lista(void) { // Feito com ajuda do ChatGPT
     FILE* fp;
     Pedido* ped;
     char coma[6];
-
     ped = (Pedido*)malloc(sizeof(Pedido));
-
     fp = fopen("Pedidos.dat", "rb+");
     if (fp == NULL) {
         printf("\t#              - Nenhum registro encontrado -              #\n");
     } else {
         int comandaEncontrada = 0;
-
         // Obtenha o tamanho total do arquivo
         fseek(fp, 0, SEEK_END);
         long tamanhoArquivo = ftell(fp);
-
         // Calcule a quantidade de registros no arquivo
         size_t tamanhoRegistro = sizeof(Pedido);
         long totalRegistros = tamanhoArquivo / tamanhoRegistro;
-
         // Retroceda para cada registro do final para o começo
         for (long i = totalRegistros - 1; i >= 0; i--) {
             fseek(fp, i * tamanhoRegistro, SEEK_SET);
             fread(ped, sizeof(Pedido), 1, fp);
-
             // Se o status for diferente de 0, exiba a comanda
             if (ped->status != 0) {
                 printf("\t#   - %-4s - Mesa %-2s                                      #\n", ped->comanda, ped->mesa);
                 comandaEncontrada = 1;
             }
         }
-
         if (!comandaEncontrada) {
             printf("\t#              - Nenhum registro encontrado -              #\n");
         } else {
@@ -783,21 +700,17 @@ void relatorio_pedidos_lista(void) { // Feito com ajuda do ChatGPT
             scanf("%5s", coma);
             getchar(); // Limpar o buffer
             printf("\t#                                                          #\n");
-
             comandaEncontrada = 0;
-
             // Retroceda novamente para procurar a comanda desejada
             for (long i = totalRegistros - 1; i >= 0; i--) {
                 fseek(fp, i * tamanhoRegistro, SEEK_SET);
                 fread(ped, sizeof(Pedido), 1, fp);
-
                 if ((strcmp(coma, ped->comanda) == 0) && (ped->status == 1)) {
                     mostra_ficha(ped);
                     comandaEncontrada = 1;
                     break;  // Saia do loop após encontrar a comanda
                 }
             }
-
             if (!comandaEncontrada) {
                 printf("\t#              - Nenhum registro encontrado -              #\n");
             }

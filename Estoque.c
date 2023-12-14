@@ -97,11 +97,6 @@ void tela_cadastro_item(void){
     printf("\t#                                                          #\n");
     printf("\t#              // - Tela de Cadastramento - //             #\n");
     printf("\t#                                                          #\n");
-    fp = fopen("Estoque.dat","ab");
-    if (fp == NULL) {
-        printf("Erro na criacao do arquivo\n!");
-        exit(1);
-    }
     est = preenche_estoque();
     do{
         printf("\t#     Confirmar Cadastramento (s) ou (n): ");
@@ -110,12 +105,18 @@ void tela_cadastro_item(void){
         s_ou_n(escolha); 
     }while(s_ou_n(escolha) != 1);
     if(escolha[0] == 's'){
-        fwrite(est, sizeof(Estoque), 1, fp);
+        fp = fopen("Estoque.dat","ab");
+        if (fp == NULL) {
+            printf("\t\tErro na criacao do arquivo\n!");
+            exit(1);
+        }else{
+            fwrite(est, sizeof(Estoque), 1, fp);
+            fclose(fp);
+        }
     }
     printf("\t#                                                          #\n");
     printf("\t############################################################\n");
     printf("\n");
-    fclose(fp);
     free(est);
     printf("\t>Pressione ENTER para continuar<\n");
     getchar();
@@ -311,9 +312,12 @@ Estoque* preenche_estoque(void){
     printf("\t#   - Quantidade(apenas numeros inteiros): ");
     scanf("%d", &est->quantidade);getchar();
     do{
-        printf("\t#   - Nome do Item: ");
-        fgets(est->nome,50,stdin);
-        eh_nome = valida_nome_estoque(est->nome);
+        ler_nome_item(est->nome);
+        eh_nome = verifica_estoque_existente(est->nome);
+        if (eh_nome == 0){
+            printf("\t#                 - Estoque Ja Existente!!! -                #\n");
+            getchar();
+        }
     }while(eh_nome != 1);
     est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
     printf("\t#   - Preco Individual do Item: R$ ");
@@ -586,14 +590,14 @@ void muda_estoque(FILE* fp, Estoque* est){
             break;
                     
         case '2':
-            do {
-                printf("\t#   - Nome do Item: ");
-                fgets(est->nome, 50, stdin);
-                eh_nome = valida_nome_estoque(est->nome);
-                if (eh_nome != 1)
-                    printf("\t#   Nome Invalido!!! Nao pode ter espacamento!!! ");
-            } while (eh_nome != 1);
-            est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
+            do{
+                ler_nome_item(est->nome);
+                eh_nome = verifica_estoque_existente(est->nome);
+                if (eh_nome == 0){
+                    printf("\t#                 - Estoque Ja Existente!!! -                #\n");
+                    getchar();
+                }
+            }while(eh_nome != 1);
             break;
                     
         case '3':
