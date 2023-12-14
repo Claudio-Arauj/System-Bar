@@ -743,7 +743,7 @@ void pedidos_pendentes(void) {
     free(ped);
 }
 
-void relatorio_pedidos_lista(void) {
+void relatorio_pedidos_lista(void) { // Feito com ajuda do ChatGPT 
     FILE* fp;
     Pedido* ped;
     char coma[6];
