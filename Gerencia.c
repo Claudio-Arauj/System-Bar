@@ -685,7 +685,7 @@ int confere_login(FILE* fp, Login* log){
     return 0;
 }
 
-void pedidos_pendentes(void) {
+void pedidos_pendentes(void) { //Feito com ajuda do ChatGPT
     FILE* fp;
     Pedido* ped;
     char coma[6], escolha[2];
