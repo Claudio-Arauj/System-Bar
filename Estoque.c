@@ -299,7 +299,7 @@ void tela_atualizacao(void){ // Essa aqui vai ser a tela dividida da atualizacao
 
 Estoque* preenche_estoque(void){
     Estoque *est;
-    int eh_nome, bouc;
+    int bouc;
     long int id_estoque = lerUltimoID();
     est = (Estoque*) malloc(sizeof(Estoque));
 
@@ -311,14 +311,7 @@ Estoque* preenche_estoque(void){
     }while(bouc == 0);
     printf("\t#   - Quantidade(apenas numeros inteiros): ");
     scanf("%d", &est->quantidade);getchar();
-    do{
-        ler_nome_item(est->nome);
-        eh_nome = verifica_estoque_existente(est->nome);
-        if (eh_nome == 0){
-            printf("\t#                 - Estoque Ja Existente!!! -                #\n");
-            getchar();
-        }
-    }while(eh_nome != 1);
+    ler_nome_item(est->nome);
     est->nome[strcspn(est->nome, "\n")] = '\0'; // Funcao para tirar o \n do fgets
     printf("\t#   - Preco Individual do Item: R$ ");
     scanf("%f", &est->preco);getchar();
